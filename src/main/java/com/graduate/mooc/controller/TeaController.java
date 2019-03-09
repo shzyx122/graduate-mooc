@@ -34,6 +34,7 @@ public class TeaController {
     /*
     课程相关
      */
+    // teacher's courses
     @RequestMapping(value="/Cou",method = RequestMethod.GET)
     public String Cou(HttpSession session,ModelMap model)
     {
@@ -95,7 +96,7 @@ public class TeaController {
      */
     @Autowired
     ChapterMap chm;
-
+    //find chapters by cid
     @RequestMapping(value="/chapter/{cid}",method = RequestMethod.GET)
     public String chapter(@PathVariable String cid,ModelMap model,HttpSession session){
         session.setAttribute("cRoot",cid);  //记录从哪门课程点进来的

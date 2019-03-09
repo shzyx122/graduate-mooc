@@ -402,12 +402,13 @@
 
 
 <script type="text/javascript">
-    //$(document).ready( function () {
+    $(document).ready( function () {
 //填充大于5们课程然后进行测试
         $.get('<%=basePath%>index', function (data) {
             var iterator=0;
             var content='';    //在容器里面放入的html内容
             for(var i=0;i<data.length;i++){   //遍历所有的课程
+                var id=data[i].cid;
                 var name=data[i].cname;
                 var path=data[i].picPath;
                 var bgDiv;
@@ -415,12 +416,12 @@
 
                 content+="<li class=\"grid\">\n" +
                     "<div>\n"+
-                    "<a href='#'>\n" +
+                    "<a href='/course/front?cou="+id+"'>\n" +
                     "   <img src='<%=basePath%>static/imgs/"+path+"'>\n" +
                     "</a>\n" +
                     "</div>\n"+
                     "<div>\n"+
-                        "<a href='#' title='"+name+"'>"+name+"</a>" +
+                        "<a href='/course/front?cou='\'+id+\'' title='"+name+"'>"+name+"</a>" +
                     "</li>";
                 //一行放5个，因此开头结尾以及遍历结束的时候添加div标签
                 if(i%5==0) {
@@ -437,7 +438,7 @@
             //全部完成后放入容器
             $('.container-fluid').append(content);
         });
-    //});
+    });
 </script>
 </body>
 </html>

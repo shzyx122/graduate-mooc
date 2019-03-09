@@ -38,7 +38,7 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <style type="text/css">
-        ul li{ float:left; margin-left:20px; list-style-type:none;}
+        .grid{ float:left; margin-left:20px; list-style-type:none;}
     </style>
 </head>
 <body>
@@ -377,25 +377,10 @@
     <!--主要内容-->
     <div id="page-wrapper">
         <div class="container-fluid">
-        <div class="row"><!--ul适合一列和一行，用jstl 多行用js ajax返回实体集合，遍历输出，迭代器%x br换行-->
-            <ul class="">
-                <li>
-                    <div>
-                        <a href="">
-                            <img src="<%=basePath%>static/imgs/eng.jpg">
-                        </a>
-                    </div>
-                </li>
-                <li>
-                    <div>
-                        <a href="">
-                            <img src="<%=basePath%>static/imgs/comp.jpg">
-                        </a>
-                    </div>
-                </li>
-            </ul>
+            <!--<div class="row">ul适合一列和一行，用jstl 多行用js ajax返回实体集合，遍历输出，迭代器%x br换行
+
+        </div>-->
         </div>
-    </div>
     </div>
 </div>
 <!-- jQuery -->
@@ -417,26 +402,41 @@
 
 
 <script type="text/javascript">
-    $(document).ready( function () {
+    //$(document).ready( function () {
         $.get('<%=basePath%>index', function (data) {
             var iterator=0;
-            for(var i=0;i<data.length;i++){
+            var content='';    //在容器里面放入的html内容
+            for(var i=0;i<data.length;i++){   //遍历所有的课程
                 var name=data[i].cname;
                 var path=data[i].picPath;
-                var content="<li>\n" +
+                var bgDiv;
+                var endDiv;
+
+                content+="<li class=\"grid\">\n" +
                     "<div>\n"+
                     "<a href='#'>\n" +
                     "   <img src='<%=basePath%>static/imgs/"+path+"'>\n" +
                     "</a>\n" +
                     "</div>\n"+
-                        "<div>\n"+
-                        "<a href='#' title='"+name+"'>"+name+"</a>"+
+                    "<div>\n"+
+                        "<a href='#' title='"+name+"'>"+name+"</a>" +
                     "</li>";
-                $('#page-wrapper').append(content);
+                //一行放5个，因此开头结尾以及遍历结束的时候添加div标签
+                if(i%5==0) {
+                    bgDiv = "<div class=\"row\">";
+                    bgDiv+=content;
+                    content=bgDiv;
+                }
+                if(i%5==4||i==data.length){
+                    alert(i+"  "+i==data.length);
+                    endDiv="</div>";
+                    content+=endDiv;
+                }
             }
-
+            //全部完成后放入容器
+            $('.container-fluid').append(content);
         });
-    });
+    //});
 </script>
 </body>
 </html>

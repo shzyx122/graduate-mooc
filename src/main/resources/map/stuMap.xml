@@ -1,0 +1,39 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD com.example.Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.graduate.mooc.mapper.StudentMap">
+    <resultMap id="result" type="com.graduate.mooc.domain.Student">
+        <result property="name" column="name" />
+        <result property="pass" column="pass" />
+    </resultMap>
+
+    <select id="ListStudent" resultMap="result">
+        SELECT * FROM stu
+    </select>
+
+    <select id="findStudentByName" resultMap="result">
+        SELECT * FROM stu where name=#{name}
+    </select>
+
+    <insert id="insertStudent" parameterType="com.graduate.mooc.domain.Student"
+            keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO stu
+        (
+            sno,name,pass
+        )
+        VALUES (
+            #{sno},
+            #{name, jdbcType=VARCHAR},
+            #{pass, jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <delete id="delete" parameterType="int">
+        delete from stu where sno=#{sno}
+    </delete>
+
+    <update id="Update" parameterType="com.graduate.mooc.domain.Student">
+        update stu set stu.name=#{name},stu.pass=#{pass} where stu.sno=#{sno}
+    </update>
+</mapper>

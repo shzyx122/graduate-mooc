@@ -1,0 +1,40 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD com.example.Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.graduate.mooc.mapper.HandinMap">
+    <resultMap id="result" type="com.graduate.mooc.domain.Handin">
+        <result property="aname" column="aname" />
+        <result property="pass" column="pass" />
+    </resultMap>
+
+    <select id="ListHandin" resultMap="result">
+        SELECT * FROM handin
+    </select>
+
+    <select id="findHandinByName" resultMap="result">
+        SELECT * FROM handin where hname=#{aname}
+    </select>
+
+    <insert id="insertHandin" parameterType="com.graduate.mooc.domain.Handin"
+            keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO user
+        (
+            id,name,password,number
+        )
+        VALUES (
+            #{id},
+            #{name, jdbcType=VARCHAR},
+            #{password, jdbcType=VARCHAR},
+            #{number}
+        )
+    </insert>
+
+    <delete id="delete" parameterType="int">
+        delete from user where id=#{id}
+    </delete>
+
+    <update id="Update" parameterType="com.graduate.mooc.domain.Handin">
+        update user set user.name=#{name},user.password=#{password},user.number=#{number} where user.id=#{id}
+    </update>
+</mapper>

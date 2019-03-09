@@ -1,0 +1,54 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD com.example.Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.graduate.mooc.mapper.CourseMap">
+    <resultMap id="result" type="com.graduate.mooc.domain.Course">
+        <result property="cname" column="cname" />
+        <result property="during" column="during" />
+        <result property="tid" column="tid" />
+        <result property="state" column="state" />
+        <result property="picPath" column="pic_path"/>
+    </resultMap>
+
+    <select id="ListCourse" resultMap="result">
+        SELECT * FROM course
+    </select>
+
+    <select id="findCourseByName" resultMap="result">
+        SELECT * FROM course where cname=#{cname}
+    </select>
+
+    <select id="findCourseByTid" resultMap="result">
+        SELECT * FROM course where tid=#{tid}
+    </select>
+
+    <select id="findCourseByID" resultMap="result">
+        SELECT * FROM course where cid=#{cid}
+    </select>
+
+    <insert id="insertCourse" parameterType="com.graduate.mooc.domain.Course"
+            keyProperty="cid" useGeneratedKeys="true">
+        <selectKey keyProperty="cid" resultType="String" order="BEFORE">
+            select replace(UUID(),"-","")
+        </selectKey>
+        INSERT INTO course
+        VALUES (
+            #{cid},
+            #{during, jdbcType=INTEGER},
+            #{cname, jdbcType=VARCHAR},
+            #{tid, jdbcType=VARCHAR},
+            #{state, jdbcType=INTEGER},
+            #{picPath}
+        )
+    </insert>
+
+    <delete id="delete" parameterType="String">
+        delete from course where cid=#{cid}
+    </delete>
+
+    <update id="update" parameterType="com.graduate.mooc.domain.Course">
+        update course set course.cname=#{cname},course.during=#{during},course.tid=#{tid},
+            course.state=#{state},pic_path=#{picPath} where course.cid=#{cid}
+    </update>
+</mapper>

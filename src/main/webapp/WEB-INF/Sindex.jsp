@@ -403,6 +403,7 @@
 
 <script type="text/javascript">
     //$(document).ready( function () {
+//填充大于5们课程然后进行测试
         $.get('<%=basePath%>index', function (data) {
             var iterator=0;
             var content='';    //在容器里面放入的html内容

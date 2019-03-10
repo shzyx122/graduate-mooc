@@ -14,6 +14,7 @@
 <html>
 <head>
     <title>课程信息</title>
+    <script type="text/javascript" charset="utf8" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
     <style>
         body{
             font:12px/1.5 MIcrosoft YaHei,Arial, Helvetica, sans-serif;
@@ -33,6 +34,7 @@
         .xyTabs li.cur a{color:#38bb37;}
         .courseIntroBox{margin-top:26px;background:#fff;border-top:solid 1px #e0e0e0;}
         .fontGreen{color:#38bb37}
+        .xyCourseIntro{background:#fff;margin-top:35px;padding:15px;}
     </style>
 </head>
 <body>
@@ -44,11 +46,62 @@
                 <li><a href="#" id="chap">课程章节</a></li>
                 <li><a href="#" id="chat">师生互动</a></li>
             </ul>
+            <div class="xyCourseIntro">
+
+            </div>
         </div>
     </div>
 </div>
 <script type="text/javascript">
+
+    function trans(obj){  //一位前+0
+        if((obj + '').length === 1){
+            obj = '0' + (obj + '');
+        }
+        return obj;
+    }
+
+    function queryDisc(){
+        $.get('/course/info',function(data){
+            for(var i=0;i<data.length;i++){
+                $('.xyCourseIntro').append("<p>开课时间:"+data.brgin+"</p>\n");
+            }
+            $('.xyCourseIntro').append(
+                "<p>课时："+data.during+"</p>\n"+
+                "<p>"+data.discrip+"</p>");
+        });
+    }
+
     $(document).ready( function () {
+        $.get('/course/info',function(data){
+
+            var myDate = new Date(),
+                Y = trans(myDate.getFullYear()),
+                M = trans(myDate.getMonth() + 1),
+                D = trans(myDate.getDate()+1),
+                hour = trans(myDate.getHours()),
+                minute = trans(myDate.getMinutes());
+
+            var curDay = Y + '-' + M + '-' + D;
+
+            for(var i=0;i<data.length;i++){
+                if(curDay<data[i].end) {    //当前时间课程还没结束才显示
+                    $('.xyCourseIntro').append("<p>开课时间:" + data[i].begin + "</p>\n");
+                    if (i == (data.length-1)) {
+                        $('.xyCourseIntro').append(
+                            "<p>课时：" + data[i].cou.during + "</p>\n" +
+                            "<p>" + data[i].cou.discrip + "</p>");
+                    }
+                }
+                else $('.xyCourseIntro').append("<p>课程已结束</p>");
+            }
+
+        });
+
+        //queryDisc();
+        /*alert($(".cur"));
+        if()
+
         var $firLi=$("ul li").eq(0);
         var $secLi=$("ul li").eq(1);
         var $thirLi=$("ul li").eq(2);
@@ -58,16 +111,37 @@
         var chat="";
 
         $firLi.on("click",function(){  //description
-            $.get('/course/info',{"cid":""})
+            //先移出所有样式再给指定li添加class="cur"
+            $('li').removeClass("cur");
+            firLi.addClass("cur");
+            $.get('/course/info',function(data){
+                for(var i=0;i<data.length;i++){
+                    $('.xyCourseIntro').append("<p>开课时间:"+data.brgin+"</p>\n");
+                }
+                $('.xyCourseIntro').append(
+                    "<p>课时："+data.during+"</p>\n"+
+                    "<p>"+data.discrip+"</p>");
+            });
+
         });
 
         $secLi.on("click",function(){  //chapter
-            $.get('')
+            $('li').removeClass("cur");
+            secLi.addClass("cur");
+            $.get('/aqchapter',function(data){
+                $('.xyCourseIntro').append("<ul>");
+                for(var i=0;i<data.length;i++){
+                    $('.xyCourseIntro').append("<li>"+data.chname+"</li>");
+                }
+                $('.xyCourseIntro').append("</ul>");
+            });
         });
 
         $thirLi.on("click",function(){  //chat
-            $.get('')
-        });
+            $('li').removeClass("cur");
+            thirLi.addClass("cur");
+            //$.get('');
+        });*/
     });
 </script>
 </body>

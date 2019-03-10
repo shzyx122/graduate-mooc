@@ -4,16 +4,21 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.graduate.mooc.mapper.TaskMap">
     <resultMap id="result" type="com.graduate.mooc.domain.Task">
+        <id property="taskno" column="taskno" />
         <result property="begin" column="begin" />
         <result property="end" column="end" />
-        <association property="cou"  javaType="com.graduate.mooc.domain.Course">
+        <association property="course"  javaType="com.graduate.mooc.domain.Course">
+            <id property="cid" column="cid" />
             <result property="cname" column="cname" />
             <result property="during" column="during" />
             <result property="tid" column="tid" />
+            <result property="state" column="state" />
+            <result property="picPath" column="pic_path"/>
+            <result property="discrip" column="discrip"/>
         </association>
     </resultMap>
 
-    <select id="ListTask" resultMap="result">
+    <select id="ListTask" resultMap="result" >
         select  * from task t,course c where t.cid=c.cid;
     </select>
 
@@ -22,7 +27,7 @@
     </select>
 
     <select id="findTaskByCID" resultMap="result">
-        SELECT * FROM task where cid=#{cou.cid}
+        SELECT * FROM task t,course c where t.cid=c.cid and t.cid=#{course.cid};
     </select>
 
     
@@ -36,7 +41,7 @@
             #{taskno},
             #{begin},
             #{end},
-            #{cou.cid,jdbcType=VARCHAR}
+            #{course.cid,jdbcType=VARCHAR}
         )
     </insert>
 

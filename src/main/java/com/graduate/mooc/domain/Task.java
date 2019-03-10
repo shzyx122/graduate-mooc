@@ -7,7 +7,7 @@ public class Task {
     private LocalDateTime begin;
     private LocalDateTime end;
     //private String cid;
-    private Course cou; //一对一，直接用对象
+    private Course course; //一对一，直接用对象
 
     @Override
     public String toString() {
@@ -52,10 +52,10 @@ public class Task {
     }*/
 
     public Course getCou() {
-        return cou;
+        return course;
     }
 
     public void setCou(Course cou) {
-        this.cou = cou;
+        this.course = cou;
     }
 }

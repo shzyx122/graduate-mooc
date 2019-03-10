@@ -9,6 +9,7 @@
         <result property="tid" column="tid" />
         <result property="state" column="state" />
         <result property="picPath" column="pic_path"/>
+        <result property="discrip" column="discrip"/>
     </resultMap>
 
     <select id="ListCourse" resultMap="result">
@@ -39,7 +40,8 @@
             #{cname, jdbcType=VARCHAR},
             #{tid, jdbcType=VARCHAR},
             #{state, jdbcType=INTEGER},
-            #{picPath}
+            #{picPath},
+            #{discrip}
         )
     </insert>
 
@@ -49,6 +51,6 @@
 
     <update id="update" parameterType="com.graduate.mooc.domain.Course">
         update course set course.cname=#{cname},course.during=#{during},course.tid=#{tid},
-            course.state=#{state},pic_path=#{picPath} where course.cid=#{cid}
+            course.state=#{state},pic_path=#{picPath},discrip=#{discrip} where course.cid=#{cid}
     </update>
 </mapper>

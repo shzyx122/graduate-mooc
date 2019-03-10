@@ -9,6 +9,15 @@ public class Course {
     private String tid;
     private int state;
     private String picPath;
+    private String discrip;
+
+    public String getDiscrip() {
+        return discrip;
+    }
+
+    public void setDiscrip(String discrip) {
+        this.discrip = discrip;
+    }
 
     public String getPicPath() {
         return picPath;

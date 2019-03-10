@@ -406,7 +406,7 @@
 //填充大于5们课程然后进行测试
         $.get('<%=basePath%>index', function (data) {
             var iterator=0;
-            var content='';    //在容器里面放入的html内容
+            var content='<ul>';    //在容器里面放入的html内容
             for(var i=0;i<data.length;i++){   //遍历所有的课程
                 var id=data[i].cid;
                 var name=data[i].cname;
@@ -416,7 +416,7 @@
 
                 content+="<li class=\"grid\">\n" +
                     "<div>\n"+
-                    "<a href='/course/front?cou="+id+"'>\n" +
+                    "<a href='/course/front?cour="+id+"'>\n" +
                     "   <img src='<%=basePath%>static/imgs/"+path+"'>\n" +
                     "</a>\n" +
                     "</div>\n"+
@@ -435,6 +435,7 @@
                     content+=endDiv;
                 }
             }
+            content+="</ul>";
             //全部完成后放入容器
             $('.container-fluid').append(content);
         });

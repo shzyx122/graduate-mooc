@@ -51,11 +51,11 @@ public class Task {
         this.cid = cid;
     }*/
 
-    public Course getCou() {
+    public Course getCourse() {
         return course;
     }
 
-    public void setCou(Course cou) {
-        this.course = cou;
+    public void setCourse(Course course) {
+        this.course = course;
     }
 }

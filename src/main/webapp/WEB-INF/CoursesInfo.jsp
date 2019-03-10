@@ -63,18 +63,7 @@
 
     function queryDisc(){
         $.get('/course/info',function(data){
-            for(var i=0;i<data.length;i++){
-                $('.xyCourseIntro').append("<p>开课时间:"+data.brgin+"</p>\n");
-            }
-            $('.xyCourseIntro').append(
-                "<p>课时："+data.during+"</p>\n"+
-                "<p>"+data.discrip+"</p>");
-        });
-    }
-
-    $(document).ready( function () {
-        $.get('/course/info',function(data){
-
+            $('.xyCourseIntro').html("");
             var myDate = new Date(),
                 Y = trans(myDate.getFullYear()),
                 M = trans(myDate.getMonth() + 1),
@@ -89,57 +78,55 @@
                     $('.xyCourseIntro').append("<p>开课时间:" + data[i].begin + "</p>\n");
                     if (i == (data.length-1)) {
                         $('.xyCourseIntro').append(
-                            "<p>课时：" + data[i].cou.during + "</p>\n" +
-                            "<p>" + data[i].cou.discrip + "</p>");
+                            "<p>课时：" + data[i].course.during + "</p>\n" +
+                            "<p>" + data[i].course.discrip + "</p>");
                     }
                 }
                 else $('.xyCourseIntro').append("<p>课程已结束</p>");
             }
 
         });
+    }
 
-        //queryDisc();
-        /*alert($(".cur"));
-        if()
+    $(document).ready( function () {
+        $.ajaxSettings.async = false;
+        queryDisc();
+
 
         var $firLi=$("ul li").eq(0);
         var $secLi=$("ul li").eq(1);
         var $thirLi=$("ul li").eq(2);
 
-        var info="";
-        var chat="";
-        var chat="";
 
         $firLi.on("click",function(){  //description
             //先移出所有样式再给指定li添加class="cur"
             $('li').removeClass("cur");
-            firLi.addClass("cur");
-            $.get('/course/info',function(data){
-                for(var i=0;i<data.length;i++){
-                    $('.xyCourseIntro').append("<p>开课时间:"+data.brgin+"</p>\n");
-                }
-                $('.xyCourseIntro').append(
-                    "<p>课时："+data.during+"</p>\n"+
-                    "<p>"+data.discrip+"</p>");
-            });
+            $firLi.addClass("cur");
+            queryDisc();
 
         });
 
-        $secLi.on("click",function(){  //chapter
+        $secLi.on("click",function() {  //chapter
             $('li').removeClass("cur");
-            secLi.addClass("cur");
-            $.get('/aqchapter',function(data){
-                $('.xyCourseIntro').append("<ul>");
-                for(var i=0;i<data.length;i++){
-                    $('.xyCourseIntro').append("<li>"+data.chname+"</li>");
+            $secLi.addClass("cur");
+            $.ajax({
+                url: '/qchapter',
+                type: 'get',
+                async: false,
+                success: function (data) {
+                    $('.xyCourseIntro').html("");
+                    $('.xyCourseIntro').append("<ul>");
+                    //$('.xyCourseIntro').append("<ul>");
+                    for (var i = 0; i < data.length; i++) {
+                        $('.xyCourseIntro ul').append("<li>" + data[i].chname + "</li>");
+                    }
+                    $('.xyCourseIntro').append("</ul>");
                 }
-                $('.xyCourseIntro').append("</ul>");
             });
         });
-
-        $thirLi.on("click",function(){  //chat
+        /*$thirLi.on("click",function(){  //chat
             $('li').removeClass("cur");
-            thirLi.addClass("cur");
+            $thirLi.addClass("cur");
             //$.get('');
         });*/
     });

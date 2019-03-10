@@ -30,8 +30,9 @@ public class CourseController {
 
     //跳转课程详情页面
     @GetMapping("/front")
-    public String front(@RequestParam("cou")String cid, HttpSession session){
+    public String front(@RequestParam("cour")String cid, HttpSession session){
         session.setAttribute("reqCid",cid);
+        session.setAttribute("cRoot",cid);
         return "CoursesInfo";
     }
 

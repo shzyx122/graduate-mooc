@@ -471,8 +471,8 @@
                 dataSrc: ""
             },
             columns : [
-                { data : "cou.cname" },
-                { data : "cou.during" },
+                { data : "course.cname" },
+                { data : "course.during" },
                 { data : "begin" },
                 { data: "end"},
                 { data: null}

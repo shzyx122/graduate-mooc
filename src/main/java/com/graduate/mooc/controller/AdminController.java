@@ -102,7 +102,7 @@ public class AdminController {
     @RequestParam("during")Integer dur ){
         Task t = new Task();
         Course c=coum.findCourseByID(cid);
-        t.setCou(c);
+        t.setCourse(c);
 
         System.out.println("param="+beg);
         String timemode=beg.replaceAll("T"," ");

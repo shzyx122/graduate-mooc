@@ -9,10 +9,9 @@ import java.util.List;
 @Component
 @Mapper
 public interface TaskMap {
-    List<Task> findTaskByTno(String tno);
+    Task findTaskByTno(String tno);
 
     List<Task> findTaskByCID(String cid);
-
 
     public List<Task> ListTask();
 

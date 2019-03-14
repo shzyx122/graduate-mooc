@@ -1,9 +1,21 @@
 package com.graduate.mooc.domain;
 
+import java.util.List;
+
 public class Student {
     private String sno;
     private String name;
     private String pass;
+    private List<Learn> learn;
+
+//要去map定义
+    public List<Learn> getLearn() {
+        return learn;
+    }
+
+    public void setLearn(List<Learn> learn) {
+        this.learn = learn;
+    }
 
     @Override
     public String toString() {

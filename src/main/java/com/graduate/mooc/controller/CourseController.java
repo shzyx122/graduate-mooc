@@ -1,5 +1,6 @@
 package com.graduate.mooc.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.graduate.mooc.domain.Course;
 import com.graduate.mooc.domain.Task;
 import com.graduate.mooc.mapper.CourseMap;
@@ -28,11 +29,11 @@ public class CourseController {
     @Autowired
     TaskMap tMap;
 
-    //跳转课程详情页面
+    //跳转课程详情页面  需要
     @GetMapping("/front")
     public String front(@RequestParam("cour")String cid, HttpSession session){
         session.setAttribute("reqCid",cid);
-        session.setAttribute("cRoot",cid);
+        session.setAttribute("cRoot",cid); //方便调用teacher已有接口
         return "CoursesInfo";
     }
 
@@ -42,6 +43,10 @@ public class CourseController {
     public List<Task> query(HttpSession session){
         String cid=(String)session.getAttribute("reqCid");
         System.out.println(tMap.findTaskByCID(cid));
+       /* String user = (String)session.getAttribute("suser");//这坨似乎不需要 如果前端你是java代码获取的话
+        JSONObject nn = new JSONObject();
+        nn.put("suser", user);
+        session.setAttribute("suser", nn);*/
         return tMap.findTaskByCID(cid);
     }
 

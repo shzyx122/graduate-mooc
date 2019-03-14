@@ -2,26 +2,29 @@ package com.graduate.mooc.domain;
 
 public class Learn {
     private String lno;
-    private String sno;
-    private String taskno;
     private int grade;
-    private String gra;
+    private Task task;
+    private Student stu;
+
+    public Student getStu() {
+        return stu;
+    }
+
+    public void setStu(Student stu) {
+        this.stu = stu;
+    }
 
     @Override
     public String toString() {
         return "Learn{" +
                 "lno='" + lno + '\'' +
-                ", sno='" + sno + '\'' +
-                ", taskno='" + taskno + '\'' +
-                ", gra='" + gra + '\'' +
+                ", stu='" + stu + '\'' +
+                ", task='"+task+"\'"+
+                //", taskno='" + taskno + '\'' +
+                ", grade='" + grade + '\'' +
                 '}';
     }
 
-    public String getGra(){
-        if(grade==-1)
-            return "未开放考试";
-        return String.valueOf(grade);
-    }
 
     public String getLno() {
         return lno;
@@ -31,21 +34,22 @@ public class Learn {
         this.lno = lno;
     }
 
-    public String getSno() {
-        return sno;
+    public Task getTask() {
+        return task;
     }
 
-    public void setSno(String sno) {
-        this.sno = sno;
+    public void setTask(Task task) {
+        this.task = task;
     }
 
-    public String getTaskno() {
+    /*public String getTaskno() {
+
         return taskno;
     }
 
     public void setTaskno(String taskno) {
         this.taskno = taskno;
-    }
+    }*/
 
     public int getGrade() {
         return grade;

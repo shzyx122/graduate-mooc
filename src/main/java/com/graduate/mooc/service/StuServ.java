@@ -13,11 +13,9 @@ public class StuServ {
     public StudentMap stm;
     
     public boolean validate(String sname,String pass){
-        List<Student> slist=stm.findStudentByName(sname);
-        for(Student s:slist){
+        Student s=stm.findStudentByName(sname);
             if(s.getPass().equals(pass))
                 return true;
-        }
         return false;
     }
 }

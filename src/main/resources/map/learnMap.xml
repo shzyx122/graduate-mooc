@@ -4,34 +4,54 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.graduate.mooc.mapper.LearnMap">
     <resultMap id="result" type="com.graduate.mooc.domain.Learn">
-        <result property="aname" column="aname" />
-        <result property="pass" column="pass" />
+        <result property="grade" column="grade" />
+
+        <association property="task"  javaType="com.graduate.mooc.domain.Task">
+            <id property="taskno" column="taskno" />
+            <result property="begin" column="begin" />
+            <result property="end" column="end" />
+            <association property="course"  javaType="com.graduate.mooc.domain.Course">
+                <id property="cid" column="cid" />
+                <result property="cname" column="cname" />
+                <result property="during" column="during" />
+                <result property="tid" column="tid" />
+                <result property="state" column="state" />
+                <result property="picPath" column="pic_path"/>
+                <result property="discrip" column="discrip"/>
+            </association>
+        </association>
+
+        <association property="stu" javaType="com.graduate.mooc.domain.Student">
+            <result property="name" column="name" />
+            <result property="pass" column="pass" />
+        </association>
     </resultMap>
 
     <select id="ListLearn" resultMap="result">
-        SELECT * FROM learn
+        SELECT * FROM learn l left join task t on learn.taskno = t.taskno
+            left join course c on t.cid = c.cid left join stu on l.sno=stu.sno
     </select>
 
-    <select id="findLearnByName" resultMap="result">
-        SELECT * FROM learn where aname=#{aname}
+    <select id="findLearnBySno" resultMap="result">
+        SELECT * FROM learn where sno=#{stu.sno}
     </select>
 
     <insert id="insertLearn" parameterType="com.graduate.mooc.domain.Learn"
-            keyProperty="id" useGeneratedKeys="true">
-        INSERT INTO user
-        (
-            id,name,password,number
-        )
+            keyProperty="lno" useGeneratedKeys="true">
+        <selectKey keyProperty="lno" resultType="String" order="BEFORE">
+            select replace(UUID(),"-","")
+        </selectKey>
+        INSERT INTO learn
         VALUES (
-            #{id},
-            #{name, jdbcType=VARCHAR},
-            #{password, jdbcType=VARCHAR},
-            #{number}
+            #{lno},
+            #{stu.sno, jdbcType=VARCHAR},
+            #{task.taskno, jdbcType=VARCHAR},
+            #{grade,jdbcType=INTEGER}
         )
     </insert>
 
     <delete id="delete" parameterType="int">
-        delete from user where id=#{id}
+        delete from learn where lno=#{lno}
     </delete>
 
     <update id="Update" parameterType="com.graduate.mooc.domain.Learn">

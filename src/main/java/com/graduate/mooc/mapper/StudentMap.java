@@ -10,7 +10,7 @@ import java.util.List;
 @Component
 @Mapper
 public interface StudentMap {
-    List<Student> findStudentByName(String name);
+    Student findStudentByName(String name);
 
     List<Student> findStudentByID(String id);
 

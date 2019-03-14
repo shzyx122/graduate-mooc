@@ -35,24 +35,48 @@
         .courseIntroBox{margin-top:26px;background:#fff;border-top:solid 1px #e0e0e0;}
         .fontGreen{color:#38bb37}
         .xyCourseIntro{background:#fff;margin-top:35px;padding:15px;}
+
+        .link_button {
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+            border: solid 1px #20538D;
+            text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.4);
+            -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
+            -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
+            background: #4479BA;
+            color: #FFF;
+            padding: 8px 12px;
+            text-decoration: none;
+            float:right;
+        }
+
     </style>
 </head>
 <body>
 <div id="wrapper">
     <div id="page-wrapper">
         <div class="container-fluid courseIntroBox">
+            <div class="row">
             <ul class="xyTabs clearfix">
                 <li class="cur"><a href="#" id="info">课程介绍</a></li>
                 <li><a href="#" id="chap">课程章节</a></li>
                 <li><a href="#" id="chat">师生互动</a></li>
             </ul>
+                <a href="" class="link_button btn btn-default">加入课程</a><!--登录  完成课业进入课程列表-->
             <div class="xyCourseIntro">
+
+            </div>
+
 
             </div>
         </div>
     </div>
 </div>
 <script type="text/javascript">
+
+    var tno=''; //taskno用来设置learn
 
     function trans(obj){  //一位前+0
         if((obj + '').length === 1){
@@ -75,6 +99,7 @@
 
             for(var i=0;i<data.length;i++){
                 if(curDay<data[i].end) {    //当前时间课程还没结束才显示
+                    tno=data[i].taskno; //获取taskno用来设置learn
                     $('.xyCourseIntro').append("<p>开课时间:" + data[i].begin + "</p>\n");
                     if (i == (data.length-1)) {
                         $('.xyCourseIntro').append(
@@ -89,9 +114,11 @@
     }
 
     $(document).ready( function () {
+
+        var user = '<%=request.getSession().getAttribute("suser")%>';
         $.ajaxSettings.async = false;
         queryDisc();
-
+        $(".link_button").attr('href','/student/attend?stu='+user+'&taskno='+tno);
 
         var $firLi=$("ul li").eq(0);
         var $secLi=$("ul li").eq(1);

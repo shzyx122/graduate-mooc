@@ -54,7 +54,7 @@ public class TeaController {
         System.out.println("inserted one course "+c);
         return "redirect:/Cou";
     }
-
+//批量课程上传  需要在前端添加课程描述的内容
     @RequestMapping(value="/insertCou",method = RequestMethod.POST)  //文件上传、发布
     public String addfexp(@RequestParam("coufile") MultipartFile file, HttpSession session) throws IOException {
         String tname=(String)session.getAttribute("tuser");
@@ -62,7 +62,7 @@ public class TeaController {
 
         List<String[][]> list=lt.inject(file);
         System.out.println(list);
-        for(String[][] s:list) {      //课程必要 课程名、课时
+        for(String[][] s:list) {                    //课程必要 课程名、课时、课程图片的后缀
             for (int i = 0; i < s.length; i++) {  //课程图片设置前缀，excel需要自己输入图片名称和后缀 上传到服务器目录
                 Course c = new Course();
                 c.setCname(s[i][0]);
@@ -123,10 +123,21 @@ public class TeaController {
     @RequestMapping(value="/insertChap",method = RequestMethod.POST)  //文件上传、发布
     public String addchap(@RequestParam("chfile") MultipartFile file, HttpSession session) throws IOException {
         String cid=(String)session.getAttribute("cRoot");
+        List<String[][]> list=lt.inject(file);
+        for(String[][] s:list) {
+            for (int i = 0; i < s.length; i++) {
+                Chapter ch = new Chapter();
+                ch.setChname(s[i][0]); //第一列放章节名称
+                ch.setCid(cid);
+                ch.setExstate(0);   //默认不是考试，考试需要教师自己去改
+                ch.setVideo("");   //因为mybatis认为这样才是空
+                chm.insertChapter(ch);
+            }
+        }
         return "redirect:/chapter/"+cid;
     }
 
-//还是要借用控件选择文件
+//还是要借用控件选择文件  上传章节视频
     @RequestMapping(value = "/upvideo/{chid}",method = RequestMethod.POST)//上传视频
     public String upvideo(@PathVariable String chid,@RequestParam("chFile") MultipartFile file, HttpSession session){
         System.out.println(chid);
@@ -166,8 +177,13 @@ public class TeaController {
     /*
     题库相关
      */
-    @RequestMapping(value = "/assSub",method = RequestMethod.GET)
+    @GetMapping("/addSub")  //添加题目
     public String assSub(){
         return "T_subject";
+    }
+
+    @GetMapping("/subject") //查询一个章节的题库
+    public String subject(@RequestParam("chsub")String chid){
+        return "";
     }
 }

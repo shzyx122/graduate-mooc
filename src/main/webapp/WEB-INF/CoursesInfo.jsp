@@ -119,7 +119,7 @@
         $.ajaxSettings.async = false;
         queryDisc();
         $(".link_button").attr('href','/student/attend?stu='+user+'&taskno='+tno);
-
+        //此处需要判断当前登录用户是否已经选过这门课，更改按钮文本和链接地址
         var $firLi=$("ul li").eq(0);
         var $secLi=$("ul li").eq(1);
         var $thirLi=$("ul li").eq(2);

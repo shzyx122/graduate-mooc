@@ -504,10 +504,11 @@
                     "targets": 4,   //对于第5列，每一行都换成链接
                     // 可以判断每行的video设置不一样的连接
                     "render" : function(data, type, row, meta) {
-                        data='<a href="<%=basePath%>delch?ch=\''+row.chid+'\'" >删除</a></br>';
-                        if(row.video!=='')
-                            data+='视频已被上传'; //改成重传和查看  重传可能需要删除原先目录的文件
+                        data='<a href="<%=basePath%>delch?ch='+row.chid+'" >删除</a></br>';
+                        if(row.video!==''&&!row.video)
+                            data+='视频已被上传<a href="#" onclick="uploadVideo(\\\'\'+row.chid+\'\\\')">重传视频</a>'; //改成重传和查看  重传可能需要删除原先目录的文件
                         else data+='<a href="#" onclick="uploadVideo(\''+row.chid+'\')">上传视频</a>';
+                        data+='<a href="<%=basePath%>subject?chsub=\'+row.chid+\'" >查看题库</a></br>'
                         return data;
                     }
                 },
@@ -523,7 +524,7 @@
                 {
                     "targets": 2,
                     "render" : function(data, type, row, meta) {
-                        if(data!=='')
+                        if(data!==''&&!data)
                             return "视频已被上传";
                         return "尚未上传视频"
 

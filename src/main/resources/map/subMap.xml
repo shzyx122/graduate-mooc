@@ -4,8 +4,20 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.graduate.mooc.mapper.SubjectMap">
     <resultMap id="result" type="com.graduate.mooc.domain.Subject">
-        <result property="aname" column="aname" />
-        <result property="pass" column="pass" />
+        <result property="question" column="question" />
+        <result property="answer" column="answe"/>
+        <result property="aitem" column="aitem"/>
+        <result property="bitem" column="bitem"/>
+        <result property="citem" column="citem"/>
+        <result property="ditem" column="ditem"/>
+        <result property="path" column="path" />
+        <association property="chapter" javaType="com.graduate.mooc.domain.Chapter">
+            <result property="chname" column="chname" />
+            <result property="cid" column="cid" />
+            <result property="exstate" column="exstate" />
+            <result property="video" column="video" />
+        </association>
+
     </resultMap>
 
     <select id="ListSubject" resultMap="result">
@@ -13,20 +25,21 @@
     </select>
 
     <select id="findSubjectByName" resultMap="result">
-        SELECT * FROM subject where aname=#{aname}
+        SELECT * FROM subject where chid=#{chapter.chid}
     </select>
 
     <insert id="insertSubject" parameterType="com.graduate.mooc.domain.Subject"
             keyProperty="id" useGeneratedKeys="true">
-        INSERT INTO user
-        (
-            id,name,password,number
-        )
+        INSERT INTO subject
         VALUES (
-            #{id},
-            #{name, jdbcType=VARCHAR},
-            #{password, jdbcType=VARCHAR},
-            #{number}
+            #{subno},
+            #{question,jdbcType=VARCHAR},
+            #{answer, jdbcType=VARCHAR},
+            #{aitem},
+            #{bitem},
+            #{citem},
+            #{ditem},
+            #{path}
         )
     </insert>
 

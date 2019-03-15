@@ -9,7 +9,15 @@ public class Subject {
     private String citem;
     private String ditem;
     private String path;
-    private String chid;
+    private Chapter chapter;
+
+    public Chapter getChapter() {
+        return chapter;
+    }
+
+    public void setChapter(Chapter chapter) {
+        this.chapter = chapter;
+    }
 
     @Override
     public String toString() {
@@ -17,7 +25,7 @@ public class Subject {
                 "subno='" + subno + '\'' +
                 ", question='" + question + '\'' +
                 ", path='" + path + '\'' +
-                ", chid='" + chid + '\'' +
+                ", chid='" + chapter.getChid() + '\'' +
                 '}';
     }
 
@@ -85,11 +93,11 @@ public class Subject {
         this.path = path;
     }
 
-    public String getChid() {
+    /*public String getChid() {
         return chid;
     }
 
     public void setChid(String chid) {
         this.chid = chid;
-    }
+    }*/
 }

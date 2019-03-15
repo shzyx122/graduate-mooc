@@ -3,7 +3,7 @@ package com.graduate.mooc.domain;
 public class Chapter {
     private String chid;
     private String chname;
-    private String cid;
+    private String cid;         //应该也要换成实体
     private int exstate;
     private String video;
 

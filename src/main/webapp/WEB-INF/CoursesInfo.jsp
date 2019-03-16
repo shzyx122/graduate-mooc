@@ -142,12 +142,12 @@
                 async: false,
                 success: function (data) {
                     $('.xyCourseIntro').html("");
-                    $('.xyCourseIntro').append("<ul>");
+                    //$('.xyCourseIntro').append("<ul>");
                     //$('.xyCourseIntro').append("<ul>");
                     for (var i = 0; i < data.length; i++) {
-                        $('.xyCourseIntro ul').append("<li>" + data[i].chname + "</li>");
+                        $('.xyCourseIntro ').append("<p>" + data[i].chname + "</p>\n");
                     }
-                    $('.xyCourseIntro').append("</ul>");
+                    //$('.xyCourseIntro').append("</ul>");
                 }
             });
         });

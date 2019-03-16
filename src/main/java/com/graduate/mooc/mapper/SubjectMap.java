@@ -10,7 +10,7 @@ import java.util.List;
 @Component
 @Mapper
 public interface SubjectMap {
-    List<Subject> findSubjectByName(String name);
+    List<Subject> findSubjectByChid(String chid);
 
     List<Subject> findSubjectByID(String id);
 
@@ -18,7 +18,7 @@ public interface SubjectMap {
 
     public int insertSubject(Subject sub);
 
-    public int delete(int id);
+    public int delete(String id);
 
     public int Update(Subject sub);
 }

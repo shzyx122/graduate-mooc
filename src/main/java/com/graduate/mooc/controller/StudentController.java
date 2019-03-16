@@ -27,7 +27,7 @@ public class StudentController {
     TaskMap tkMap;
 
     @GetMapping("/attend")
-    public void attend(@RequestParam("taskno") String taskno,@RequestParam("stu") String stu){
+    public String attend(@RequestParam("taskno") String taskno,@RequestParam("stu") String stu){
         Learn l = new Learn();
         l.setGrade(-1);
         l.setStu(stMap.findStudentByName(stu));
@@ -35,6 +35,7 @@ public class StudentController {
         lMap.insertLearn(l);
         System.out.println("learn succeeded");
         //跳转至学习进度页面   原先入口页面在登录状态下更改按钮
+        return "process";
     }
 
 }

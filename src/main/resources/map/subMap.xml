@@ -24,7 +24,7 @@
         SELECT * FROM subject
     </select>
 
-    <select id="findSubjectByName" resultMap="result">
+    <select id="findSubjectByChid" resultMap="result">
         SELECT * FROM subject where chid=#{chapter.chid}
     </select>
 

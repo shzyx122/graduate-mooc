@@ -2,9 +2,11 @@ package com.graduate.mooc.controller;
 
 import com.graduate.mooc.domain.Chapter;
 import com.graduate.mooc.domain.Course;
+import com.graduate.mooc.domain.Subject;
 import com.graduate.mooc.domain.Teacher;
 import com.graduate.mooc.mapper.ChapterMap;
 import com.graduate.mooc.mapper.CourseMap;
+import com.graduate.mooc.mapper.SubjectMap;
 import com.graduate.mooc.mapper.TeacherMap;
 import com.graduate.mooc.service.CouServ;
 import com.graduate.mooc.service.TeaServ;
@@ -177,13 +179,66 @@ public class TeaController {
     /*
     题库相关
      */
-    @GetMapping("/addSub")  //添加题目
-    public String assSub(){
+    @Autowired
+    SubjectMap subMap;
+
+    @GetMapping("/subject/{chsub}") //查询一个章节的题库
+    public String subject(@RequestParam("chsub")String chid,HttpSession session){
+        session.setAttribute("sub_ch",chid);
         return "T_subject";
     }
 
-    @GetMapping("/subject") //查询一个章节的题库
-    public String subject(@RequestParam("chsub")String chid){
-        return "";
+    @GetMapping("qsubjects")
+    @ResponseBody
+    public List<Subject> qsubjects(HttpSession session){
+        String chid=(String)session.getAttribute("sub_ch");
+        List<Subject> subList = subMap.findSubjectByChid(chid);
+        System.out.println(subList);
+        return subList;
     }
+
+
+    @GetMapping("/assSub")  //添加题目
+    public String assSub(Subject sub,HttpSession session){
+        String chid=(String)session.getAttribute("sub_ch");
+        System.out.println(sub);
+        //处理
+        subMap.insertSubject(sub);
+        return "redirect:/subject/"+chid;
+    }
+
+    @PostMapping("/addSubs")
+    public String addSubs(@RequestParam("chfile") MultipartFile file, HttpSession session)throws IOException{
+        String chid=(String)session.getAttribute("sub_ch");
+        List<String[][]> list=lt.inject(file);
+        for(String[][] s:list) {
+            for (int i = 0; i < s.length; i++) {
+                Subject sub = new Subject();
+            }
+        }
+        return "redirect:/subject/"+chid;
+    }
+
+
+    @GetMapping("/delsub")  //删除题目
+    public String delsub(@RequestParam("sub") String subno, HttpSession session)  {
+        String chid=(String)session.getAttribute("sub_ch");
+        System.out.println(subno);
+        subMap.delete(subno);
+        System.out.println("删除了");
+        return "redirect:/subject/"+chid;
+    }
+
+    @RequestMapping(value = "/upsub",method = RequestMethod.POST)  //编辑更新章节
+    public void upsub(@RequestParam("id")String id,@RequestParam("name")String name,
+                       @RequestParam("vid")String vid,@RequestParam("ex")int ex,
+                       HttpServletResponse response) throws IOException {
+
+        System.out.println("upsub "+name);
+        //subMap.update();
+        System.out.println("更新了");
+        response.getWriter().print("更新成功");  //responseentity http 204?? no content
+    }
+
+
 }

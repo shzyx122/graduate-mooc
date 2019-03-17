@@ -15,6 +15,37 @@ import java.util.List;
 
 @Component
 public class LoadTool {
+
+    public void staticRes(String path,MultipartFile file){ //设置静态资源路径
+        System.out.println("上传静态资源");
+        String dir="D:\\IDEAworkspace\\mooc\\src\\main\\resources\\static\\"+path+"\\";
+        this.trans(dir,file);
+    }
+
+    private void trans(String dir , MultipartFile file){ //创建目录并上传
+        File f=new File(dir);
+        if(!f.exists()){
+            f.mkdirs();
+            System.out.println("创建"+dir);
+        }
+        System.out.println("创建目录"+dir);
+        System.out.println("物理文件名file="+file.getOriginalFilename());
+
+        String suffix=file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+        String filename=file.getName()+suffix;   //表单file控件的name属性值
+        System.out.println("文件本体-----"+filename);
+
+        File serverFile=new File(dir+file.getOriginalFilename());
+        try {
+            file.transferTo(serverFile);  //把内容塞进去
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("上传失败");
+        }
+        System.out.println("上传成功");
+    }
+
+
     public void upload(String path,MultipartFile file){
         System.out.println("上传文件");
         String dir="D:\\backup_for_mooc\\server\\"+path;

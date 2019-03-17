@@ -42,7 +42,34 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/1.10.15/css/jquery.dataTables.css">
+    <script type="text/javascript">
+        function uploadPic(cid) {  //上传文件    //每次上传都会比上次多上传1次
+            $('#pfile').click();
+            $('#pfile').change(function(){
+                //alert('onchange'+$('#pfile').val())
+                var myform = new FormData();
+                myform.append('cFile', $('#pfile')[0].files[0]);
+                $.ajax({
 
+                    url:"<%=basePath%>upPic/" + cid ,
+                    type: "POST",
+                    //async: false,
+                    //cache: false,
+                    data: myform,
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        window.location.reload();  //似乎不用dt创建表格就不能用他的ajax
+                        //$('#dataTables-example').DataTable().ajax.reload();
+                    },
+                    error: function (data) {
+                    }
+                });
+
+            });
+
+        }
+    </script>
 
 
 </head>
@@ -444,11 +471,13 @@
                     <!-- /.panel-heading -->
                     <div class="panel-body">
                         <form role="form" action="<%=basePath%>upCou" method="post">
+                            <input type="file" id="pfile" name="cFile" style="display:none">
                         <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                             <thead>
                             <tr>
                                 <th>课程名</th>
                                 <th>课时</th>
+                                <th>图片</th>
                                 <th>操作</th>
                             </tr>
                             </thead>
@@ -458,8 +487,10 @@
                                     <c:if test="${edcou!=c.cid}">
                                         <td>${c.cname}</td>
                                         <td>${c.during}</td>
+                                        <td>${c.picPath}</td>
                                         <td><a href="/edCou/${c.cid}">修改</a></br>
-                                            <a href="<%=basePath%>chapter/${c.cid}">查看章节</a>
+                                            <a href="<%=basePath%>chapter/${c.cid}">查看章节</a></br>
+                                            <a href="#" onclick="uploadPic('${c.cid}')">上传图片</a>
                                         </td>
                                     </c:if>
                                     <c:if test="${edcou==c.cid}">
@@ -503,7 +534,7 @@
 <!-- Custom Theme JavaScript -->
 <script src="<%=basePath%>static/dist/js/sb-admin-2.js"></script>
 
-!-- DataTables -->
+<!-- DataTables -->
 <script type="text/javascript" charset="utf8" src="http://cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
 
 <script type="text/javascript">

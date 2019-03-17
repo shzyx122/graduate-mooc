@@ -108,6 +108,7 @@
                     <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                         <thead>
                         <tr>
+                            <th>题号</th>
                             <th>题目问题</th>
                             <th>答案</th>
                             <th>选项A</th>
@@ -152,6 +153,7 @@
                 dataSrc: ""
             },
             columns : [
+                { data : "subno" },
                 { data : "question" },
                 { data : "answer" },
                 { data : "aitem" },

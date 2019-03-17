@@ -1,5 +1,6 @@
 package com.graduate.mooc.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.graduate.mooc.domain.Chapter;
 import com.graduate.mooc.domain.Course;
 import com.graduate.mooc.domain.Subject;
@@ -64,7 +65,7 @@ public class TeaController {
 
         List<String[][]> list=lt.inject(file);
         System.out.println(list);
-        for(String[][] s:list) {                    //课程必要 课程名、课时、课程图片的后缀
+        for(String[][] s:list) {                    //课程必要 课程名、课时   课程图片另外上传
             for (int i = 0; i < s.length; i++) {  //课程图片设置前缀，excel需要自己输入图片名称和后缀 上传到服务器目录
                 Course c = new Course();
                 c.setCname(s[i][0]);
@@ -74,6 +75,23 @@ public class TeaController {
             }
         }
         return "redirect:Cou";
+    }
+
+    @PostMapping("/upPic/{cid}")
+    //@ResponseBody
+    public String upPic(@PathVariable String cid,@RequestParam("cFile") MultipartFile file, HttpSession session){
+        System.out.println(cid);
+        System.out.println("将要上传");
+        String tname=(String)session.getAttribute("tuser");
+        String path="imgs"; //static/imgs/
+        lt.staticRes(path,file);
+        Course c = coum.findCourseByID(cid);
+        path=file.getOriginalFilename();
+        System.out.println(path);
+        c.setPicPath(path);
+        coum.update(c);
+        //return JSON.toJSON("succeed");
+        return "redirect:/Cou";
     }
 
     @RequestMapping(value="/edCou/{cid}",method = RequestMethod.GET)
@@ -183,8 +201,9 @@ public class TeaController {
     SubjectMap subMap;
 
     @GetMapping("/subject/{chsub}") //查询一个章节的题库
-    public String subject(@RequestParam("chsub")String chid,HttpSession session){
+    public String subject(@PathVariable("chsub")String chid, HttpSession session){
         session.setAttribute("sub_ch",chid);
+        System.out.println(session.getAttribute("sub_ch"));
         return "T_subject";
     }
 
@@ -214,6 +233,19 @@ public class TeaController {
         for(String[][] s:list) {
             for (int i = 0; i < s.length; i++) {
                 Subject sub = new Subject();
+                sub.setQuestion(s[i][0]);
+                sub.setAnswer(s[i][1]);
+                System.out.println(s[i][1]);
+                sub.setAitem(s[i][2]);
+                sub.setBitem(s[i][3]);
+                sub.setCitem(s[i][4]);
+                sub.setDitem(s[i][5]);
+                Chapter ch = chm.findChapterByID(chid);
+                //System.out.println(chid+" "+ch);
+                sub.setChapter(ch);
+                sub.setPercent(20);     //先设置成20%
+                System.out.println("insert "+sub);
+                subMap.insertSubject(sub);
             }
         }
         return "redirect:/subject/"+chid;

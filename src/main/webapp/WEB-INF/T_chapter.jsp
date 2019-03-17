@@ -67,7 +67,7 @@
                     contentType: false,
                     processData: false,
                     success: function (data) {
-                        $('#dataTables-example').DataTable().ajax.reload(null, false);
+                        $('#dataTables-example').DataTable().ajax.reload();
                     },
                     error: function (data) {
                     }
@@ -505,10 +505,10 @@
                     // 可以判断每行的video设置不一样的连接
                     "render" : function(data, type, row, meta) {
                         data='<a href="<%=basePath%>delch?ch='+row.chid+'" >删除</a></br>';
-                        if(row.video!==''&&!row.video)
-                            data+='视频已被上传<a href="#" onclick="uploadVideo(\\\'\'+row.chid+\'\\\')">重传视频</a>'; //改成重传和查看  重传可能需要删除原先目录的文件
-                        else data+='<a href="#" onclick="uploadVideo(\''+row.chid+'\')">上传视频</a>';
-                        data+='<a href="<%=basePath%>subject?chsub=\'+row.chid+\'" >查看题库</a></br>'
+                        if(row.video!=='')
+                            data+='视频已被上传</br><a href="#" onclick="uploadVideo(\\\'\'+row.chid+\'\\\')">重传视频</a></br>'; //改成重传和查看  重传可能需要删除原先目录的文件
+                        else data+='<a href="#" onclick="uploadVideo(\''+row.chid+'\')">上传视频</a></br>';
+                        data+='<a href="<%=basePath%>subject/'+row.chid+'" >查看题库</a></br>'
                         return data;
                     }
                 },
@@ -524,7 +524,7 @@
                 {
                     "targets": 2,
                     "render" : function(data, type, row, meta) {
-                        if(data!==''&&!data)
+                        if(data!=='')
                             return "视频已被上传";
                         return "尚未上传视频"
 
@@ -549,7 +549,7 @@
                             $.post('<%=basePath%>upch',{  //json这里具体的值加引号会导致数据长度过长错误
                                 'id':rowData.chid,'name':rowData.chname,
                                 'vid':rowData.video,'ex':rowData.exstate });
-                            table.ajax.reload(null, true);
+                            table.ajax.reload(null, false);
                         });
 
                         $(cell).on("blur",":input",function(e){  //取消事件冒泡
@@ -576,11 +576,11 @@
 
                         $(cell).on("blur",":input",function(){
                             var text = $(this).val();
-                            alert(text);
+                            //alert(text);
                             $(cell).html(text);
-                            alert(table.cell( cell ).data());
+                           //alert(table.cell( cell ).data());
                             table.cell( cell ).data(text);
-                            alert(table.cell( cell ).data());
+                            //alert(table.cell( cell ).data());
                             $.post('<%=basePath%>upch',{
                                 'id':rowData.chid,'name':rowData.chname,
                                 'vid':rowData.video,'ex':rowData.exstate });

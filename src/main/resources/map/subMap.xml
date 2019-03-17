@@ -4,14 +4,17 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.graduate.mooc.mapper.SubjectMap">
     <resultMap id="result" type="com.graduate.mooc.domain.Subject">
+        <id property="subno" column="subno" />
         <result property="question" column="question" />
-        <result property="answer" column="answe"/>
+        <result property="answer" column="answer"/>
         <result property="aitem" column="aitem"/>
         <result property="bitem" column="bitem"/>
         <result property="citem" column="citem"/>
         <result property="ditem" column="ditem"/>
         <result property="path" column="path" />
+        <result property="percent" column="percent" />
         <association property="chapter" javaType="com.graduate.mooc.domain.Chapter">
+            <id property="chid" column="chid" />
             <result property="chname" column="chname" />
             <result property="cid" column="cid" />
             <result property="exstate" column="exstate" />
@@ -21,7 +24,7 @@
     </resultMap>
 
     <select id="ListSubject" resultMap="result">
-        SELECT * FROM subject
+        SELECT * FROM subject s , chapter c where s.chid = c.chid
     </select>
 
     <select id="findSubjectByChid" resultMap="result">
@@ -29,7 +32,10 @@
     </select>
 
     <insert id="insertSubject" parameterType="com.graduate.mooc.domain.Subject"
-            keyProperty="id" useGeneratedKeys="true">
+            keyProperty="subno" useGeneratedKeys="true">
+        <selectKey keyProperty="subno" resultType="String" order="BEFORE">
+            select replace(UUID(),"-","")
+        </selectKey>
         INSERT INTO subject
         VALUES (
             #{subno},
@@ -39,12 +45,14 @@
             #{bitem},
             #{citem},
             #{ditem},
-            #{path}
+            #{path,jdbcType=VARCHAR},
+            #{percent},
+            #{chapter.chid}
         )
     </insert>
 
     <delete id="delete" parameterType="int">
-        delete from user where id=#{id}
+        delete from subject where subno=#{subno}
     </delete>
 
     <update id="Update" parameterType="com.graduate.mooc.domain.Subject">

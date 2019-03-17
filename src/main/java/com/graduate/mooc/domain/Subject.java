@@ -9,6 +9,7 @@ public class Subject {
     private String citem;
     private String ditem;
     private String path;
+    private int percent;
     private Chapter chapter;
 
     public Chapter getChapter() {
@@ -19,12 +20,20 @@ public class Subject {
         this.chapter = chapter;
     }
 
+    public int getPercent() {
+        return percent;
+    }
+
+    public void setPercent(int percent) {
+        this.percent = percent;
+    }
+
     @Override
     public String toString() {
         return "Subject{" +
                 "subno='" + subno + '\'' +
                 ", question='" + question + '\'' +
-                ", path='" + path + '\'' +
+                ", answer='" + answer + '\'' +
                 ", chid='" + chapter.getChid() + '\'' +
                 '}';
     }

@@ -421,7 +421,7 @@
                     "</a>\n" +
                     "</div>\n"+
                     "<div>\n"+
-                        "<a href='/course/front?cou='\'+id+\'' title='"+name+"'>"+name+"</a>" +
+                        "<a href='/course/front?cour='\'+id+\'' title='"+name+"'>"+name+"</a>" +
                     "</li>";
                 //一行放5个，因此开头结尾以及遍历结束的时候添加div标签
                 if(i%5==0) {

@@ -38,6 +38,7 @@ public class StudentController {
         lMap.insertLearn(l);
         System.out.println("learn succeeded  "+session.getAttribute("cRoot") );
         //跳转至学习进度页面   原先入口页面在登录状态下更改按钮
+        session.setAttribute("myTask",taskno);  //设置任务 以后操作根据任务来
         return "progress";
     }
 

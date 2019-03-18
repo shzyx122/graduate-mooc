@@ -430,7 +430,7 @@
                     content=bgDiv;
                 }
                 if(i%5==4||i==data.length){
-                    alert(i+"  "+i==data.length);
+                    alert(i+"  "+(i==data.length));
                     endDiv="</div>";
                     content+=endDiv;
                 }

@@ -267,6 +267,19 @@
         </div>
     </div>
 </div>
-
+<script type="text/javascript">
+    $(document).ready( function () {
+        $.ajax({
+            url: '/qchapter',
+            type: 'get',
+            async: false,
+            success: function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    $(".leveltwo").append("<a href='#'>" + data[i].chname + "</a>\n");
+                }
+            }
+        });
+    });
+</script>
 </body>
 </html>

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * Created by Chao Wax on 2019/3/14
  */
@@ -27,15 +29,16 @@ public class StudentController {
     TaskMap tkMap;
 
     @GetMapping("/attend")
-    public String attend(@RequestParam("taskno") String taskno,@RequestParam("stu") String stu){
+    public String attend(@RequestParam("taskno") String taskno,@RequestParam("stu") String stu,
+                         HttpSession session){
         Learn l = new Learn();
         l.setGrade(-1);
         l.setStu(stMap.findStudentByName(stu));
         l.setTask(tkMap.findTaskByTno(taskno));
         lMap.insertLearn(l);
-        System.out.println("learn succeeded");
+        System.out.println("learn succeeded  "+session.getAttribute("cRoot") );
         //跳转至学习进度页面   原先入口页面在登录状态下更改按钮
-        return "process";
+        return "progress";
     }
 
 }

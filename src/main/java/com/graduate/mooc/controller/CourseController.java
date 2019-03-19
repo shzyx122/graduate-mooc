@@ -1,13 +1,8 @@
 package com.graduate.mooc.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.graduate.mooc.domain.Course;
-import com.graduate.mooc.domain.Match;
-import com.graduate.mooc.domain.Subject;
-import com.graduate.mooc.domain.Task;
-import com.graduate.mooc.mapper.CourseMap;
-import com.graduate.mooc.mapper.SubjectMap;
-import com.graduate.mooc.mapper.TaskMap;
+import com.graduate.mooc.domain.*;
+import com.graduate.mooc.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +26,13 @@ public class CourseController {
 
     @Autowired
     SubjectMap subMap;
+
+    @Autowired
+    MatchMap matMap;
+
+    @Autowired
+    ChapterMap chMap;
+
     //跳转课程详情页面  需要
     @GetMapping("/front")
     public String front(@RequestParam("cour")String cid, HttpSession session){
@@ -52,37 +54,44 @@ public class CourseController {
         return tMap.findTaskByCID(cid);
     }
 
-
-    @GetMapping("/study/{chid}")
+/*
+progress点击章节链接过来的
+ */
+    @GetMapping("/study/{chid}")  //习题关联 准备观看视频
     public String study(@PathVariable String chid,HttpSession session){
         String sno = (String)session.getAttribute("suser");
         String taskno = (String)session.getAttribute("taskno");
         System.out.println(sno+" "+taskno);
+
+        Chapter chapter = chMap.findChapterByID(chid);
+        session.setAttribute("myChapter",chapter);
+        session.setAttribute("taskno",null);
+
         //匹配随机题目
   //if match  表中当前task里面该名学生没有和该章节的关联则
-        if()
-        List<Subject> subList = subMap.findSubjectByChid(chid);
-        System.out.println(subList);
-        Set<Integer> set = new HashSet<Integer>();
-        if(subList.size()<5)
-            while(set.size()<3)
-                set.add(new Random().nextInt(subList.size())+1);
-        else
-            while(set.size()<5)
-                set.add(new Random().nextInt(subList.size())+1);
-        List<Subject> subRes = new ArrayList<>();
-        Iterator<Integer> iterator=set.iterator();
-        for(int i = 0;i<set.size()&&iterator.hasNext();i++){
-            subRes.add(subList.get(iterator.next()));
+        List<Match> mlist = matMap.findMatchByInfo(sno,taskno);
+        if(mlist==null) {
+            List<Subject> subList = subMap.findSubjectByChid(chid);
+            System.out.println(subList);
+            Set<Integer> set = new HashSet<Integer>();
+            if (subList.size() < 5)
+                while (set.size() < 3)
+                    set.add(new Random().nextInt(subList.size()) + 1);
+            else
+                while (set.size() < 5)
+                    set.add(new Random().nextInt(subList.size()) + 1);
+            List<Subject> subRes = new ArrayList<>();
+            Iterator<Integer> iterator = set.iterator();
+            for (int i = 0; i < set.size() && iterator.hasNext(); i++) {
+                subRes.add(subList.get(iterator.next()));
+            }
+            System.out.println(subRes);
         }
-        System.out.println(subRes);
         return "Chapters";
     }
-    /*@GetMapping("/info")
-    @ResponseBody
-    public Course info(@RequestParam("cid")String cid){
-        return cMap.findCourseByID(cid);
-    }*/
+
+
+    //@GetMapping("/")
 
 
 }

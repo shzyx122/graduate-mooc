@@ -82,11 +82,12 @@ public class TeaController {
     public String upPic(@PathVariable String cid,@RequestParam("cFile") MultipartFile file, HttpSession session){
         System.out.println(cid);
         System.out.println("将要上传");
-        String tname=(String)session.getAttribute("tuser");
-        String path="imgs"; //static/imgs/
-        lt.staticRes(path,file);
+        //String tname=(String)session.getAttribute("tuser");
         Course c = coum.findCourseByID(cid);
-        path=file.getOriginalFilename();
+        String path="imgs"; //static/imgs/
+        path=lt.staticRes(path,file,c.getCname());  //以课程名命名的图片
+        //Course c = coum.findCourseByID(cid);
+        //path=file.getOriginalFilename();
         System.out.println(path);
         c.setPicPath(path);
         coum.update(c);
@@ -165,7 +166,7 @@ public class TeaController {
         String cid=(String)session.getAttribute("cRoot");
         String tname=(String)session.getAttribute("tuser");
         String path=tname+"\\"+cid+"\\"+chid+"_video\\";
-        lt.upload(path,file);
+        lt.upload(path,file);   //废弃 ，要像图片那样  以章节名命名
         Chapter ch = chm.findChapterByID(chid);
         path+=file.getOriginalFilename();
         System.out.println(path);

@@ -4,37 +4,43 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.graduate.mooc.mapper.MatchMap">
     <resultMap id="result" type="com.graduate.mooc.domain.Match">
-        <result property="aname" column="aname" />
-        <result property="pass" column="pass" />
+        <id property="mno" column="mno" />
+        <result property="sno" column="sno" />
+        <result property="subno" column="subno" />
+        <result property="taskno" column="taskno" />
+        <result property="choice" column="choice" />
+        <result property="state" column="state" />
     </resultMap>
 
     <select id="ListMatch" resultMap="result">
-        SELECT * FROM match
+        SELECT * FROM mat
     </select>
 
-    <select id="findMatchByName" resultMap="result">
-        SELECT * FROM match where aname=#{aname}
+    <select id="findMatchByInfo" resultMap="result">
+        SELECT * FROM mat where sno=#{sno} and taskno=#{taskno}
     </select>
 
     <insert id="insertMatch" parameterType="com.graduate.mooc.domain.Match"
             keyProperty="id" useGeneratedKeys="true">
-        INSERT INTO user
-        (
-            id,name,password,number
-        )
+        <selectKey keyProperty="mno" resultType="String" order="BEFORE">
+            select replace(UUID(),"-","")
+        </selectKey>
+        INSERT INTO mat
         VALUES (
-            #{id},
-            #{name, jdbcType=VARCHAR},
-            #{password, jdbcType=VARCHAR},
-            #{number}
+            #{mno},
+            #{sno},
+            #{subno, jdbcType=VARCHAR},
+            #{taskno, jdbcType=VARCHAR},
+            #{choice},
+            #{state"}
         )
     </insert>
 
-    <delete id="delete" parameterType="int">
-        delete from user where id=#{id}
+    <delete id="delete" parameterType="String">
+        delete from mat where mno=#{mno}
     </delete>
 
     <update id="Update" parameterType="com.graduate.mooc.domain.Match">
-        update user set user.name=#{name},user.password=#{password},user.number=#{number} where user.id=#{id}
+        update mat set mat.name=#{name},mat.password=#{password},mat.number=#{number} where mat.id=#{id}
     </update>
 </mapper>

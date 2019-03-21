@@ -166,7 +166,8 @@ public class TeaController {
         String cid=(String)session.getAttribute("cRoot");
         String tname=(String)session.getAttribute("tuser");
         String path=tname+"\\"+cid+"\\"+chid+"_video\\";
-        lt.upload(path,file);   //废弃 ，要像图片那样  以章节名命名
+//废弃 ，要像图片那样  以章节名命名
+        lt.upload(path,file);
         Chapter ch = chm.findChapterByID(chid);
         path+=file.getOriginalFilename();
         System.out.println(path);

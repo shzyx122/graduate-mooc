@@ -276,7 +276,7 @@
             success: function (data) {
                 for (var i = 0; i < data.length; i++) {
                     $(".leveltwo").append("<h3 class='clearfix'><span class='icon'> <span class='chapterNumber'>"+i+"</span>");
-                    $(".leveltwo h3").append("<a href='/study/"+data[i].chid+"'>" + data[i].chname + "</a>\n");
+                    $(".leveltwo h3").append("<a href='course/study/"+data[i].chid+"'>" + data[i].chname + "</a>\n");
                     $(".leveltwo").append("</h3>");
                 }
             }

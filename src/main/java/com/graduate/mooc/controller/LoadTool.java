@@ -34,7 +34,8 @@ public class LoadTool {
         String suffix=file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
         String filename=file.getName()+suffix;   //表单file控件的name属性值
         System.out.println("文件本体-----"+filename);
-
+//HttpServletRequest request.session.getServletContext.getRealPath(服务器文件上传的路径前缀)
+        //配置文件中 img.location = /img  然后bean中的属性上面 @Value("${img.location}") 配置文件里面默认是target里面的xxxxsnapshot下
         System.out.println(name+suffix);
         File serverFile=new File(dir+name+suffix);//file.getOriginalFilename());
         try {

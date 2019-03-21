@@ -2,6 +2,7 @@ package com.graduate.mooc.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.graduate.mooc.domain.*;
+import com.graduate.mooc.entity.Dict;
 import com.graduate.mooc.entity.Hiddendanger;
 import com.graduate.mooc.mapper.*;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
@@ -79,7 +80,7 @@ progress点击章节链接过来的
         session.setAttribute("taskno",null);
 
         //匹配随机题目
-  //if match  表中当前task里面该名学生没有和该章节的关联则
+  //if match  表中当前task里面该名学生没有和该章节的关联则  insert match
         List<Match> mlist = matMap.findMatchByInfo(sno,taskno);
         if(mlist==null) {
             List<Subject> subList = subMap.findSubjectByChid(chid);
@@ -97,6 +98,12 @@ progress点击章节链接过来的
                 subRes.add(subList.get(iterator.next()));
             }
             System.out.println(subRes);
+
+            Match mat = new Match();
+            mat.setSno(sno);
+            mat.setState(-1);
+            //mat.setTaskno(taskno); //task
+            matMap.insertMatch(mat);
         }
         return "Chapters";
     }
@@ -150,11 +157,34 @@ public void uploadPicture(Hiddendanger hiddendanger,HttpServletRequest request) 
     System.out.println(hiddendanger);
 }
 
-    @GetMapping("/type")
+    @GetMapping("/getEquipById")
     @ResponseBody
-    public String[] type(){
-        String[] s={"A001","B002","C003","D004"};
-        return s;
+    public List<Map<String,Object>> getEquipById(@RequestParam(name = "ID") String ID){
+        List<Map<String,Object>> dic = new ArrayList<>();
+        Map<String,Object> map = new HashMap<>();
+        map.put("ID","1");
+        map.put("EQUIP_NUMBER","num1");
+        map.put("EQUIP_TYPE","t1");
+        dic.add(map);
+        Map<String,Object> map2 = new HashMap<>();
+        map2.put("ID","11");
+        map2.put("EQUIP_NUMBER","num11");
+        map2.put("EQUIP_TYPE","t11");
+        dic.add(map2);
+        return dic;
     }
 
+    @RequestMapping("/getDict")
+    @ResponseBody
+    public List<Dict> getDict(@RequestParam(name = "TNAME") String TNAME){
+        try {
+            List<Dict> dic = new ArrayList<>();
+            dic.add(new Dict("value1","type1"));
+            dic.add(new Dict("value2","type2"));
+            dic.add(new Dict("value3","type3"));
+            return dic;
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

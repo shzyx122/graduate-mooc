@@ -46,12 +46,12 @@
     $(document).ready( function () {
         $.get("/course/getVideo",function(data){
             alert(data);
-            $("video").attr('src','<%=basePath%>static/videos/'+data);
-            $("video").bind('play',function(){
+            $("video").attr('src','<%=basePath%>static/videos/'+data);//获取视频资源
+            $("video").bind('play',function(){ //一旦播放就统计播放量？点击量
 
             });
 
-            $("video").bind('ended',function(){
+            $("video").bind('ended',function(){ //播放完成意味着任务点完成
                 alert($("video").attr("currentTime"));
             });
         });

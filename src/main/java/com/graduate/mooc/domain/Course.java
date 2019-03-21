@@ -1,6 +1,7 @@
 package com.graduate.mooc.domain;
 
 import java.math.BigInteger;
+import java.util.List;
 
 public class Course {
     private String cid;
@@ -10,6 +11,15 @@ public class Course {
     private int state;
     private String picPath;
     private String discrip;
+    private List<Chapter> chapters;
+
+    public List<Chapter> getChapters() {
+        return chapters;
+    }
+
+    public void setChapters(List<Chapter> chapters) {
+        this.chapters = chapters;
+    }
 
     public String getDiscrip() {
         return discrip;

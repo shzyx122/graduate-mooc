@@ -4,17 +4,24 @@ public class Match {
     private String mno;
     private String sno;
     private String subno;
-    private String taskno;
+    private Task task;
     private String choice;
     private int state;
 
-    public String getTaskno() {
+    public Task getTask() {
+        return task;
+    }
+
+    public void setTaskno(Task task) {
+        this.task = task;
+    }
+/*public String getTaskno() {
         return taskno;
     }
 
     public void setTaskno(String taskno) {
         this.taskno = taskno;
-    }
+    }*/
 
     public String getChoice() {
         return choice;

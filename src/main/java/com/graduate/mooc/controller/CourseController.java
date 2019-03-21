@@ -72,12 +72,12 @@ progress点击章节链接过来的
     @GetMapping("/study/{chid}")  //习题关联 准备观看视频
     public String study(@PathVariable String chid,HttpSession session){
         String sno = (String)session.getAttribute("suser");
-        String taskno = (String)session.getAttribute("taskno");
+        String taskno = (String)session.getAttribute("myTask");
         System.out.println(sno+" "+taskno);
 
         Chapter chapter = chMap.findChapterByID(chid);
         session.setAttribute("myChapter",chapter);
-        session.setAttribute("taskno",null);
+        //session.setAttribute("myTask",null);
 
         //匹配随机题目
   //if match  表中当前task里面该名学生没有和该章节的关联则  insert match
@@ -111,9 +111,9 @@ progress点击章节链接过来的
 
     @GetMapping("/getVideo")
     public String getVideo(HttpSession session){
-        String chid=(String)session.getAttribute("myChapter");
-        System.out.println(chid);
-        Chapter ch = chMap.findChapterByID(chid);
+        Chapter ch=(Chapter) session.getAttribute("myChapter");
+        System.out.println(ch);
+         //= chMap.findChapterByID(chid);
         String vPath = ch.getVideo();
         System.out.println(vPath);
         return vPath;

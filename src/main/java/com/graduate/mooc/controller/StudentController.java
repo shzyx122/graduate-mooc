@@ -27,7 +27,7 @@ public class StudentController {
 
     @Autowired
     TaskMap tkMap;
-
+//要解决重复提交的问题就要在info页面判断登录状态更改按钮
     @GetMapping("/attend")
     public String attend(@RequestParam("taskno") String taskno,@RequestParam("stu") String stu,
                          HttpSession session){

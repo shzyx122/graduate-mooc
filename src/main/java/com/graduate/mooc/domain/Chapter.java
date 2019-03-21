@@ -1,11 +1,31 @@
 package com.graduate.mooc.domain;
 
+import java.util.List;
+
 public class Chapter {
     private String chid;
     private String chname;
+    //private Course course;
     private String cid;         //应该也要换成实体
     private int exstate;
     private String video;
+    //private List<Subject> subjects;
+
+    /*public List<Subject> getSubjects() {
+        return subjects;
+    }
+
+    public void setSubjects(List<Subject> subjects) {
+        this.subjects = subjects;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
+    }*/
 
     public String getChid() {
         return chid;
@@ -53,7 +73,7 @@ public class Chapter {
     public String toString() { //"child='"+child+"',chname='"+....
         return "Chapter{" +
                 "chid='" + chid + '\'' +", chname='" + chname + '\'' +
-                ", cid='" + cid + '\'' +
+                //", cid='" + cid + '\'' +
                 ", video='" + video + '\'' +
                 ", ex='" + exstate + '\'' +
                 '}';

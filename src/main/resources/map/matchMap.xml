@@ -13,7 +13,7 @@
             <id property="taskno" column="taskno" />
             <result property="begin" column="begin" />
             <result property="end" column="end" />
-            <association property="course"  javaType="com.graduate.mooc.domain.Course">
+            <association property="course"  javaType="com.graduate.mooc.domain.Course" column="cid" select="findCourseByID">
                 <id property="cid" column="cid" />
                 <result property="cname" column="cname" />
                 <result property="during" column="during" />
@@ -25,13 +25,17 @@
         </association>
     </resultMap>
 
+    <select id="findCourseByID" resultType="com.graduate.mooc.domain.Course">
+        SELECT * FROM course where cid=#{cid}
+    </select>
+
     <select id="ListMatch" resultMap="result">
         SELECT * FROM mat
     </select>
 
     <select id="findMatchByInfo" resultMap="result">
-        SELECT * FROM mat m,task t,course c,chapter ch where m.taskno=t.taksno and
-            t.cid=c.cid and ch.cid=c.cid and sno=#{sno} and taskno=#{task.taskno}
+        SELECT * FROM mat ,task ,course c,chapter ch where mat.taskno=task.taskno and
+            task.cid=c.cid and ch.cid=c.cid and mat.sno=#{arg0} and mat.taskno=#{arg1}
     </select>
 
     <insert id="insertMatch" parameterType="com.graduate.mooc.domain.Match"

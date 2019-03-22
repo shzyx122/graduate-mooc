@@ -320,9 +320,11 @@
             async: false,
             success: function (data) {
                 for (var i = 0; i < data.length; i++) {
-                    $(".leveltwo").append("<h3 class='clearfix'><span class='icon'>"+(i+2)+"<a href='/course/study/"+data[i].chid+"'>" + data[i].chname + "</a>\n <span class='chapterNumber'></span>");
-                    //$(".leveltwo h3:eq("+i+")").append("");
-                    $(".leveltwo").append("</h3>");
+                    $(".leveltwo").append("<h3 class='clearfix'><span class='icon'>"+(i+2)+
+                        "<a href='/course/study/"+data[i].chid+"'>" + data[i].chname +
+                        "</a>\n <span class='chapterNumber'></span></h3>");
+
+
                 }
             }
         });

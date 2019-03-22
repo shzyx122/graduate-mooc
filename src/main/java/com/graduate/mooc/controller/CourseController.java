@@ -76,7 +76,7 @@ progress点击章节链接过来的
         System.out.println(sno+" "+taskno);
 
         Chapter chapter = chMap.findChapterByID(chid);
-        session.setAttribute("myChapter",chapter);
+        session.setAttribute("myChapter",chapter.getChid());
         //session.setAttribute("myTask",null);
 
         //匹配随机题目
@@ -110,10 +110,13 @@ progress点击章节链接过来的
 
 
     @GetMapping("/getVideo")
-    public String getVideo(HttpSession session){
-        Chapter ch=(Chapter) session.getAttribute("myChapter");
+    @ResponseBody
+    public String getVideo(@RequestParam("myCh")String myCh, HttpSession session){
+        //Chapter ch=(Chapter) session.getAttribute("myChapter");
+
+        System.out.println("video ch "+myCh);
+        Chapter ch = chMap.findChapterByID(myCh);
         System.out.println(ch);
-         //= chMap.findChapterByID(chid);
         String vPath = ch.getVideo();
         System.out.println(vPath);
         return vPath;

@@ -10,7 +10,7 @@ import java.util.List;
 @Component
 @Mapper
 public interface LearnMap {
-    List<Learn> findLearnBySno(String sno);
+    Learn findLearnByInfo(String sno,String taskno);
 
     List<Learn> findLearnByID(String id);
 

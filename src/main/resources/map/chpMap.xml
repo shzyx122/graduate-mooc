@@ -9,8 +9,7 @@
         <result property="exstate" column="exstate" />
         <result property="video" column="video" />
         <result property="cid" column="cid" />
-
-
+        <result property="click" column="click" />
     </resultMap>
 
 
@@ -43,6 +42,7 @@
             #{course.cid, jdbcType=VARCHAR},
             #{exstate,jdbcType=INTEGER},
             #{video, jdbcType=VARCHAR}
+            #{click}
         )
     </insert>
 
@@ -54,4 +54,27 @@
         update chapter set chapter.chname=#{arg1},chapter.video=#{arg2},chapter.exstate=#{arg3}
         where chapter.chid=#{arg0}
     </update>
+
+    <update id="upEntity">
+        update chapter
+        <set>
+            <if test=" chname  != null  and chname  != ''">
+                chname =#{chname }
+            </if>
+            <if test=" exstate!= null ">
+                exstate=#{exstate}
+            </if>
+            <if test=" video   != null  and video  != ''">
+                video  =#{video  }
+            </if>
+        </set>
+        where chid=#{chid}
+    </update>
+
+    <update id="click">
+        update chapter set click=#{arg1} where chid=#{arg0}
+
+
+    </update>
+
 </mapper>

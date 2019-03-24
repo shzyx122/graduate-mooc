@@ -15,9 +15,17 @@
 <div id="wrapper">
     <div id="page-wrapper">
         <div class="container-fluid">
+            <div id="current">当前时长：0:00</div>
+            <div id="duration">总时长：0:00</div>
             <div class="left" style="margin-right: 310px;">
 
             </div>
+
+            <span id="pro"></span>
+            <div class="progress progress-striped active" style="width:100%">
+	        <span id="hyTime" class="progress-bar progress-bar-success"  role="progressbar"  aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"      >
+	        </span>
+            </div> <span id="hy" ></span>
             <div class="right ui-widget-content" id="selector" style="right: 0px;">
                 <div class="switchbtn" style="background-position: 0px -45px;"></div><!--右侧目录隐藏-->
                 <div class="showcontent">
@@ -60,19 +68,45 @@
         $.get("/course/getVideo?myCh=" + chapter, function (data) {
             alert(data);
             //if(data!=''&&!data) {
-                $(".left").append('<video src="" width="320" height="240" controls="controls">\n' +
+            $(".left").append('<video src="<%=basePath%>static/videos/'+ data+'" width="320" height="240" controls="controls">\n' +
                     '                Your browser does not support the video tag.\n' +
-                    '            </video>')
-                $("video").attr('src', '<%=basePath%>static/videos/' + data);//获取视频资源
-                $("video").bind('play', function () { //一旦播放就统计播放量？点击量
+                    '            </video>');
 
-                });
+            $(".left").append('<p>播放量: <span id="play">  </span> </p>')
+            $(".left").append('<p>浏览时长: <span id="view">  </span> </p>')
 
-                $("video").bind('ended', function () { //播放完成意味着任务点完成
-                    alert($("video").attr("currentTime"));
-                });
+            $("video").bind('play', function () { //一旦播放就统计播放量？点击量
+                $.post("/course/play?myCh="+chapter);//chapter表+1，用户播放时间开始累计
+                //alert(this.duration);  //视频总长
+            });
+
+            $("video").bind('ended', function () { //播放完成意味着任务点完成  并且video表观看次数+1
+                //alert(this.currentTime);  //视频当前时长
+            });
+
+            $("video").bind('pause',function(){
+                //alert(this.currentTime);
+            });
+
+            $("video").on("timeupdate",function(event){
+                onTrackedVideoFrame(this.currentTime, this.duration);
+            });
+
            // }
         });
+    }
+
+    function onTrackedVideoFrame(currentTime, duration){
+
+        $("#current").text(currentTime);
+        $("#duration").text(duration);
+        var a=currentTime/duration;
+        var b=(a*100).toFixed(0)+"%";
+        document.getElementById('hyTime').style.width=b;
+        $("#hy").text(b);
+        if(currentTime==duration){
+            $("#pro").text("(已完成)");
+        }
     }
 
     $(document).ready( function () {
@@ -93,6 +127,7 @@
                 }
             }
         });
+
     });
 </script>
 

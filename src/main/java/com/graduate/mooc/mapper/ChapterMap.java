@@ -23,4 +23,8 @@ public interface ChapterMap {
     public void delete(String id);
 
     public void update(String chid,String chname,String video,int exstate);
+
+    void upEntity(Chapter ch);
+
+    void click(String chid,int click);
 }

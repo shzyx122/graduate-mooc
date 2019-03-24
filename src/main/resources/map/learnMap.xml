@@ -4,13 +4,14 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.graduate.mooc.mapper.LearnMap">
     <resultMap id="result" type="com.graduate.mooc.domain.Learn">
+        <id property="lno" column="lno" />
         <result property="grade" column="grade" />
 
         <association property="task"  javaType="com.graduate.mooc.domain.Task">
             <id property="taskno" column="taskno" />
             <result property="begin" column="begin" />
             <result property="end" column="end" />
-            <association property="course"  javaType="com.graduate.mooc.domain.Course">
+            <association property="course" column="cid" javaType="com.graduate.mooc.domain.Course">
                 <id property="cid" column="cid" />
                 <result property="cname" column="cname" />
                 <result property="during" column="during" />
@@ -21,7 +22,8 @@
             </association>
         </association>
 
-        <association property="stu" javaType="com.graduate.mooc.domain.Student">
+        <association property="stu"  javaType="com.graduate.mooc.domain.Student">
+            <id property="sno" column="sno" />
             <result property="name" column="name" />
             <result property="pass" column="pass" />
         </association>
@@ -32,8 +34,15 @@
             left join course c on t.cid = c.cid left join stu on l.sno=stu.sno
     </select>
 
-    <select id="findLearnBySno" resultMap="result">
-        SELECT * FROM learn where sno=#{stu.sno}
+    <select id="findLearnByInfo" resultMap="result" >
+        SELECT * FROM learn where 1=1
+        <if test="0 !=null and 0 != ''">
+            and sno=#{arg0}
+        </if>
+        <if test="param2 !=null and param2 != ''">
+            and taskno=#{param2}
+        </if>
+
     </select>
 
     <insert id="insertLearn" parameterType="com.graduate.mooc.domain.Learn"

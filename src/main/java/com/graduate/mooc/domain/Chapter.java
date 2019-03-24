@@ -9,6 +9,7 @@ public class Chapter {
     private String cid;         //应该也要换成实体
     private int exstate;
     private String video;
+    private int click;
     //private List<Subject> subjects;
 
     /*public List<Subject> getSubjects() {
@@ -26,6 +27,14 @@ public class Chapter {
     public void setCourse(Course course) {
         this.course = course;
     }*/
+
+    public int getClick() {
+        return click;
+    }
+
+    public void setClick(int click) {
+        this.click = click;
+    }
 
     public String getChid() {
         return chid;

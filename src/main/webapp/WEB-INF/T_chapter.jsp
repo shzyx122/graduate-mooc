@@ -67,7 +67,8 @@
                     contentType: false,
                     processData: false,
                     success: function (data) {
-                        $('#dataTables-example').DataTable().ajax.reload();
+                        window.location.reload();
+                        //$('#dataTables-example').DataTable().ajax.reload(null,false);
                     },
                     error: function (data) {
                     }
@@ -506,7 +507,7 @@
                     "render" : function(data, type, row, meta) {
                         data='<a href="<%=basePath%>delch?ch='+row.chid+'" >删除</a></br>';
                         if(row.video!=='')
-                            data+='视频已被上传</br><a href="#" onclick="uploadVideo(\\\'\'+row.chid+\'\\\')">重传视频</a></br>'; //改成重传和查看  重传可能需要删除原先目录的文件
+                            data+='视频已被上传</br><a href="#" onclick="uploadVideo(\''+row.chid+'\')">重传视频</a></br>'; //改成重传和查看  重传可能需要删除原先目录的文件
                         else data+='<a href="#" onclick="uploadVideo(\''+row.chid+'\')">上传视频</a></br>';
                         data+='<a href="<%=basePath%>subject/'+row.chid+'" >查看题库</a></br>'
                         return data;

@@ -163,18 +163,34 @@ public class TeaController {
     public String upvideo(@PathVariable String chid,@RequestParam("chFile") MultipartFile file, HttpSession session){
         System.out.println(chid);
         System.out.println("将要上传");
+        Chapter ch = chm.findChapterByID(chid);
         String cid=(String)session.getAttribute("cRoot");
         String tname=(String)session.getAttribute("tuser");
-        String path=tname+"\\"+cid+"\\"+chid+"_video\\";
-//废弃 ，要像图片那样  以章节名命名
-        lt.upload(path,file);
-        Chapter ch = chm.findChapterByID(chid);
-        path+=file.getOriginalFilename();
+        String path="videos";
+        path=lt.staticRes(path,file,ch.getChname());
         System.out.println(path);
-        chm.update(chid,ch.getChname(),path,ch.getExstate()); //数据库中path存相对server的路径
+        ch.setVideo(path);
+        System.out.println(ch);
+        chm.update(chid,ch.getChname(),path,ch.getExstate());  //update 用if判断的时候就会乱码，普通sql不会
+        //chm.upEntity(ch);
+        //String path=tname+"\\"+cid+"\\"+chid+"_video\\";
+//废弃 ，要像图片那样  以章节名命名
+        //lt.upload(path,file);
+
+        /*path+=file.getOriginalFilename();
+        System.out.println(path);
+        chm.update(chid,ch.getChname(),path,ch.getExstate()); //数据库中path存相对server的路径*/
         return "redirect:/chapter/"+cid;
     }
-
+/*
+String path="imgs"; //static/imgs/
+        path=lt.staticRes(path,file,c.getCname());  //以课程名命名的图片
+        //Course c = coum.findCourseByID(cid);
+        //path=file.getOriginalFilename();
+        System.out.println(path);
+        c.setPicPath(path);
+        coum.update(c);
+ */
 
     @RequestMapping(value="/delch",method = RequestMethod.GET)  //删除章节
     public String delchap(@RequestParam("ch") String chid, HttpSession session)  {

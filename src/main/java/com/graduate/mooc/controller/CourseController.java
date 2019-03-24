@@ -76,7 +76,7 @@ progress点击章节链接过来的
         System.out.println(sno+" "+taskno);
 
         Chapter chapter = chMap.findChapterByID(chid);
-        session.setAttribute("myChapter",chapter.getChid());
+        session.setAttribute("myChapter",chid);
         //session.setAttribute("myTask",null);
 
         //匹配随机题目
@@ -121,6 +121,18 @@ progress点击章节链接过来的
         System.out.println(vPath);
         return vPath;
     }
+
+
+    @PostMapping("/play")   //
+    @ResponseBody
+    public String play(@RequestParam("myCh")String mych){
+        System.out.println(mych);
+        int click=chMap.findChapterByID(mych).getClick()+1;
+        chMap.click(mych,click);
+        System.out.println(chMap.findChapterByID(mych));
+        return "success";
+    }
+
 
 //小程序测试
 @RequestMapping(value = "/hidden/uploadPic", method = {RequestMethod.POST, RequestMethod.GET})

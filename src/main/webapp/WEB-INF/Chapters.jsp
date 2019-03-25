@@ -81,6 +81,7 @@
             });
 
             $("video").bind('ended', function () { //播放完成意味着任务点完成  并且video表观看次数+1
+                $.post("/student/learned?myCh="+chapter);
                 //alert(this.currentTime);  //视频当前时长
             });
 

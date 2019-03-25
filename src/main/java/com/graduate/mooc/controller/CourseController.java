@@ -3,7 +3,7 @@ package com.graduate.mooc.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.graduate.mooc.domain.*;
 import com.graduate.mooc.entity.Dict;
-import com.graduate.mooc.entity.Hiddendanger;
+import com.graduate.mooc.entity.Hoist;
 import com.graduate.mooc.mapper.*;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,21 +53,19 @@ public class CourseController {
         return "CoursesInfo";
     }
 
-    //进入页面就查询该门课程(没有结束的)
+    /*
+    进入courseinfo页面就查询该门课程所有安排(没有结束的)
+     */
     @GetMapping("/info")
     @ResponseBody
     public List<Task> query(HttpSession session){
         String cid=(String)session.getAttribute("reqCid");
         System.out.println(tMap.findTaskByCID(cid));
-       /* String user = (String)session.getAttribute("suser");//这坨似乎不需要 如果前端你是java代码获取的话
-        JSONObject nn = new JSONObject();
-        nn.put("suser", user);
-        session.setAttribute("suser", nn);*/
         return tMap.findTaskByCID(cid);
     }
 
 /*
-progress点击章节链接过来的
+progress点击章节链接过来的  insert learn
  */
     @GetMapping("/study/{chid}")  //习题关联 准备观看视频
     public String study(@PathVariable String chid,HttpSession session){
@@ -108,12 +106,13 @@ progress点击章节链接过来的
         return "Chapters";
     }
 
-
+/*
+进入chapters 获取视频
+ */
     @GetMapping("/getVideo")
     @ResponseBody
     public String getVideo(@RequestParam("myCh")String myCh, HttpSession session){
         //Chapter ch=(Chapter) session.getAttribute("myChapter");
-
         System.out.println("video ch "+myCh);
         Chapter ch = chMap.findChapterByID(myCh);
         System.out.println(ch);
@@ -123,7 +122,7 @@ progress点击章节链接过来的
     }
 
 
-    @PostMapping("/play")   //
+    @PostMapping("/play")   //点击播放 chapter 增加播放量   当前学生
     @ResponseBody
     public String play(@RequestParam("myCh")String mych){
         System.out.println(mych);
@@ -137,9 +136,10 @@ progress点击章节链接过来的
 //小程序测试
 @RequestMapping(value = "/hidden/uploadPic", method = {RequestMethod.POST, RequestMethod.GET})
 @ResponseBody  //@RequestParam(value = "file", required = false) MultipartFile[] multipartFile
-public void uploadPicture(Hiddendanger hiddendanger,HttpServletRequest request) throws IOException {
+public void uploadPicture(Hoist Hoist,HttpServletRequest request) throws IOException {
     System.out.println("start：");
     System.out.println("request：" + request);
+    System.out.println(Hoist);
     boolean isMultipart = ServletFileUpload.isMultipartContent(request);
     if(isMultipart){
         MultipartHttpServletRequest mulReq= WebUtils.getNativeRequest(request,MultipartHttpServletRequest.class);
@@ -169,7 +169,7 @@ public void uploadPicture(Hiddendanger hiddendanger,HttpServletRequest request) 
     ;
     //裁剪用户id
 
-    System.out.println(hiddendanger);
+    System.out.println(Hoist);
 }
 
     @GetMapping("/getEquipById")

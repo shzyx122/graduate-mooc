@@ -2,16 +2,11 @@ package com.graduate.mooc.controller;
 
 import com.graduate.mooc.domain.Chapter;
 import com.graduate.mooc.domain.Learn;
-import com.graduate.mooc.mapper.ChapterMap;
-import com.graduate.mooc.mapper.LearnMap;
-import com.graduate.mooc.mapper.StudentMap;
-import com.graduate.mooc.mapper.TaskMap;
+import com.graduate.mooc.domain.Video;
+import com.graduate.mooc.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -32,11 +27,17 @@ public class StudentController {
     TaskMap tkMap;
 
     @Autowired
+    CourseMap cMap;
+
+    @Autowired
     ChapterMap chMap;
 
     @Autowired
     StudentMap stuMap;
-//要解决重复提交的问题就要在info页面判断登录状态更改按钮
+
+    @Autowired
+    VideoMap vMap;
+
     @GetMapping("/attend")
     public String attend(@RequestParam("taskno") String taskno,@RequestParam("stu") String stu,
                          HttpSession session){
@@ -50,22 +51,37 @@ public class StudentController {
             l.setStu(stMap.findStudentByName(stu));
             l.setTask(tkMap.findTaskByTno(taskno));
             lMap.insertLearn(l);
+
+            //video表所有章节关联
+
+            List<Chapter> chs = chMap.findChapterByCID((String)session.getAttribute("cRoot"));
+            for(Chapter ch:chs){  //创建video表
+                Video v = new Video();
+                v.setSno(sno);
+                v.setPlay(0);
+                v.setState(0);
+                v.setChid(ch.getChid());
+                vMap.addVideo(v);
+            }
         }
         System.out.println("learn succeeded  " + session.getAttribute("cRoot"));
-        //video表所有章节关联
-        List<Chapter> chs = chMap.findChapterByCID((String)session.getAttribute("cRoot"));
-        for(Chapter ch:chs){
-            //insert into video ch.get chid sno state=0 play=0 time
-
-        }
-
-
             //跳转至学习进度页面   原先入口页面在登录状态下更改按钮
         session.setAttribute("myTask", taskno);  //设置任务 以后操作根据任务来
 
         return "progress";
     }
 
-    /*@GetMapping("/learned")
-    public String learned()*/
+    @PostMapping("/learned")  //end 之后 play字段+1
+    @ResponseBody
+    public String learned(@RequestParam("myCh")String chid,HttpSession session){
+        String sno = (String)session.getAttribute("suser");
+        String stu=stuMap.findStudentByName(sno).getSno();
+        Video v = new Video();
+        v.setChid(chid);
+        v.setSno(stu);
+        Video vc=vMap.ListVideo(v).get(0);
+        vc.setPlay(vc.getPlay()+1);
+        vMap.updateVideo(vc);
+        return "finished this watch";
+    }
 }

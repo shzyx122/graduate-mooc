@@ -17,7 +17,10 @@
     </select>
 
     <insert id="insertStudent" parameterType="com.graduate.mooc.domain.Student"
-            keyProperty="id" useGeneratedKeys="true">
+            useGeneratedKeys="true">
+        <selectKey keyProperty="id" resultType="String" order="BEFORE">
+            select replace(UUID(),"-","")
+        </selectKey>
         INSERT INTO stu
         (
             sno,name,pass

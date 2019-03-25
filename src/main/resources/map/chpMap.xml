@@ -59,13 +59,13 @@
         update chapter
         <set>
             <if test=" chname  != null  and chname  != ''">
-                chname =#{chname }
+                chname =#{chname },
             </if>
             <if test=" exstate!= null ">
-                exstate=#{exstate}
+                exstate=#{exstate},
             </if>
-            <if test=" video   != null  and video  != ''">
-                video  =#{video  }
+            <if test=" video != null  and video  != ''">
+                video  =#{video  },
             </if>
         </set>
         where chid=#{chid}

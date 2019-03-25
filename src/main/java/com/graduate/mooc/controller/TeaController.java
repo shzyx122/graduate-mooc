@@ -171,8 +171,8 @@ public class TeaController {
         System.out.println(path);
         ch.setVideo(path);
         System.out.println(ch);
-        chm.update(chid,ch.getChname(),path,ch.getExstate());  //update 用if判断的时候就会乱码，普通sql不会
-        //chm.upEntity(ch);
+        //chm.update(chid,ch.getChname(),path,ch.getExstate());  //update 用if判断的时候就会乱码，普通sql不会
+        chm.upEntity(ch);
         //String path=tname+"\\"+cid+"\\"+chid+"_video\\";
 //废弃 ，要像图片那样  以章节名命名
         //lt.upload(path,file);

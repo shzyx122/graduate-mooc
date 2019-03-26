@@ -45,6 +45,9 @@ public class CourseController {
     @Autowired
     ChapterMap chMap;
 
+    @Autowired
+    StudentMap stuMap;
+
     //跳转课程详情页面  需要
     @GetMapping("/front")
     public String front(@RequestParam("cour")String cid, HttpSession session){
@@ -78,11 +81,15 @@ progress点击章节链接过来的  insert learn
         //session.setAttribute("myTask",null);
 
         //匹配随机题目
-  //if match  表中当前task里面该名学生没有和该章节的关联则  insert match
+  //if match  表中当前task里面该名学生没有和该章节的关联则  insert match  需要插入更多题目判断是不是随机的
+        System.out.println();
+        System.out.println("匹配题目：");
         List<Match> mlist = matMap.findMatchByInfo(sno,taskno);
-        if(mlist==null) {
+        System.out.println(mlist);
+        if(mlist.size()==0) {
             List<Subject> subList = subMap.findSubjectByChid(chid);
-            System.out.println(subList);
+            System.out.println("章节所有题目： "+subList);
+            System.out.println("一共： "+subList.size());
             Set<Integer> set = new HashSet<Integer>();
             if (subList.size() < 5)
                 while (set.size() < 3)
@@ -90,18 +97,33 @@ progress点击章节链接过来的  insert learn
             else
                 while (set.size() < 5)
                     set.add(new Random().nextInt(subList.size()) + 1);
+            //System.out.println(set.size());
+            //System.out.println("set 里面有 "+set);
             List<Subject> subRes = new ArrayList<>();
             Iterator<Integer> iterator = set.iterator();
-            for (int i = 0; i < set.size() && iterator.hasNext(); i++) {
-                subRes.add(subList.get(iterator.next()));
+            while(iterator.hasNext()){
+                int index=iterator.next();
+                //System.out.println(index);
+                Subject temp=subList.get(index-1);
+                //System.out.println(temp);
+                subRes.add(temp);
             }
-            System.out.println(subRes);
 
-            Match mat = new Match();
-            mat.setSno(sno);
-            mat.setState(-1);
-            //mat.setTaskno(taskno); //task
-            matMap.insertMatch(mat);
+            System.out.println(sno+" 匹配到的题目是 "+subRes);
+            System.out.println(subRes.get(0).getSubno());
+            System.out.println(stuMap.findStudentByName(sno).getSno());
+            System.out.println(taskno);
+
+
+            for(Subject s:subRes) {
+                Match mat = new Match();
+                mat.setSno(stuMap.findStudentByName(sno).getSno());
+                mat.setState(-1);
+                mat.setTask(tMap.findTaskByTno(taskno)); //task
+                mat.setSubno(s.getSubno());
+                mat.setChoice("none");
+                matMap.insertMatch(mat);
+            }
         }
         return "Chapters";
     }

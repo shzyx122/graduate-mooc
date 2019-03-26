@@ -71,9 +71,12 @@
             $(".left").append('<video src="<%=basePath%>static/videos/'+ data+'" width="320" height="240" controls="controls">\n' +
                     '                Your browser does not support the video tag.\n' +
                     '            </video>');
-
+/*
+进入页面查找chapter中的click video中当前sno chid的time play
+ */
             $(".left").append('<p>播放量: <span id="play">  </span> </p>')
             $(".left").append('<p>浏览时长: <span id="view">  </span> </p>')
+            $(".left").append('<p>我的完成次数: <span id="view">  </span> </p>')
 
             $("video").bind('play', function () { //一旦播放就统计播放量？点击量
                 $.post("/course/play?myCh="+chapter);//chapter表+1，用户播放时间开始累计
@@ -82,6 +85,7 @@
 
             $("video").bind('ended', function () { //播放完成意味着任务点完成  并且video表观看次数+1
                 $.post("/student/learned?myCh="+chapter);
+                //还要统计一下时长
                 //alert(this.currentTime);  //视频当前时长
             });
 

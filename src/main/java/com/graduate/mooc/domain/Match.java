@@ -8,11 +8,13 @@ public class Match {
     private String choice;
     private int state;
 
+    //sno  taskno 是不是可以一起拼接成learn。lno
+
     public Task getTask() {
         return task;
     }
 
-    public void setTaskno(Task task) {
+    public void setTask(Task task) {
         this.task = task;
     }
 /*public String getTaskno() {

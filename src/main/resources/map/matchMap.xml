@@ -35,11 +35,11 @@
 
     <select id="findMatchByInfo" resultMap="result">
         SELECT * FROM mat ,task ,course c,chapter ch where mat.taskno=task.taskno and
-            task.cid=c.cid and ch.cid=c.cid and mat.sno=#{arg0} and mat.taskno=#{arg1}
+            task.cid=c.cid and ch.cid=c.cid and mat.sno=#{sno} and mat.taskno=#{taskno}
     </select>
 
     <insert id="insertMatch" parameterType="com.graduate.mooc.domain.Match"
-            keyProperty="id" useGeneratedKeys="true">
+            keyProperty="mno" useGeneratedKeys="true">
         <selectKey keyProperty="mno" resultType="String" order="BEFORE">
             select replace(UUID(),"-","")
         </selectKey>
@@ -48,9 +48,9 @@
             #{mno},
             #{sno},
             #{subno, jdbcType=VARCHAR},
-            #{taskno, jdbcType=VARCHAR},
-            #{choice},
-            #{state"}
+            #{choice, jdbcType=VARCHAR},
+            #{state},
+            #{task.taskno, jdbcType=VARCHAR}
         )
     </insert>
 

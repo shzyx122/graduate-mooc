@@ -37,7 +37,9 @@ public class StudentController {
 
     @Autowired
     VideoMap vMap;
-
+/*
+courseinfo 中点击加入课程
+ */
     @GetMapping("/attend")
     public String attend(@RequestParam("taskno") String taskno,@RequestParam("stu") String stu,
                          HttpSession session){
@@ -71,6 +73,9 @@ public class StudentController {
         return "progress";
     }
 
+    /*
+    chapters中看完视频之后
+     */
     @PostMapping("/learned")  //end 之后 play字段+1
     @ResponseBody
     public String learned(@RequestParam("myCh")String chid,HttpSession session){

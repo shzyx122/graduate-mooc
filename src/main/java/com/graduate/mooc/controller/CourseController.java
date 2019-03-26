@@ -84,7 +84,7 @@ progress点击章节链接过来的  insert learn
   //if match  表中当前task里面该名学生没有和该章节的关联则  insert match  需要插入更多题目判断是不是随机的
         System.out.println();
         System.out.println("匹配题目：");
-        List<Match> mlist = matMap.findMatchByInfo(sno,taskno);
+        List<Match> mlist = matMap.findMatchByInfo(stuMap.findStudentByName(sno).getSno(),taskno);
         System.out.println(mlist);
         if(mlist.size()==0) {
             List<Subject> subList = subMap.findSubjectByChid(chid);

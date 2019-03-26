@@ -51,8 +51,8 @@
     </delete>
 
     <update id="update" >
-        update chapter set chapter.chname=#{arg1},chapter.video=#{arg2},chapter.exstate=#{arg3}
-        where chapter.chid=#{arg0}
+        update chapter set chapter.chname=#{chname},chapter.video=#{video},chapter.exstate=#{exstate}
+        where chapter.chid=#{chid}
     </update>
 
     <update id="upEntity">
@@ -72,7 +72,7 @@
     </update>
 
     <update id="click">
-        update chapter set click=#{arg1} where chid=#{arg0}
+        update chapter set click=#{click} where chid=#{chid}
 
 
     </update>

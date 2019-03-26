@@ -133,14 +133,19 @@ progress点击章节链接过来的  insert learn
  */
     @GetMapping("/getVideo")
     @ResponseBody
-    public String getVideo(@RequestParam("myCh")String myCh, HttpSession session){
+    public Map<String,Object> getVideo(@RequestParam("myCh")String myCh, HttpSession session){
         //Chapter ch=(Chapter) session.getAttribute("myChapter");
         System.out.println("video ch "+myCh);
         Chapter ch = chMap.findChapterByID(myCh);
         System.out.println(ch);
         String vPath = ch.getVideo();
         System.out.println(vPath);
-        return vPath;
+        int play=ch.getClick();
+        System.out.println(play);
+        Map<String,Object> map = new HashMap<>();
+        map.put("video",vPath);
+        map.put("play",play);
+        return map;
     }
 
 

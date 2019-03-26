@@ -9,7 +9,7 @@ public class Video {  //好像是个多对多
     private String vno;
     private String chid;
     private String sno;
-    private int    state;
+
     private int    play;
     private Time   time;
 
@@ -37,13 +37,7 @@ public class Video {  //好像是个多对多
         this.sno = sno;
     }
 
-    public int getState() {
-        return state;
-    }
 
-    public void setState(int state) {
-        this.state = state;
-    }
 
     public int getPlay() {
         return play;
@@ -59,5 +53,17 @@ public class Video {  //好像是个多对多
 
     public void setTime(Time time) {
         this.time = time;
+    }
+
+    @Override
+    public String toString() {
+        return "Video{" +
+                "vno='" + vno + '\'' +
+                ", chid='" + chid + '\'' +
+                ", sno='" + sno + '\'' +
+
+                ", play=" + play +
+                ", time=" + time +
+                '}';
     }
 }

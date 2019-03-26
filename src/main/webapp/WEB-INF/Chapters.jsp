@@ -9,12 +9,24 @@
     <title>欢迎来到学习页面</title>
     <style type="text/css">
         .right{position:fixed;right:0px;top:0px;width:303px;border-left:7px solid #504f55;}
+        ul,ol,dl{list-style:none;}
+        .clearfix{overflow:hidden;zoom:1}
+        .xyTabs{position:relative;margin-top:-1px}
+        .xyTabs li{float:left;width:160px;height:68px;text-align:center;line-height:68px;font-size:16px}
+        .xyTabs li a{display:block}
+        .xyTabs li.cur{color:#38bb37;font-weight:bold;background:#f6f6f6;border-top:solid 4px #38bb37;}
+        .xyTabs li.cur a{color:#38bb37;}
     </style>
 </head>
 <body>
 <div id="wrapper">
     <div id="page-wrapper">
         <div class="container-fluid">
+            <ul class="xyTabs clearfix">
+                <li class="cur"><a href="#" id="myVid">章节视频</a></li>
+                <li><a href="#" id="mySub">章节习题</a></li>
+            </ul>
+
             <div id="current">当前时长：0:00</div>
             <div id="duration">总时长：0:00</div>
             <div class="left" style="margin-right: 310px;">
@@ -68,14 +80,14 @@
         $.get("/course/getVideo?myCh=" + chapter, function (data) {
             alert(data);
             //if(data!=''&&!data) {
-            $(".left").append('<video src="<%=basePath%>static/videos/'+ data+'" width="320" height="240" controls="controls">\n' +
+            $(".left").append('<video src="<%=basePath%>static/videos/'+ data.video+'" width="320" height="240" controls="controls">\n' +
                     '                Your browser does not support the video tag.\n' +
                     '            </video>');
 /*
 进入页面查找chapter中的click video中当前sno chid的time play
  */
-            $(".left").append('<p>播放量: <span id="play">  </span> </p>')
-            $(".left").append('<p>浏览时长: <span id="view">  </span> </p>')
+            $(".left").append('<p>播放量: <span id="play"> '+data.play+' </span> </p>')
+            $(".left").append('<p>我的浏览总时长: <span id="view">  </span> </p>')
             $(".left").append('<p>我的完成次数: <span id="view">  </span> </p>')
 
             $("video").bind('play', function () { //一旦播放就统计播放量？点击量
@@ -85,7 +97,7 @@
 
             $("video").bind('ended', function () { //播放完成意味着任务点完成  并且video表观看次数+1
                 $.post("/student/learned?myCh="+chapter);
-                //还要统计一下时长
+                //还要统计一下时长  并且浏览器关闭和页面退出也要触发
                 //alert(this.currentTime);  //视频当前时长
             });
 
@@ -132,7 +144,20 @@
                 }
             }
         });
+        var $firLi=$("ul li").eq(0);
+        var $secLi=$("ul li").eq(1);
 
+        $firLi.on("click",function(){     //视频播放
+            $('li').removeClass("cur");
+            $firLi.addClass("cur");
+
+
+        });
+
+        $secLi.on("click",function() {      //习题
+            $('li').removeClass("cur");
+            $secLi.addClass("cur");
+        });
     });
 </script>
 

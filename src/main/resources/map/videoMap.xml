@@ -16,9 +16,7 @@
         <if test=" sno!=null and   sno!= ''">
             and sno=#{sno}
         </if>
-        <if test=" state!=null ">
-            and state=#{state}
-        </if>
+
         <if test=" play!=null">
             and play=#{play}
         </if>
@@ -32,24 +30,40 @@
             select replace(UUID(),"-","")
         </selectKey>
         insert into video
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <trim prefix=" (" suffix=")" suffixOverrides=",">
             <if test=" vno!=null and   vno!= ''">
-                #{vno}
+                vno,
             </if>
             <if test=" chid!=null and  chid != ''">
-                #{chid}
+                chid,
             </if>
             <if test=" sno!=null and   sno!= ''">
-               #{sno}
+                sno,
             </if>
-            <if test=" state!=null ">
-               #{state}
-            </if>
+
             <if test=" play!=null">
-                #{play}
+                play,
             </if>
             <if test=" time!=null and   time!= ''">
-                #{time}
+                time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test=" vno!=null and   vno!= ''">
+                #{vno},
+            </if>
+            <if test=" chid!=null and  chid != ''">
+                #{chid},
+            </if>
+            <if test=" sno!=null and   sno!= ''">
+               #{sno},
+            </if>
+
+            <if test=" play!=null">
+                #{play},
+            </if>
+            <if test=" time!=null and   time!= ''">
+                #{time},
             </if>
         </trim>
     </insert>
@@ -64,9 +78,7 @@
             <if test=" sno!=null and   sno!= ''">
                 sno=#{sno},
             </if>
-            <if test=" state!=null ">
-                state=#{state},
-            </if>
+
             <if test=" play!=null">
                 play=#{play},
             </if>

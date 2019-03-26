@@ -85,6 +85,7 @@ public class Chapter {
                 //", cid='" + cid + '\'' +
                 ", video='" + video + '\'' +
                 ", ex='" + exstate + '\'' +
+                ", cl='" + click + '\'' +
                 '}';
     }
 }

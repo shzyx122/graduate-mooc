@@ -3,12 +3,21 @@ package com.graduate.mooc.domain;
 public class Match {
     private String mno;
     private String sno;
+    private Subject sub;
     private String subno;
     private Task task;
     private String choice;
     private int state;
 
     //sno  taskno 是不是可以一起拼接成learn。lno
+
+    public Subject getSub() {
+        return sub;
+    }
+
+    public void setSub(Subject sub) {
+        this.sub = sub;
+    }
 
     public Task getTask() {
         return task;

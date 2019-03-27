@@ -120,7 +120,7 @@ progress点击章节链接过来的  insert learn
                 mat.setSno(stuMap.findStudentByName(sno).getSno());
                 mat.setState(-1);
                 mat.setTask(tMap.findTaskByTno(taskno)); //task
-                mat.setSubno(s.getSubno());
+                mat.setSub(s);
                 mat.setChoice("none");
                 matMap.insertMatch(mat);
             }
@@ -149,6 +149,7 @@ progress点击章节链接过来的  insert learn
     }
 
 
+
     @PostMapping("/play")   //点击播放 chapter 增加播放量   当前学生
     @ResponseBody
     public String play(@RequestParam("myCh")String mych){
@@ -158,6 +159,18 @@ progress点击章节链接过来的  insert learn
         System.out.println(chMap.findChapterByID(mych));
         return "success";
     }
+
+
+    @GetMapping("/getSub")
+    @ResponseBody
+    public List<Match> getSub(@RequestParam("myCh")String mych){
+        System.out.println(mych);
+        List<Match> mlist = matMap.getSubject(mych);
+        System.out.println(mlist);
+        return mlist;
+    }
+
+
 
 
 //小程序测试

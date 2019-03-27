@@ -10,6 +10,9 @@
     <style type="text/css">
         .right{position:fixed;right:0px;top:0px;width:303px;border-left:7px solid #504f55;}
         ul,ol,dl{list-style:none;}
+        li{ float:left; margin-left:20px; list-style-type:none;}
+        a{color:#202020;text-decoration:none;}
+
         .clearfix{overflow:hidden;zoom:1}
         .xyTabs{position:relative;margin-top:-1px}
         .xyTabs li{float:left;width:160px;height:68px;text-align:center;line-height:68px;font-size:16px}
@@ -80,6 +83,7 @@
         $.get("/course/getVideo?myCh=" + chapter, function (data) {
             alert(data);
             //if(data!=''&&!data) {
+            $(".left").html("");
             $(".left").append('<video src="<%=basePath%>static/videos/'+ data.video+'" width="320" height="240" controls="controls">\n' +
                     '                Your browser does not support the video tag.\n' +
                     '            </video>');
@@ -150,13 +154,29 @@
         $firLi.on("click",function(){     //视频播放
             $('li').removeClass("cur");
             $firLi.addClass("cur");
-
+            getVideo(chapter);
 
         });
 
         $secLi.on("click",function() {      //习题
             $('li').removeClass("cur");
             $secLi.addClass("cur");
+            $.get('/course/getSub?myCh=' + chapter, function (data) {
+                $(".left").html("");
+                $(".left").append("<form action='student/handin'>");
+                for (var i = 0; i < data.length; i++) {
+                    $(".left").append("<input type=hidden name=chid value="+chapter+">");
+                    $(".left").append("<input type=hidden name=subno value="+data[i].subno+">");
+
+                    $(".left").append("<div>"+data[i].question+"</div>");
+                    $(".left").append("<ul><li><input type='radio' name=choice>"+data[i].aitem+"</li>");
+                    $(".left").append("<li><input type='radio' name=choice>"+data[i].bitem+"</li>");
+                    $(".left").append("<li><input type='radio' name=choice>"+data[i].citem+"</li>");
+                    $(".left").append("<li><input type='radio' name=choice>"+data[i].ditem+"</li>");
+                    $(".left").append("</ul>");
+                }
+                $(".left").append('<button type="submit" class="btn btn-default">提交</button></form>');
+            });
         });
     });
 </script>

@@ -23,6 +23,17 @@
                 <result property="discrip" column="discrip"/>
             </association>
         </association>
+        <association property="sub" column="subno" javaType="com.graduate.mooc.domain.Subject">
+            <id property="subno" column="subno" />
+            <result property="question" column="question" />
+            <result property="answer" column="answer"/>
+            <result property="aitem" column="aitem"/>
+            <result property="bitem" column="bitem"/>
+            <result property="citem" column="citem"/>
+            <result property="ditem" column="ditem"/>
+            <result property="path" column="path" />
+            <result property="percent" column="percent" />
+        </association>
     </resultMap>
 
     <select id="findCourseByID" resultType="com.graduate.mooc.domain.Course">
@@ -35,8 +46,14 @@
 
     <select id="findMatchByInfo" resultMap="result">
         SELECT * FROM mat ,task ,course c,chapter ch where mat.taskno=task.taskno and
-            task.cid=c.cid and ch.cid=c.cid and mat.sno=#{sno} and mat.taskno=#{taskno}
+            task.cid=c.cid and ch.cid=c.cid and mat.sno=#{param1} and mat.taskno=#{param2}
     </select>
+
+    <select  id="getSubject" resultMap="result">
+        select m.*,s.question,answer,aitem,bitem,citem,ditem,chid from mat m,subject s,task t
+        where m.subno=s.subno and s.chid=#{param1}
+    </select>
+
 
     <insert id="insertMatch" parameterType="com.graduate.mooc.domain.Match"
             keyProperty="mno" useGeneratedKeys="true">

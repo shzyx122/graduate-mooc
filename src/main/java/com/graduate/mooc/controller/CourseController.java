@@ -120,7 +120,7 @@ progress点击章节链接过来的  insert learn
                 mat.setSno(stuMap.findStudentByName(sno).getSno());
                 mat.setState(-1);
                 mat.setTask(tMap.findTaskByTno(taskno)); //task
-                mat.setSub(s);
+                mat.setSubject(s);
                 mat.setChoice("none");
                 matMap.insertMatch(mat);
             }
@@ -176,7 +176,7 @@ progress点击章节链接过来的  insert learn
 //小程序测试
 @RequestMapping(value = "/hidden/uploadPic", method = {RequestMethod.POST, RequestMethod.GET})
 @ResponseBody  //@RequestParam(value = "file", required = false) MultipartFile[] multipartFile
-public void uploadPicture(Hoist Hoist,HttpServletRequest request) throws IOException {
+public void uploadPicture( Hoist Hoist,HttpServletRequest request) throws IOException {
     System.out.println("start：");
     System.out.println("request：" + request);
     System.out.println(Hoist);
@@ -209,7 +209,7 @@ public void uploadPicture(Hoist Hoist,HttpServletRequest request) throws IOExcep
     ;
     //裁剪用户id
 
-    System.out.println(Hoist);
+    //System.out.println(Hoist);
 }
 
     @GetMapping("/getEquipById")

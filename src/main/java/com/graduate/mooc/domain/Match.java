@@ -3,20 +3,21 @@ package com.graduate.mooc.domain;
 public class Match {
     private String mno;
     private String sno;
-    private Subject sub;
-    private String subno;
+    private Subject subject;
+    //private String subno;
+    //private String taskno;
     private Task task;
     private String choice;
     private int state;
 
     //sno  taskno 是不是可以一起拼接成learn。lno
 
-    public Subject getSub() {
-        return sub;
+    public Subject getSubject() {
+        return subject;
     }
 
-    public void setSub(Subject sub) {
-        this.sub = sub;
+    public void setSubject(Subject sub) {
+        this.subject = sub;
     }
 
     public Task getTask() {
@@ -26,7 +27,7 @@ public class Match {
     public void setTask(Task task) {
         this.task = task;
     }
-/*public String getTaskno() {
+    /*public String getTaskno() {
         return taskno;
     }
 
@@ -50,15 +51,7 @@ public class Match {
         this.state = state;
     }
 
-    @Override
 
-    public String toString() {
-        return "Match{" +
-                "mno='" + mno + '\'' +
-                ", sno='" + sno + '\'' +
-                ", subno='" + subno + '\'' +
-                '}';
-    }
 
     public String getMno() {
         return mno;
@@ -76,11 +69,23 @@ public class Match {
         this.sno = sno;
     }
 
-    public String getSubno() {
+    /*public String getSubno() {
         return subno;
     }
 
     public void setSubno(String subno) {
         this.subno = subno;
+    }*/
+
+    @Override
+    public String toString() {
+        return "Match{" +
+                "mno='" + mno + '\'' +
+                ", sno='" + sno + '\'' +
+                ", sub=" + subject +
+                ", task=" + task +
+                ", choice='" + choice + '\'' +
+                ", state=" + state +
+                '}';
     }
 }

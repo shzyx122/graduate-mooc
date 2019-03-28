@@ -10,7 +10,7 @@ public class Subject {
     private String ditem;
     private String path;
     private int percent;
-    private Chapter chapter;
+    private Chapter chapter;   //似乎一定要用sql语句进行连表才能关联查询
 
     public Chapter getChapter() {
         return chapter;
@@ -34,7 +34,7 @@ public class Subject {
                 "subno='" + subno + '\'' +
                 ", question='" + question + '\'' +
                 ", answer='" + answer + '\'' +
-                ", chid='" + chapter.getChid() + '\'' +
+                //", chid='" + chapter.getChid() + '\'' +
                 '}';
     }
 

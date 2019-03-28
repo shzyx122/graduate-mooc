@@ -2,12 +2,14 @@ package com.graduate.mooc.controller;
 
 import com.graduate.mooc.domain.Chapter;
 import com.graduate.mooc.domain.Learn;
+import com.graduate.mooc.domain.Match;
 import com.graduate.mooc.domain.Video;
 import com.graduate.mooc.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -96,7 +98,9 @@ courseinfo 中点击加入课程
     提交习题
      */
     @PostMapping("/handin")
-    public void handin(){
-
+    public void handin(Match match, HttpServletRequest req){
+        System.out.println(match);
+        String subno = req.getParameter("subno");
+        System.out.println(subno);
     }
 }

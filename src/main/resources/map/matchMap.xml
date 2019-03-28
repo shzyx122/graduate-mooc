@@ -6,10 +6,11 @@
     <resultMap id="result" type="com.graduate.mooc.domain.Match">
         <id property="mno" column="mno" />
         <result property="sno" column="sno" />
-        <result property="subno" column="subno" />
+
         <result property="choice" column="choice" />
         <result property="state" column="state" />
-        <association property="task" javaType="com.graduate.mooc.domain.Task">
+
+        <association property="task" column="taskno" javaType="com.graduate.mooc.domain.Task">
             <id property="taskno" column="taskno" />
             <result property="begin" column="begin" />
             <result property="end" column="end" />
@@ -23,7 +24,7 @@
                 <result property="discrip" column="discrip"/>
             </association>
         </association>
-        <association property="sub" column="subno" javaType="com.graduate.mooc.domain.Subject">
+        <association property="subject"  javaType="com.graduate.mooc.domain.Subject">
             <id property="subno" column="subno" />
             <result property="question" column="question" />
             <result property="answer" column="answer"/>
@@ -45,13 +46,12 @@
     </select>
 
     <select id="findMatchByInfo" resultMap="result">
-        SELECT * FROM mat ,task ,course c,chapter ch where mat.taskno=task.taskno and
-            task.cid=c.cid and ch.cid=c.cid and mat.sno=#{param1} and mat.taskno=#{param2}
+        SELECT * FROM mat m,task t  where m.taskno=t.taskno and m.sno=#{param1} and m.taskno=#{param2}
     </select>
 
     <select  id="getSubject" resultMap="result">
         select m.*,s.question,answer,aitem,bitem,citem,ditem,chid from mat m,subject s,task t
-        where m.subno=s.subno and s.chid=#{param1}
+        where m.subno=s.subno and m.taskno=t.taskno and s.chid=#{param1}
     </select>
 
 

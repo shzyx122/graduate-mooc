@@ -30,8 +30,7 @@
                 <li><a href="#" id="mySub">章节习题</a></li>
             </ul>
 
-            <div id="current">当前时长：0:00</div>
-            <div id="duration">总时长：0:00</div>
+
             <div class="left" style="margin-right: 310px;">
 
             </div>
@@ -81,9 +80,11 @@
 
     function getVideo(chapter) {
         $.get("/course/getVideo?myCh=" + chapter, function (data) {
-            alert(data);
+            //alert(data);
             //if(data!=''&&!data) {
             $(".left").html("");
+            $(".left").append('<div id="current">当前时长：0:00</div>');
+            $(".left").append('<div id="duration">总时长：0:00</div>');
             $(".left").append('<video src="<%=basePath%>static/videos/'+ data.video+'" width="320" height="240" controls="controls">\n' +
                     '                Your browser does not support the video tag.\n' +
                     '            </video>');
@@ -116,6 +117,28 @@
            // }
         });
     }
+
+    function getSub(chapter){
+        $.get('/course/getSub?myCh=' + chapter, function (data) {
+            //alert(data[0].subject.subno);
+            //alert(chapter)
+            $(".left").html("");
+            $(".left").append("<form action='/student/handin' method=post></form>");
+            for (var i = 0; i < data.length; i++) {
+                $("form").append("<input type=hidden name=chid value="+chapter+">");
+                $("form").append("<input type=hidden name=subno value="+data[i].subject.subno+"></br>");
+
+                $("form").append("<div>"+i+"、 "+data[i].subject.question+"</div>");
+                $("form").append("<ul><li><label><input type='radio' name=choice"+i+" value=A>A. "+data[i].subject.aitem+"</label></li>");
+                $("form").append("<li><label><input  type='radio' name=choice"+i+" value=B>B. "+data[i].subject.bitem+"</label></li>");
+                $("form").append("<li><label><input type='radio' name=choice"+i+" value=C>C. "+data[i].subject.citem+"</label></li>");
+                $("form").append("<li><label><input type='radio' name=choice"+i+" value=D>D. "+data[i].subject.ditem+"</label></li>");
+                $("form").append("</ul>");
+            }
+            $("form").append('</br><input type="submit" class="btn btn-default"></input>');
+        });
+    }
+
 
     function onTrackedVideoFrame(currentTime, duration){
 
@@ -161,22 +184,7 @@
         $secLi.on("click",function() {      //习题
             $('li').removeClass("cur");
             $secLi.addClass("cur");
-            $.get('/course/getSub?myCh=' + chapter, function (data) {
-                $(".left").html("");
-                $(".left").append("<form action='student/handin'>");
-                for (var i = 0; i < data.length; i++) {
-                    $(".left").append("<input type=hidden name=chid value="+chapter+">");
-                    $(".left").append("<input type=hidden name=subno value="+data[i].subno+">");
-
-                    $(".left").append("<div>"+data[i].question+"</div>");
-                    $(".left").append("<ul><li><input type='radio' name=choice>"+data[i].aitem+"</li>");
-                    $(".left").append("<li><input type='radio' name=choice>"+data[i].bitem+"</li>");
-                    $(".left").append("<li><input type='radio' name=choice>"+data[i].citem+"</li>");
-                    $(".left").append("<li><input type='radio' name=choice>"+data[i].ditem+"</li>");
-                    $(".left").append("</ul>");
-                }
-                $(".left").append('<button type="submit" class="btn btn-default">提交</button></form>');
-            });
+            getSub(chapter);
         });
     });
 </script>

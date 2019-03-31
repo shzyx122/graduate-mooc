@@ -121,6 +121,7 @@
     var subno=[];
     var mno=[];
     var sizes=0;
+    var score=0;
     function getSub(chapter,mysno){
         $.get('/course/getSub?myCh=' + chapter+'&mySno='+mysno, function (data) {
 
@@ -129,6 +130,7 @@
                 alert(data[0].task.taskno);*/
                 //alert(chapter)
                 sizes = data.length;
+
                 $(".left").html("");
                 $(".left").append("<form action='/student/handin' method=post  ></form>");
                 $("form").append("<input type=hidden name=sno value=" + data[0].sno + ">");
@@ -147,18 +149,31 @@
                         $("form").append("<li><label><input type='radio' name=choice" + i + " value=D>D. " + data[i].subject.ditem + "</label></li>");
                         $("form").append("</ul>");
                     }else{
+                        var ch;
+                        score+=data[i].subject.percent*data[i].state;
+                        console.log(score);
+
                         $("form").append("我的答案："+data[i].choice+"</br>");
                         $("form").append("正确答案："+data[i].subject.answer+"</br>");
+                        //alert(data[i].choice==data[i].subject.answer)
+                        if(data[i].choice==data[i].subject.answer)
+                            ch="正确"
+                        else ch="错误"
+                        $("form").append("结果："+ch+"</br>");
+                       // $("form").append("结果："+data[i].choice==data[i].subject.answer?"正确":"错误");
+
                     }
                 }
+                $("form").append("得分："+score);
                 if(data[0].state==-1) {
                     $("form").append('</br><input type="button" onclick="typeSub()" value=提交 class="btn btn-default"></input>');
                 }
 
         });
+
     }
 
-    function typeSub(){
+    function typeSub(){  //提交答案
         console.log(sizes);
         var choice=[];
 
@@ -176,7 +191,7 @@
         //var mno=$("input[name='mno']").val();
         var taskno=$("input[name='taskno']").val();
         var sno=$("input[name='sno']").val();
-        var handin={"choice":choice,"subno":subno,"mno":mno,"taskno":taskno,"sno":sno};
+        var handin={"choice":choice,"subno":subno,"mno":mno,"taskno":taskno,"sno":sno,"score":score};
         console.log(handin);
         $.ajax({
             type:'post',
@@ -184,6 +199,9 @@
             data:JSON.stringify(handin),
             contentType:"application/json;charset =UTF-8",        //必须
             dataType:"json",//必须
+            success:function(){
+                location.reload(true);
+            }
         });
         return false;
     }

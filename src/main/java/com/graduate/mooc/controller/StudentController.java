@@ -127,20 +127,9 @@ courseinfo 中点击加入课程
 
         }
 
-        //System.out.println("handin "+match);Match match,
-        /*request 不知道怎么弄
-        System.out.println(req.getParameter("handin"));
-        //JSONObject json = new org.json.JSONObject(req.getParameter("handin"));
-        String subno[] = req.getParameterValues("handin.subno");
-        System.out.println(subno);
-        String taskno = req.getParameter("taskno");
-        System.out.println(taskno);
-        String choice[] = req.getParameterValues("choice");
-        System.out.println(choice);
-        String sno = req.getParameter("sno");
-        System.out.println(sno);
-        String mno = req.getParameter("mno");
-        System.out.println(mno);*/
+        int score = Integer.parseInt((String)hand.get("score"));
+        System.out.println(score);
+        //章节分数表  存放某人 某章节 章节比例 章节成绩   这样之后统计总分方便些
         return "success";
     }
 }

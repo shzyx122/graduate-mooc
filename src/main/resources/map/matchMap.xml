@@ -57,7 +57,7 @@
     </select>
 
     <select  id="getSubject" resultMap="result">
-        select m.*,s.question,answer,aitem,bitem,citem,ditem,chid from mat m,subject s,task t
+        select m.*,s.question,answer,aitem,bitem,citem,ditem,chid,percent from mat m,subject s,task t
         where m.subno=s.subno and m.taskno=t.taskno and s.chid=#{param1} and m.sno=#{param2}
     </select>
 

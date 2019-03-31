@@ -72,7 +72,7 @@
     </update>
 
     <update id="click">
-        update chapter set click=#{click} where chid=#{chid}
+        update chapter set click=#{param2} where chid=#{param1}
 
 
     </update>

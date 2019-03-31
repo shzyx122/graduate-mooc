@@ -121,32 +121,40 @@
     var subno=[];
     var mno=[];
     var sizes=0;
-    function getSub(chapter){
-        $.get('/course/getSub?myCh=' + chapter, function (data) {
+    function getSub(chapter,mysno){
+        $.get('/course/getSub?myCh=' + chapter+'&mySno='+mysno, function (data) {
 
-            /*alert(data[0].subject.subno);
-            alert(data[0].sno);
-            alert(data[0].task.taskno);*/
-            //alert(chapter)
-            sizes=data.length;
-            $(".left").html("");
-            $(".left").append("<form action='/student/handin' method=post  ></form>");
-            $("form").append("<input type=hidden name=sno value="+data[0].sno+">");
-            $("form").append("<input type=hidden name=mno value="+data[0].mno+">");
-            $("form").append("<input type=hidden name=taskno value="+data[0].task.taskno+">");
-            for (var i = 0; i < data.length; i++) {
-                subno.push(data[i].subject.subno);
-                mno.push(data[i].mno);
-                //$("form").append("<input type=hidden name=chid value="+chapter+">");
-                $("form").append("<input type=hidden name=subno"+i+" value="+data[i].subject.subno+"></br>");
-                $("form").append("<div>"+i+"、 "+data[i].subject.question+"</div>");
-                $("form").append("<ul><li><label><input type='radio' name=choice"+i+" value=A>A. "+data[i].subject.aitem+"</label></li>");
-                $("form").append("<li><label><input  type='radio' name=choice"+i+" value=B>B. "+data[i].subject.bitem+"</label></li>");
-                $("form").append("<li><label><input type='radio' name=choice"+i+" value=C>C. "+data[i].subject.citem+"</label></li>");
-                $("form").append("<li><label><input type='radio' name=choice"+i+" value=D>D. "+data[i].subject.ditem+"</label></li>");
-                $("form").append("</ul>");
-            }
-            $("form").append('</br><input type="button" onclick="typeSub()" value=提交 class="btn btn-default"></input>');
+                /*alert(data[0].subject.subno);
+                alert(data[0].sno);
+                alert(data[0].task.taskno);*/
+                //alert(chapter)
+                sizes = data.length;
+                $(".left").html("");
+                $(".left").append("<form action='/student/handin' method=post  ></form>");
+                $("form").append("<input type=hidden name=sno value=" + data[0].sno + ">");
+                $("form").append("<input type=hidden name=mno value=" + data[0].mno + ">");
+                $("form").append("<input type=hidden name=taskno value=" + data[0].task.taskno + ">");
+                for (var i = 0; i < data.length; i++) {
+                    subno.push(data[i].subject.subno);
+                    mno.push(data[i].mno);
+                    //$("form").append("<input type=hidden name=chid value="+chapter+">");
+                    $("form").append("<input type=hidden name=subno" + i + " value=" + data[i].subject.subno + "></br>");
+                    $("form").append("<div>" + (i+1) + "、 " + data[i].subject.question + "</div>");
+                    if(data[i].state==-1) {
+                        $("form").append("<ul><li><label><input type='radio' name=choice" + i + " value=A>A. " + data[i].subject.aitem + "</label></li>");
+                        $("form").append("<li><label><input  type='radio' name=choice" + i + " value=B>B. " + data[i].subject.bitem + "</label></li>");
+                        $("form").append("<li><label><input type='radio' name=choice" + i + " value=C>C. " + data[i].subject.citem + "</label></li>");
+                        $("form").append("<li><label><input type='radio' name=choice" + i + " value=D>D. " + data[i].subject.ditem + "</label></li>");
+                        $("form").append("</ul>");
+                    }else{
+                        $("form").append("我的答案："+data[i].choice+"</br>");
+                        $("form").append("正确答案："+data[i].subject.answer+"</br>");
+                    }
+                }
+                if(data[0].state==-1) {
+                    $("form").append('</br><input type="button" onclick="typeSub()" value=提交 class="btn btn-default"></input>');
+                }
+
         });
     }
 
@@ -197,6 +205,7 @@
     $(document).ready( function () {
 
         var chapter = '<%=request.getSession().getAttribute("myChapter")%>';
+        var mysno = '<%=request.getSession().getAttribute("mySno")%>';
         getVideo(chapter);
 
         $.ajax({  //获取一门课的章节
@@ -225,7 +234,7 @@
         $secLi.on("click",function() {      //习题
             $('li').removeClass("cur");
             $secLi.addClass("cur");
-            getSub(chapter);
+            getSub(chapter,mysno);
         });
     });
 </script>

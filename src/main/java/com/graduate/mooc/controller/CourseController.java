@@ -88,41 +88,43 @@ progress点击章节链接过来的  insert learn
         System.out.println(mlist);
         if(mlist.size()==0) {
             List<Subject> subList = subMap.findSubjectByChid(chid);
-            System.out.println("章节所有题目： "+subList);
-            System.out.println("一共： "+subList.size());
-            Set<Integer> set = new HashSet<Integer>();
-            if (subList.size() < 5)
-                while (set.size() < 3)
-                    set.add(new Random().nextInt(subList.size()) + 1);
-            else
-                while (set.size() < 5)
-                    set.add(new Random().nextInt(subList.size()) + 1);
-            //System.out.println(set.size());
-            //System.out.println("set 里面有 "+set);
-            List<Subject> subRes = new ArrayList<>();
-            Iterator<Integer> iterator = set.iterator();
-            while(iterator.hasNext()){
-                int index=iterator.next();
-                //System.out.println(index);
-                Subject temp=subList.get(index-1);
-                //System.out.println(temp);
-                subRes.add(temp);
-            }
+            if(subList.size()!=0) {
+                System.out.println("章节所有题目： " + subList);
+                System.out.println("一共： " + subList.size());
+                Set<Integer> set = new HashSet<Integer>();
+                if (subList.size() < 5)
+                    while (set.size() < 3)
+                        set.add(new Random().nextInt(subList.size()) + 1);
+                else
+                    while (set.size() < 5)
+                        set.add(new Random().nextInt(subList.size()) + 1);
+                //System.out.println(set.size());
+                //System.out.println("set 里面有 "+set);
+                List<Subject> subRes = new ArrayList<>();
+                Iterator<Integer> iterator = set.iterator();
+                while (iterator.hasNext()) {
+                    int index = iterator.next();
+                    //System.out.println(index);
+                    Subject temp = subList.get(index - 1);
+                    //System.out.println(temp);
+                    subRes.add(temp);
+                }
 
-            System.out.println(sno+" 匹配到的题目是 "+subRes);
-            System.out.println(subRes.get(0).getSubno());
-            System.out.println(stuMap.findStudentByName(sno).getSno());
-            System.out.println(taskno);
+                System.out.println(sno + " 匹配到的题目是 " + subRes);
+                System.out.println(subRes.get(0).getSubno());
+                System.out.println(stuMap.findStudentByName(sno).getSno());
+                System.out.println(taskno);
 
 
-            for(Subject s:subRes) {
-                Match mat = new Match();
-                mat.setSno(stuMap.findStudentByName(sno).getSno());
-                mat.setState(-1);
-                mat.setTask(tMap.findTaskByTno(taskno)); //task
-                mat.setSubject(s);
-                mat.setChoice("none");
-                matMap.insertMatch(mat);
+                for (Subject s : subRes) {
+                    Match mat = new Match();
+                    mat.setSno(stuMap.findStudentByName(sno).getSno());
+                    mat.setState(-1);
+                    mat.setTask(tMap.findTaskByTno(taskno)); //task
+                    mat.setSubject(s);
+                    mat.setChoice("none");
+                    matMap.insertMatch(mat);
+                }
             }
         }
         return "Chapters";
@@ -163,9 +165,9 @@ progress点击章节链接过来的  insert learn
 
     @GetMapping("/getSub")
     @ResponseBody
-    public List<Match> getSub(@RequestParam("myCh")String mych){
-        System.out.println(mych);
-        List<Match> mlist = matMap.getSubject(mych);
+    public List<Match> getSub(@RequestParam("myCh")String mych,@RequestParam("mySno")String mysno){
+        System.out.println(mych+" , sno"+mysno);
+        List<Match> mlist = matMap.getSubject(mych,mysno);
         System.out.println(mlist);
         return mlist;
     }

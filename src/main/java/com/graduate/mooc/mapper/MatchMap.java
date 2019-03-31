@@ -11,7 +11,7 @@ import java.util.List;
 public interface MatchMap {
     List<Match> findMatchByInfo(String sno,String taskno);
 
-    List<Match> getSubject(String chid);
+    List<Match> getSubject(String chid,String sno);
 
     Match findMatchByID(String id);
 

@@ -12,7 +12,7 @@ import java.util.List;
 public interface SubjectMap {
     List<Subject> findSubjectByChid(String chid);
 
-    List<Subject> findSubjectByID(String id);
+    Subject findSubjectByID(String id);
 
     public List<Subject> ListSubject();
 

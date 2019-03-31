@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Chao Wax on 2019/3/14
@@ -39,6 +40,12 @@ public class StudentController {
 
     @Autowired
     VideoMap vMap;
+
+    @Autowired
+    MatchMap matMap;
+
+    @Autowired
+    SubjectMap subMap;
 /*
 courseinfo 中点击加入课程
  */
@@ -98,9 +105,42 @@ courseinfo 中点击加入课程
     提交习题
      */
     @PostMapping("/handin")
-    public void handin(Match match, HttpServletRequest req){
-        System.out.println(match);
-        String subno = req.getParameter("subno");
+    @ResponseBody
+    public String handin(@RequestBody Map<String,Object> hand, HttpServletRequest req){
+        System.out.println(hand);
+        List<String> chlist = (List<String>)hand.get("choice");
+        List<String> sublist = (List<String>)hand.get("subno");
+        String stuno = (String)hand.get("sno");
+        String task = (String)hand.get("taskno");
+        List<String> mno = (List<String>) hand.get("mno");
+        System.out.println(chlist);
+        System.out.println(task);
+
+        for(int i=0;i<mno.size();i++){
+            Match mat = matMap.findMatchByID(mno.get(i));
+            System.out.println("origin "+mat);
+            mat.setChoice(chlist.get(i)==null?"none":chlist.get(i));
+            mat.setSubject(subMap.findSubjectByID(sublist.get(i)));
+            mat.setState(chlist.get(i)==null?0:1);
+            matMap.Update(mat);
+            System.out.println("now"+mat);
+
+        }
+
+        //System.out.println("handin "+match);Match match,
+        /*request 不知道怎么弄
+        System.out.println(req.getParameter("handin"));
+        //JSONObject json = new org.json.JSONObject(req.getParameter("handin"));
+        String subno[] = req.getParameterValues("handin.subno");
         System.out.println(subno);
+        String taskno = req.getParameter("taskno");
+        System.out.println(taskno);
+        String choice[] = req.getParameterValues("choice");
+        System.out.println(choice);
+        String sno = req.getParameter("sno");
+        System.out.println(sno);
+        String mno = req.getParameter("mno");
+        System.out.println(mno);*/
+        return "success";
     }
 }

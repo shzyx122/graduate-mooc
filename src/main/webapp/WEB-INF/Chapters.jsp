@@ -118,16 +118,27 @@
         });
     }
 
+    var subno=[];
+    var mno=[];
+    var sizes=0;
     function getSub(chapter){
         $.get('/course/getSub?myCh=' + chapter, function (data) {
-            //alert(data[0].subject.subno);
-            //alert(chapter)
-            $(".left").html("");
-            $(".left").append("<form action='/student/handin' method=post></form>");
-            for (var i = 0; i < data.length; i++) {
-                $("form").append("<input type=hidden name=chid value="+chapter+">");
-                $("form").append("<input type=hidden name=subno value="+data[i].subject.subno+"></br>");
 
+            /*alert(data[0].subject.subno);
+            alert(data[0].sno);
+            alert(data[0].task.taskno);*/
+            //alert(chapter)
+            sizes=data.length;
+            $(".left").html("");
+            $(".left").append("<form action='/student/handin' method=post  ></form>");
+            $("form").append("<input type=hidden name=sno value="+data[0].sno+">");
+            $("form").append("<input type=hidden name=mno value="+data[0].mno+">");
+            $("form").append("<input type=hidden name=taskno value="+data[0].task.taskno+">");
+            for (var i = 0; i < data.length; i++) {
+                subno.push(data[i].subject.subno);
+                mno.push(data[i].mno);
+                //$("form").append("<input type=hidden name=chid value="+chapter+">");
+                $("form").append("<input type=hidden name=subno"+i+" value="+data[i].subject.subno+"></br>");
                 $("form").append("<div>"+i+"、 "+data[i].subject.question+"</div>");
                 $("form").append("<ul><li><label><input type='radio' name=choice"+i+" value=A>A. "+data[i].subject.aitem+"</label></li>");
                 $("form").append("<li><label><input  type='radio' name=choice"+i+" value=B>B. "+data[i].subject.bitem+"</label></li>");
@@ -135,8 +146,38 @@
                 $("form").append("<li><label><input type='radio' name=choice"+i+" value=D>D. "+data[i].subject.ditem+"</label></li>");
                 $("form").append("</ul>");
             }
-            $("form").append('</br><input type="submit" class="btn btn-default"></input>');
+            $("form").append('</br><input type="button" onclick="typeSub()" value=提交 class="btn btn-default"></input>');
         });
+    }
+
+    function typeSub(){
+        console.log(sizes);
+        var choice=[];
+
+        for(var i=0;i<sizes;i++){
+            var ch="choice"+i;
+            console.log($("input[name="+ch+"]:radio:checked").val())
+            console.log(ch);
+            var res=$("input[name="+ch+"]:radio:checked").val();
+            console.log($(ch).val());
+            choice.push(res);
+        }
+        console.log(choice);
+        console.log(subno);
+        console.log(mno);
+        //var mno=$("input[name='mno']").val();
+        var taskno=$("input[name='taskno']").val();
+        var sno=$("input[name='sno']").val();
+        var handin={"choice":choice,"subno":subno,"mno":mno,"taskno":taskno,"sno":sno};
+        console.log(handin);
+        $.ajax({
+            type:'post',
+            url:"/student/handin",
+            data:JSON.stringify(handin),
+            contentType:"application/json;charset =UTF-8",        //必须
+            dataType:"json",//必须
+        });
+        return false;
     }
 
 

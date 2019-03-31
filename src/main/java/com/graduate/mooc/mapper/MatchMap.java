@@ -13,7 +13,7 @@ public interface MatchMap {
 
     List<Match> getSubject(String chid);
 
-    List<Match> findMatchByID(String id);
+    Match findMatchByID(String id);
 
     public List<Match> ListMatch();
 

@@ -31,6 +31,10 @@
         SELECT * FROM subject where chid=#{chapter.chid}
     </select>
 
+    <select id="findSubjectByID" resultMap="result">
+        SELECT * FROM subject where subno=#{subno}
+    </select>
+
     <insert id="insertSubject" parameterType="com.graduate.mooc.domain.Subject"
             keyProperty="subno" useGeneratedKeys="true">
         <selectKey keyProperty="subno" resultType="String" order="BEFORE">

@@ -92,9 +92,11 @@ courseinfo 中点击加入课程
         String sno = (String)session.getAttribute("suser");
         String stu=stuMap.findStudentByName(sno).getSno();
         Video v = new Video();
+        System.out.println(chid+" "+stu);
         v.setChid(chid);
         v.setSno(stu);
         Video vc=vMap.ListVideo(v).get(0);
+        System.out.println("vc "+vc);
         vc.setPlay(vc.getPlay()+1);
         vMap.updateVideo(vc);
         return "finished this watch";
@@ -121,7 +123,7 @@ courseinfo 中点击加入课程
             System.out.println("origin "+mat);
             mat.setChoice(chlist.get(i)==null?"none":chlist.get(i));
             mat.setSubject(subMap.findSubjectByID(sublist.get(i)));
-            mat.setState(chlist.get(i)==null?0:1);
+            mat.setState(chlist.get(i)==null||!mat.getSubject().getAnswer().equals(chlist.get(i))?0:1);
             matMap.Update(mat);
             System.out.println("now"+mat);
 
@@ -129,12 +131,20 @@ courseinfo 中点击加入课程
 
         String mych=(String)hand.get("chapter");
         String mysno = (String)hand.get("sno");
+        System.out.println(mych+" "+mysno);
         /*int score = (Integer)hand.get("score");
         System.out.println(score);*/
         //章节分数表  存放某人 某章节 章节比例 章节成绩   这样之后统计总分方便些
         List<Match> mlist = matMap.getSubject(mych,mysno);
-
-
+        System.out.println(mlist.get(0));
+        int chsc=0;
+        for(int i = 0;i<mlist.size();i++){
+            System.out.println(mlist.get(i).getSubject().getAnswer().equals(mlist.get(i).getChoice()));
+            if(mlist.get(i).getSubject().getAnswer().equals(mlist.get(i).getChoice())){
+                chsc+=mlist.get(i).getState()*mlist.get(i).getSubject().getPercent();
+            }
+        }
+        System.out.println("score "+chsc);
         return "success";
     }
 

@@ -152,7 +152,7 @@
                     }else{
                         var ch;
                         score+=data[i].subject.percent*data[i].state;
-                        console.log("score "+score);
+                        console.log("score "+score+" "+data[i].subject.percent*data[i].state);
 
                         $("form").append("我的答案："+data[i].choice+"</br>");
                         $("form").append("正确答案："+data[i].subject.answer+"</br>");
@@ -165,9 +165,9 @@
 
                     }
                 }
-                $("form").append("得分："+score);
+                $("form").append("</br>得分："+score);
                 if(data[0].state==-1) {
-                    $("form").append('</br><input type="button" onclick="typeSub(\'chapter\')" value=提交 class="btn btn-default"></input>');
+                    $("form").append('</br><input type="button" onclick="typeSub(\''+chapter+'\')" value=提交 class="btn btn-default"></input>');
                 }
 
 
@@ -194,7 +194,7 @@
         var taskno=$("input[name='taskno']").val();
         var sno=$("input[name='sno']").val();
         var handin={"choice":choice,"subno":subno,"mno":mno,"taskno":taskno,"sno":sno,"chapter":chapter};
-        console.log(handin);
+
         $.ajax({
             type:'post',
             url:"/student/handin",
@@ -212,7 +212,7 @@
             contentType:"application/json;charset =UTF-8",
             dataType:"json"
         });*/
-        return false;
+
     }
 
 

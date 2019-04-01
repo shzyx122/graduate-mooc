@@ -17,7 +17,7 @@
             and sno=#{sno}
         </if>
 
-        <if test=" play!=null">
+        <if test=" play!=null and play!=0">
             and play=#{play}
         </if>
         <if test=" time!=null and   time!= ''">

@@ -122,6 +122,7 @@
     var mno=[];
     var sizes=0;
     var score=0;
+    var stu;  //学号
     function getSub(chapter,mysno){
         $.get('/course/getSub?myCh=' + chapter+'&mySno='+mysno, function (data) {
 
@@ -130,7 +131,7 @@
                 alert(data[0].task.taskno);*/
                 //alert(chapter)
                 sizes = data.length;
-
+                stu=data[0].sno;
                 $(".left").html("");
                 $(".left").append("<form action='/student/handin' method=post  ></form>");
                 $("form").append("<input type=hidden name=sno value=" + data[0].sno + ">");
@@ -151,7 +152,7 @@
                     }else{
                         var ch;
                         score+=data[i].subject.percent*data[i].state;
-                        console.log(score);
+                        console.log("score "+score);
 
                         $("form").append("我的答案："+data[i].choice+"</br>");
                         $("form").append("正确答案："+data[i].subject.answer+"</br>");
@@ -166,23 +167,24 @@
                 }
                 $("form").append("得分："+score);
                 if(data[0].state==-1) {
-                    $("form").append('</br><input type="button" onclick="typeSub()" value=提交 class="btn btn-default"></input>');
+                    $("form").append('</br><input type="button" onclick="typeSub(\'chapter\')" value=提交 class="btn btn-default"></input>');
                 }
+
 
         });
 
     }
-
-    function typeSub(){  //提交答案
+//前端不动了，交给后端批改
+    function typeSub(chapter){  //提交答案
         console.log(sizes);
         var choice=[];
 
         for(var i=0;i<sizes;i++){
             var ch="choice"+i;
             console.log($("input[name="+ch+"]:radio:checked").val())
-            console.log(ch);
+            //console.log(ch);
             var res=$("input[name="+ch+"]:radio:checked").val();
-            console.log($(ch).val());
+            //console.log($(ch).val());
             choice.push(res);
         }
         console.log(choice);
@@ -191,7 +193,7 @@
         //var mno=$("input[name='mno']").val();
         var taskno=$("input[name='taskno']").val();
         var sno=$("input[name='sno']").val();
-        var handin={"choice":choice,"subno":subno,"mno":mno,"taskno":taskno,"sno":sno,"score":score};
+        var handin={"choice":choice,"subno":subno,"mno":mno,"taskno":taskno,"sno":sno,"chapter":chapter};
         console.log(handin);
         $.ajax({
             type:'post',
@@ -200,9 +202,16 @@
             contentType:"application/json;charset =UTF-8",        //必须
             dataType:"json",//必须
             success:function(){
-                location.reload(true);
+                location.reload(false);
             }
         });
+        /*$.ajax({
+            type:'post',
+            url:"/student/chapterScore",
+            data:JSON.stringify({"chapter":chapter,"student":stu,"score":score}),
+            contentType:"application/json;charset =UTF-8",
+            dataType:"json"
+        });*/
         return false;
     }
 

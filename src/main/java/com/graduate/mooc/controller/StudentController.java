@@ -110,7 +110,7 @@ courseinfo 中点击加入课程
         System.out.println(hand);
         List<String> chlist = (List<String>)hand.get("choice");
         List<String> sublist = (List<String>)hand.get("subno");
-        String stuno = (String)hand.get("sno");
+
         String task = (String)hand.get("taskno");
         List<String> mno = (List<String>) hand.get("mno");
         System.out.println(chlist);
@@ -127,9 +127,22 @@ courseinfo 中点击加入课程
 
         }
 
-        int score = Integer.parseInt((String)hand.get("score"));
-        System.out.println(score);
+        String mych=(String)hand.get("chapter");
+        String mysno = (String)hand.get("sno");
+        /*int score = (Integer)hand.get("score");
+        System.out.println(score);*/
         //章节分数表  存放某人 某章节 章节比例 章节成绩   这样之后统计总分方便些
+        List<Match> mlist = matMap.getSubject(mych,mysno);
+
+
         return "success";
     }
+
+    @PostMapping("/chapterScore")
+    public String score(@RequestBody Map<String,Object> scTable){
+        System.out.println(scTable);
+        System.out.println(scTable.get("chapter")+" "+scTable.get("student")+" "+scTable.get("score"));
+        return "score received";
+    }
+
 }

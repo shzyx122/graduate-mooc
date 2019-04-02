@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -88,9 +91,26 @@ courseinfo 中点击加入课程
      */
     @PostMapping("/learned")  //end 之后 play字段+1
     @ResponseBody
-    public String learned(@RequestParam("myCh")String chid,HttpSession session){
+    public String learned(@RequestParam("myCh")String chid,HttpSession session,@RequestBody Map<String,String> learn){
         String sno = (String)session.getAttribute("suser");
         String stu=stuMap.findStudentByName(sno).getSno();
+
+        System.out.println("learn "+learn);
+        SimpleDateFormat formatter=new SimpleDateFormat("HH:mm:ss:SSS");
+        String total=learn.get("total");
+        total=total.replace(".", ":");
+        System.out.println(total);
+        Date date=null;
+        try {
+             date= formatter.parse(total);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+//前端要穿时分秒 这里才能接受
+        Time time=new Time(date.getTime());
+        System.out.println(time);
+        System.out.println(time.valueOf(total));
+
         Video v = new Video();
         System.out.println(chid+" "+stu);
         v.setChid(chid);

@@ -101,7 +101,18 @@
             });
 
             $("video").bind('ended', function () { //播放完成意味着任务点完成  并且video表观看次数+1
-                $.post("/student/learned?myCh="+chapter);
+                //$.post("/student/learned?myCh="+chapter);
+                var total=$("#duration").text();
+                console.log(total);
+                var learn={"total":total};
+                $.ajax({
+                    type:'post',
+                    url:"/student/learned?myCh="+chapter,
+                    data:JSON.stringify(learn),
+                    contentType:"application/json;charset =UTF-8",        //必须
+                    dataType:"json",//必须
+
+                });
                 //还要统计一下时长  并且浏览器关闭和页面退出也要触发
                 //alert(this.currentTime);  //视频当前时长
             });
@@ -110,13 +121,36 @@
                 //alert(this.currentTime);
             });
 
+
             $("video").on("timeupdate",function(event){
                 onTrackedVideoFrame(this.currentTime, this.duration);
+                /*var hour = Math.floor (video1.duration / 3600);
+var other = video1.duration % 3600;
+var minute = Math.floor (other / 60);
+var second = (other % 60).toFixed (2);
+document.getElementById ('duration').innerHTML = hour + '时' + minute + '分' + second + '秒';
+后端用时分秒记录吧*/
+
             });
 
            // }
         });
     }
+
+    function onTrackedVideoFrame(currentTime, duration){
+
+        $("#current").text(currentTime);
+        $("#duration").text(duration);
+        var a=currentTime/duration;
+        var b=(a*100).toFixed(0)+"%";
+        document.getElementById('hyTime').style.width=b;
+        $("#hy").text(b);
+        if(currentTime==duration){
+            $("#pro").text("(已完成)");
+        }
+    }
+
+
 
     var subno=[];
     var mno=[];
@@ -216,18 +250,7 @@
     }
 
 
-    function onTrackedVideoFrame(currentTime, duration){
 
-        $("#current").text(currentTime);
-        $("#duration").text(duration);
-        var a=currentTime/duration;
-        var b=(a*100).toFixed(0)+"%";
-        document.getElementById('hyTime').style.width=b;
-        $("#hy").text(b);
-        if(currentTime==duration){
-            $("#pro").text("(已完成)");
-        }
-    }
 
     $(document).ready( function () {
 
@@ -262,6 +285,12 @@
             $('li').removeClass("cur");
             $secLi.addClass("cur");
             getSub(chapter,mysno);
+        });
+
+        $("body").bind('unload',function(){
+            var time=$("#current").text();
+            console.log(time);
+            $.post("/student/time?myCh="+chapter);
         });
     });
 </script>

@@ -119,28 +119,38 @@
 
             $("video").bind('pause',function(){
                 //alert(this.currentTime);
+                //alert(this.duration);
             });
 
 
             $("video").on("timeupdate",function(event){
-                onTrackedVideoFrame(this.currentTime, this.duration);
-                /*var hour = Math.floor (video1.duration / 3600);
-var other = video1.duration % 3600;
-var minute = Math.floor (other / 60);
-var second = (other % 60).toFixed (2);
-document.getElementById ('duration').innerHTML = hour + '时' + minute + '分' + second + '秒';
-后端用时分秒记录吧*/
-
+                var cur=this.currentTime;
+                var dur=this.duration;
+                onTrackedVideoFrame(cur, dur);
+//后端用时分秒记录吧
             });
 
            // }
         });
     }
 
+    function timeTrans(time){  //second
+        var hour = Math.floor (time / 3600);   //向下取整
+        var other = time % 3600;
+        var minute = Math.floor (other / 60);
+        var second = parseInt((other % 60));  // .toFixed (2) 四舍五入2位小数
+        var ssec = ((other % 60)%1*1000).toFixed(0);
+        return (hour + ':' + minute + ':' + second + ':'+ssec);
+    }
+
     function onTrackedVideoFrame(currentTime, duration){
 
-        $("#current").text(currentTime);
-        $("#duration").text(duration);
+        var cur = timeTrans(currentTime)
+        $("#current").text(cur);
+
+        var time=timeTrans(duration)
+        $("#duration").text( time);
+
         var a=currentTime/duration;
         var b=(a*100).toFixed(0)+"%";
         document.getElementById('hyTime').style.width=b;

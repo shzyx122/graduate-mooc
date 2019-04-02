@@ -98,18 +98,20 @@ courseinfo 中点击加入课程
         System.out.println("learn "+learn);
         SimpleDateFormat formatter=new SimpleDateFormat("HH:mm:ss:SSS");
         String total=learn.get("total");
-        total=total.replace(".", ":");
+        //total=total.replace(".", ":");
         System.out.println(total);
         Date date=null;
         try {
              date= formatter.parse(total);
+             System.out.println("date "+date );
         }catch (Exception e){
             e.printStackTrace();
         }
 //前端要穿时分秒 这里才能接受
         Time time=new Time(date.getTime());
         System.out.println(time);
-        System.out.println(time.valueOf(total));
+        System.out.println(formatter.format(time));
+//塞入数据库累加
 
         Video v = new Video();
         System.out.println(chid+" "+stu);

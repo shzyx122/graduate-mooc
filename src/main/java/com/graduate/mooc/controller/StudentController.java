@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -97,20 +98,25 @@ courseinfo 中点击加入课程
 
         System.out.println("learn "+learn);
         SimpleDateFormat formatter=new SimpleDateFormat("HH:mm:ss:SSS");
-        String total=learn.get("total");
+        long total=Long.parseLong(learn.get("total"));  //前端现在传入毫秒
         //total=total.replace(".", ":");
         System.out.println(total);
+
         Date date=null;
+        date=StringToDate("0:0:8:125","HH:mm:ss:SSS"); //把String 转换成date
+
+        Time time=new Time(date.getTime());
+        System.out.println(time);  //time
+        System.out.println(formatter.format(time));  //time转成了string
+        //Timestamp
+        System.out.println("开始");
+        System.out.println(formatter.format(new Date(time.getTime()+total))); //日期时间加法应该这样
         try {
-             date= formatter.parse(total);
-             System.out.println("date "+date );
+            System.out.println(new Time(StringToDate("0:0:0:0","HH:mm:ss:SSS").getTime()));
         }catch (Exception e){
             e.printStackTrace();
         }
-//前端要穿时分秒 这里才能接受
-        Time time=new Time(date.getTime());
-        System.out.println(time);
-        System.out.println(formatter.format(time));
+
 //塞入数据库累加
 
         Video v = new Video();
@@ -119,10 +125,29 @@ courseinfo 中点击加入课程
         v.setSno(stu);
         Video vc=vMap.ListVideo(v).get(0);
         System.out.println("vc "+vc);
+        if(vc.getTime()==null||vc.getTime().equals(""))
+           vc.setTime(new Time(StringToDate("0:0:0:0","HH:mm:ss:SSS").getTime()));  //初始化全0
+        System.out.println(" get time "+vc.getTime());
+        Time vctime = vc.getTime();
+        Time uptime=new Time(new Date(vctime.getTime()+total).getTime());
+        System.out.println(uptime);
+        System.out.println("uptime "+formatter.format(uptime));
+        vc.setTime(uptime);
         vc.setPlay(vc.getPlay()+1);
         vMap.updateVideo(vc);
         return "finished this watch";
         //能入库，现在需要显示在chapters上
+    }
+
+    public static Date StringToDate(String dateStr,String formatStr){  //字符串转日期  然后用于time
+        SimpleDateFormat formatter=new SimpleDateFormat(formatStr);
+        Date date=null;
+        try {
+            date = formatter.parse(dateStr);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return date;
     }
 
     /*

@@ -103,8 +103,11 @@
             $("video").bind('ended', function () { //播放完成意味着任务点完成  并且video表观看次数+1
                 //$.post("/student/learned?myCh="+chapter);
                 var total=$("#duration").text();
+                var curSec = timeToMills(this.currentTime);
+                var durSec = timeToMills(this.duration);
                 console.log(total);
-                var learn={"total":total};
+                console.log(durSec);
+                var learn={"total":durSec}; //原先传的total
                 $.ajax({
                     type:'post',
                     url:"/student/learned?myCh="+chapter,
@@ -143,9 +146,14 @@
         return (hour + ':' + minute + ':' + second + ':'+ssec);
     }
 
+    function timeToMills(time){
+        var ssec=time*1000;
+        return ssec;
+    }
+
     function onTrackedVideoFrame(currentTime, duration){
 
-        var cur = timeTrans(currentTime)
+        var cur = timeTrans(currentTime);
         $("#current").text(cur);
 
         var time=timeTrans(duration)

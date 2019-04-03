@@ -5,6 +5,7 @@ import com.graduate.mooc.domain.Learn;
 import com.graduate.mooc.domain.Match;
 import com.graduate.mooc.domain.Video;
 import com.graduate.mooc.mapper.*;
+//import com.sun.org.apache.xpath.internal.operations.String;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -129,7 +130,10 @@ courseinfo 中点击加入课程
            vc.setTime(new Time(StringToDate("0:0:0:0","HH:mm:ss:SSS").getTime()));  //初始化全0
         System.out.println(" get time "+vc.getTime());
         Time vctime = vc.getTime();
-        Time uptime=new Time(new Date(vctime.getTime()+total).getTime());
+
+        Date d =StringToDate(formatter.format(vctime.getTime()),"HH:mm:ss:SSS");
+        Time uptime=new Time(d.getTime()+total);
+
         System.out.println(uptime);
         System.out.println("uptime "+formatter.format(uptime));
         vc.setTime(uptime);

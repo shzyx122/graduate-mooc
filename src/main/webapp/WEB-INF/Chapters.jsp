@@ -92,8 +92,8 @@
 进入页面查找chapter中的click video中当前sno chid的time play
  */
             $(".left").append('<p>播放量: <span id="play"> '+data.play+' </span> </p>')
-            $(".left").append('<p>我的浏览总时长: <span id="view">  </span> </p>')
-            $(".left").append('<p>我的完成次数: <span id="view">  </span> </p>')
+            $(".left").append('<p>我的浏览总时长: <span id="view">' +data.time+ '</span> </p>')
+            $(".left").append('<p>我的完成次数: <span id="view">' +data.learned+ '</span> </p>')
 
             $("video").bind('play', function () { //一旦播放就统计播放量？点击量
                 $.post("/course/play?myCh="+chapter);//chapter表+1，用户播放时间开始累计

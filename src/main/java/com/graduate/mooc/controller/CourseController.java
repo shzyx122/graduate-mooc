@@ -48,6 +48,9 @@ public class CourseController {
     @Autowired
     StudentMap stuMap;
 
+    @Autowired
+    VideoMap vMap;
+
     //跳转课程详情页面  需要
     @GetMapping("/front")
     public String front(@RequestParam("cour")String cid, HttpSession session){
@@ -137,6 +140,9 @@ progress点击章节链接过来的  insert learn
     @ResponseBody
     public Map<String,Object> getVideo(@RequestParam("myCh")String myCh, HttpSession session){
         //Chapter ch=(Chapter) session.getAttribute("myChapter");
+        String sno = (String)session.getAttribute("mySno");
+        System.out.println("sno "+sno);
+
         System.out.println("video ch "+myCh);
         Chapter ch = chMap.findChapterByID(myCh);
         System.out.println(ch);
@@ -147,6 +153,16 @@ progress点击章节链接过来的  insert learn
         Map<String,Object> map = new HashMap<>();
         map.put("video",vPath);
         map.put("play",play);
+
+
+        Video v = new Video();
+        System.out.println(myCh+" "+sno);
+        v.setChid(myCh);
+        v.setSno(sno);
+        Video vc=vMap.ListVideo(v).get(0);
+        map.put("learned",vc.getPlay());
+        map.put("time",vc.getTime());
+
         return map;
     }
 

@@ -85,10 +85,7 @@
                         <label>选项D：</label>
                         <input class="form-control" name="ditem">
                     </div>
-                    <div class="form-group">
-                        <label>得分占比</label>
-                        <input class="form-control" name="percent" >
-                    </div>
+
                     <div class="form-group">
                         <label>章节号</label>
                         <input class="form-control" name="chid" value="${sub_ch}" readonly>
@@ -115,7 +112,6 @@
                             <th>选项B</th>
                             <th>选项C</th>
                             <th>选项D</th>
-                            <th>占比</th>
                             <th>所属章节</th>
                             <th>操作</th>
                         </tr>
@@ -160,7 +156,6 @@
                 { data : "bitem"},
                 { data : "citem"},
                 { data : "ditem"},
-                { data : "percent"},
                 { data : "chapter.chid"},
                 { data : null}
             ],

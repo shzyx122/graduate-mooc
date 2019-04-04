@@ -251,13 +251,13 @@ String path="imgs"; //static/imgs/
         for(String[][] s:list) {
             for (int i = 0; i < s.length; i++) {
                 Subject sub = new Subject();
-                sub.setQuestion(s[i][0]);
-                sub.setAnswer(s[i][1]);
+                sub.setQuestion(s[i][0].trim());
+                sub.setAnswer(s[i][1].trim());
                 System.out.println(s[i][1]);
-                sub.setAitem(s[i][2]);
-                sub.setBitem(s[i][3]);
-                sub.setCitem(s[i][4]);
-                sub.setDitem(s[i][5]);
+                sub.setAitem(s[i][2].trim());
+                sub.setBitem(s[i][3].trim());
+                sub.setCitem(s[i][4].trim());
+                sub.setDitem(s[i][5].trim());
                 Chapter ch = chm.findChapterByID(chid);
                 //System.out.println(chid+" "+ch);
                 sub.setChapter(ch);

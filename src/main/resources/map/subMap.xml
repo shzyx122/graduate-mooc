@@ -50,7 +50,6 @@
             #{citem},
             #{ditem},
             #{path,jdbcType=VARCHAR},
-          //  #{percent},
             #{chapter.chid}
         )
     </insert>

@@ -9,7 +9,7 @@ import java.util.List;
 @Component
 @Mapper
 public interface MatchMap {
-    List<Match> findMatchByInfo(String sno,String taskno);
+    List<Match> findMatchByInfo(String sno,String taskno,String chid);
 
     List<Match> getSubject(String chid,String sno);
 

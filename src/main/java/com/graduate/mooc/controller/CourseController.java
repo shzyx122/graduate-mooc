@@ -88,7 +88,7 @@ progress点击章节链接过来的  insert learn match
   //if match  表中当前task里面该名学生没有和该章节的关联则  insert match  需要插入更多题目判断是不是随机的
         System.out.println();
         System.out.println("匹配题目：");
-        List<Match> mlist = matMap.findMatchByInfo(stuMap.findStudentByName(sno).getSno(),taskno);
+        List<Match> mlist = matMap.findMatchByInfo(stuMap.findStudentByName(sno).getSno(),taskno,chid);
         System.out.println(mlist);
         if(mlist.size()==0) {
             List<Subject> subList = subMap.findSubjectByChid(chid);
@@ -186,7 +186,7 @@ progress点击章节链接过来的  insert learn match
     @GetMapping("/getSub")
     @ResponseBody
     public List<Match> getSub(@RequestParam("myCh")String mych,@RequestParam("mySno")String mysno){
-        System.out.println(mych+" , sno"+mysno);
+        System.out.println(mych+" , sno "+mysno);
         List<Match> mlist = matMap.getSubject(mych,mysno);
         System.out.println(mlist);
         return mlist;

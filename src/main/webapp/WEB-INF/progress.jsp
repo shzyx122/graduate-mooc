@@ -320,11 +320,14 @@
             async: false,
             success: function (data) {
                 for (var i = 0; i < data.length; i++) {
-                    $(".leveltwo").append("<h3 class='clearfix'><span class='icon'>"+(i+2)+
-                        "<a href='/course/study/"+data[i].chid+"'>" + data[i].chname +
-                        "</a>\n <span class='chapterNumber'></span></h3>");
-
-
+                    var content="";
+                    if(data[i].exstate==1) //并且不能考试
+                        content="<p>考试："+data[i].chname+"</p>";
+                    //else if ==1  但是可以考试
+                    else if(data[i].exstate==0)
+                        content="<a href='/course/study/"+data[i].chid+"'>" + data[i].chname + "</a>\n";
+                    $(".leveltwo").append("<h3 class='clearfix'><span class='icon'>"+(i+1)+content+
+                         "</span><span class='chapterNumber'></span></h3>");
                 }
             }
         });

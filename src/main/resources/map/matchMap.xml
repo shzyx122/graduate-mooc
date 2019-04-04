@@ -53,7 +53,8 @@
     </select>
 
     <select id="findMatchByInfo" resultMap="result">
-        SELECT * FROM mat m,task t  where m.taskno=t.taskno and m.sno=#{param1} and t.taskno=#{param2}
+        SELECT * FROM mat m,task t,subject s  where m.taskno=t.taskno and  m.subno=s.subno
+        and m.sno=#{param1} and t.taskno=#{param2}  and chid=#{param3}
     </select>
 
     <select  id="getSubject" resultMap="result">

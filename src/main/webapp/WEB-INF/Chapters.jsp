@@ -222,8 +222,6 @@
                 if(data[0].state==-1) {
                     $("form").append('</br><input type="button" onclick="typeSub(\''+chapter+'\')" value=提交 class="btn btn-default"></input>');
                 }
-
-
         });
 
     }

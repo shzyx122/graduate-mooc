@@ -408,9 +408,9 @@
             var iterator=0;
             var content='<ul>';    //在容器里面放入的html内容
             for(var i=0;i<data.length;i++){   //遍历所有的课程
-                var id=data[i].cid;
-                var name=data[i].cname;
-                var path=data[i].picPath;
+                var id=data[i].course.cid;
+                var name=data[i].course.cname;
+                var path=data[i].course.picPath;
                 var bgDiv;  //div标签，最终放入content
                 var endDiv;
 
@@ -425,7 +425,7 @@
                     "</li>";
                 //一行放5个，因此开头结尾以及遍历结束的时候添加div标签
                 if(i%5==0) {
-                    alert(i+" 长度 换行");
+                    console.log(i+" 长度 换行");
                     bgDiv = "<div class=\"row\">";
                     bgDiv+=content;
                     content=bgDiv;

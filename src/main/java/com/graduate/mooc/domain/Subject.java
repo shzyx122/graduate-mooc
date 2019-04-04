@@ -9,7 +9,7 @@ public class Subject {
     private String citem;
     private String ditem;
     private String path;
-    private int percent;
+   // private int percent;
     private Chapter chapter;   //似乎一定要用sql语句进行连表才能关联查询
 
     public Chapter getChapter() {
@@ -20,13 +20,13 @@ public class Subject {
         this.chapter = chapter;
     }
 
-    public int getPercent() {
+   /* public int getPercent() {
         return percent;
     }
 
     public void setPercent(int percent) {
         this.percent = percent;
-    }
+    }*/
 
     @Override
     public String toString() {

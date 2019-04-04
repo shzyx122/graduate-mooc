@@ -12,7 +12,7 @@
         <result property="citem" column="citem"/>
         <result property="ditem" column="ditem"/>
         <result property="path" column="path" />
-        <result property="percent" column="percent" />
+
         <association property="chapter" javaType="com.graduate.mooc.domain.Chapter">
             <id property="chid" column="chid" />
             <result property="chname" column="chname" />
@@ -50,7 +50,7 @@
             #{citem},
             #{ditem},
             #{path,jdbcType=VARCHAR},
-            #{percent},
+          //  #{percent},
             #{chapter.chid}
         )
     </insert>

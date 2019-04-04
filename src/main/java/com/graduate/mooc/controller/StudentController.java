@@ -51,12 +51,12 @@ public class StudentController {   //要统计课程总分，个人所有学过�
     @Autowired
     ChscoreMap chsMap;
 /*
-courseinfo 中点击加入课程
+courseinfo 中点击加入课程  video learn
  */
     @GetMapping("/attend")
     public String attend(@RequestParam("taskno") String taskno,@RequestParam("stu") String stu,
                          HttpSession session){
-        //System.out.println(stu+" learn "+taskno);
+        System.out.println("attend " +stu+" learn "+taskno);
         String sno=stuMap.findStudentByName(stu).getSno();
         Learn learn = lMap.findLearnByInfo(sno,taskno);
         System.out.println("learned "+learn);
@@ -77,6 +77,7 @@ courseinfo 中点击加入课程
                 v.setChid(ch.getChid());
                 //System.out.println(v);
                 vMap.addVideo(v);
+                System.out.println("video insert "+v);
             }
             lMap.insertLearn(l);
         }
@@ -154,7 +155,7 @@ courseinfo 中点击加入课程
     }
 
     /*
-    提交习题
+    提交习题 Chscore Match
      */
     @PostMapping("/handin")
     @ResponseBody
@@ -191,7 +192,7 @@ courseinfo 中点击加入课程
         for(int i = 0;i<mlist.size();i++){
             System.out.println(mlist.get(i).getSubject().getAnswer().equals(mlist.get(i).getChoice()));
             if(mlist.get(i).getSubject().getAnswer().equals(mlist.get(i).getChoice())){
-                chsc+=mlist.get(i).getState()*mlist.get(i).getSubject().getPercent();
+                chsc+=mlist.get(i).getState()*mlist.get(i).getPercent(); //原先是subject里面有percent.getSubject()
             }
         }
         System.out.println("score "+chsc);
@@ -205,6 +206,7 @@ courseinfo 中点击加入课程
         return "success";
     }
 
+    //似乎没有用到
     @PostMapping("/chapterScore")
     public String score(@RequestBody Map<String,Object> scTable){
         System.out.println(scTable);

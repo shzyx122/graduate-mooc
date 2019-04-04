@@ -9,7 +9,7 @@
 
         <result property="choice" column="choice" />
         <result property="state" column="state" />
-
+        <result property="percent" column="percent"/>
         <association property="task" javaType="com.graduate.mooc.domain.Task">
             <id property="taskno" column="taskno" />
             <result property="begin" column="begin" />
@@ -33,7 +33,7 @@
             <result property="citem" column="citem"/>
             <result property="ditem" column="ditem"/>
             <result property="path" column="path" />
-            <result property="percent" column="percent" />
+
         </association>
     </resultMap>
 
@@ -74,7 +74,8 @@
             #{subject.subno, jdbcType=VARCHAR},
             #{choice, jdbcType=VARCHAR},
             #{state},
-            #{task.taskno, jdbcType=VARCHAR}
+            #{task.taskno, jdbcType=VARCHAR},
+            #{percent}
         )
     </insert>
 
@@ -90,6 +91,9 @@
             </if>
             <if test="state!=-1 ">
                 state=#{state},
+            </if>
+            <if test="percent!=-1 ">
+                percent=#{percent},
             </if>
         </set>
         where mno=#{mno} and subno=#{subject.subno}

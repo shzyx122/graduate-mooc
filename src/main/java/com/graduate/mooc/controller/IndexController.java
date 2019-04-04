@@ -2,8 +2,10 @@ package com.graduate.mooc.controller;
 
 import com.graduate.mooc.domain.Admin;
 import com.graduate.mooc.domain.Course;
+import com.graduate.mooc.domain.Task;
 import com.graduate.mooc.mapper.AdminMap;
 import com.graduate.mooc.mapper.CourseMap;
+import com.graduate.mooc.mapper.TaskMap;
 import com.graduate.mooc.service.AdminService;
 import com.graduate.mooc.service.StuServ;
 import com.graduate.mooc.service.TeaServ;
@@ -31,6 +33,8 @@ public class IndexController {
     public AdminService aserv;
     @Autowired
     public StuServ sserv;
+    @Autowired
+    public TaskMap tMap;
 
     @RequestMapping(value="/login",method = RequestMethod.POST)  //登录验证
     public String login(@RequestParam(value="usertype") String usertype,
@@ -76,8 +80,8 @@ public class IndexController {
     CourseMap coum;
     @RequestMapping(value = "/index",method=RequestMethod.GET)
     @ResponseBody
-    public List<Course> indexCou(){
-        return coum.ListCourse();
+    public List<Task> indexCou(){ //应该是 task里面
+        return tMap.ListTask();
     }
 
     @Autowired

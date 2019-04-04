@@ -204,8 +204,8 @@
                         $("form").append("</ul>");
                     }else{
                         var ch;
-                        score+=data[i].subject.percent*data[i].state;
-                        console.log("score "+score+" "+data[i].subject.percent*data[i].state);
+                        score+=data[i].percent*data[i].state;
+                        console.log("score "+score+" "+data[i].percent*data[i].state);
 
                         $("form").append("我的答案："+data[i].choice+"</br>");
                         $("form").append("正确答案："+data[i].subject.answer+"</br>");
@@ -253,18 +253,12 @@
             url:"/student/handin",
             data:JSON.stringify(handin),
             contentType:"application/json;charset =UTF-8",        //必须
-            dataType:"json",//必须
-            success:function(){
-                location.reload(false);
+            //dataType:"json",//必须   拿掉才会调用success 因为返回的数据类型不是严格按照json格式
+            success:function(data){  //没有调用，应该是返回的数据类型不对
+                if(data=="success")
+                    location.reload(true);
             }
         });
-        /*$.ajax({
-            type:'post',
-            url:"/student/chapterScore",
-            data:JSON.stringify({"chapter":chapter,"student":stu,"score":score}),
-            contentType:"application/json;charset =UTF-8",
-            dataType:"json"
-        });*/
 
     }
 

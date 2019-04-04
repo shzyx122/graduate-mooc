@@ -9,8 +9,17 @@ public class Match {
     private Task task;
     private String choice;
     private int state;
+    private int percent;
 
     //sno  taskno 是不是可以一起拼接成learn。lno
+
+    public int getPercent() {
+        return percent;
+    }
+
+    public void setPercent(int percent) {
+        this.percent = percent;
+    }
 
     public Subject getSubject() {
         return subject;

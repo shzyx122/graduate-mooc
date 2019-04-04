@@ -261,7 +261,7 @@ String path="imgs"; //static/imgs/
                 Chapter ch = chm.findChapterByID(chid);
                 //System.out.println(chid+" "+ch);
                 sub.setChapter(ch);
-                sub.setPercent(20);     //先设置成20%
+          //      sub.setPercent(20);     //先设置成20%
                 System.out.println("insert "+sub);
                 subMap.insertSubject(sub);
             }

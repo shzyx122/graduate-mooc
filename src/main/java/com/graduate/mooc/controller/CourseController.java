@@ -56,6 +56,7 @@ public class CourseController {
     public String front(@RequestParam("cour")String cid, HttpSession session){
         session.setAttribute("reqCid",cid);
         session.setAttribute("cRoot",cid); //方便调用teacher已有接口
+        System.out.println("front "+ "req,croot "+cid);
         return "CoursesInfo";
     }
 
@@ -71,7 +72,7 @@ public class CourseController {
     }
 
 /*
-progress点击章节链接过来的  insert learn
+progress点击章节链接过来的  insert learn match
  */
     @GetMapping("/study/{chid}")  //习题关联 准备观看视频
     public String study(@PathVariable String chid,HttpSession session){
@@ -118,6 +119,8 @@ progress点击章节链接过来的  insert learn
                 System.out.println(stuMap.findStudentByName(sno).getSno());
                 System.out.println(taskno);
 
+                int count=subRes.size(); //题目数量
+                int percent = 100/count;
 
                 for (Subject s : subRes) {
                     Match mat = new Match();
@@ -126,6 +129,7 @@ progress点击章节链接过来的  insert learn
                     mat.setTask(tMap.findTaskByTno(taskno)); //task
                     mat.setSubject(s);
                     mat.setChoice("none");
+                    mat.setPercent(percent);
                     matMap.insertMatch(mat);
                 }
             }
@@ -134,7 +138,7 @@ progress点击章节链接过来的  insert learn
     }
 
 /*
-进入chapters 获取视频
+进入chapters 获取视频video chapter
  */
     @GetMapping("/getVideo")
     @ResponseBody

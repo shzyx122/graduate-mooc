@@ -335,7 +335,7 @@
         var sno = '<%=request.getSession().getAttribute("mySno")%>';
         var cid = '<%=request.getSession().getAttribute("myCid")%>';
         $.ajax({
-            url: '/student/myProgress?cid='+cid+"&sno="+sno,
+            url: '/student/myProgress?cid='+cid+"&sno="+sno,  //有了config里面的配置之后就可以通过ip地址加端口的方式以绝对路径访问
             type: 'get',
             async: false,
             success: function (data) {

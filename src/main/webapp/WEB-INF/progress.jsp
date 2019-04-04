@@ -314,7 +314,7 @@
 
 <script type="text/javascript">
     $(document).ready( function () {
-        $.ajax({
+        /*$.ajax({
             url: '/qchapter',
             type: 'get',
             async: false,
@@ -330,7 +330,31 @@
                          "</span><span class='chapterNumber'></span></h3>");
                 }
             }
+        });*/
+
+        var sno = '<%=request.getSession().getAttribute("mySno")%>';
+        var cid = '<%=request.getSession().getAttribute("myCid")%>';
+        $.ajax({
+            url: '/student/myProgress?cid='+cid+"&sno="+sno,
+            type: 'get',
+            async: false,
+            success: function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    var content="";
+                    if(data[i].state=="exam"){ //要么特殊化，要么和normal合并
+                        content="考试:<a href='/course/study/"+data[i].chid+"'>" + data[i].chname + "</a>\n";
+                    }else if(data[i].state=="prepare"){
+                        content="<p>考试："+data[i].chname+"</p>";
+                    }
+                    else if(data[i].state=="normal"){
+                        content="<a href='/course/study/"+data[i].chid+"'>" + data[i].chname + "</a>\n";
+                    }
+                    $(".leveltwo").append("<h3 class='clearfix'><span class='icon'>"+(i+1)+content+
+                        "</span><span class='chapterNumber'></span></h3>");
+                }
+            }
         });
+
     });
 </script>
 </body>

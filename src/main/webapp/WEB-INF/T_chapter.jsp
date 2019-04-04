@@ -58,6 +58,7 @@
                 /*var request = new XMLHttpRequest();
                 request.open("POST",url );
                 request.send(myform);*/
+                console.log("formdata used")
                 $.ajax({
                     url:"<%=basePath%>upvideo/" + chid ,
                     type: "POST",
@@ -66,9 +67,11 @@
                     data: myform,
                     contentType: false,
                     processData: false,
-                    success: function (data) {
-                        window.location.reload();
-                        //$('#dataTables-example').DataTable().ajax.reload(null,false);
+                    success: function (data) {  //每次成功success都会多调用一次，其实是ajax多调用了一次
+                        console.log("ready fresh")
+                        //window.location.reload();
+                        $('#dataTables-example').DataTable().ajax.reload(null,false);
+                        console.log("fresh over")
                     },
                     error: function (data) {
                     }

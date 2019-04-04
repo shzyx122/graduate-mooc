@@ -269,12 +269,12 @@
         var mysno = '<%=request.getSession().getAttribute("mySno")%>';
         getVideo(chapter);
 
-        $.ajax({  //获取一门课的章节
+        $.ajax({  //获取一门课的章节      这是右侧导航栏
             url: '/qchapter',
             type: 'get',
             async: true,
             success: function (data) {
-                for (var i = 0; i < data.length; i++) {
+                for (var i = 0; i < data.length; i++) {   //修改考试分支
                     $("#content1").append("<h4 class='clearfix'><span class='icon'>"+(i+1)+
                         "<a href='/course/study/"+data[i].chid+"'>" + data[i].chname +
                         "</a>\n <span class='chapterNumber'></span></h4>");

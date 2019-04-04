@@ -3,6 +3,7 @@ package com.graduate.mooc.controller;
 import com.graduate.mooc.domain.*;
 import com.graduate.mooc.mapper.*;
 //import com.sun.org.apache.xpath.internal.operations.String;
+import com.graduate.mooc.service.ExamServ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -11,9 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Chao Wax on 2019/3/14
@@ -50,6 +49,9 @@ public class StudentController {   //要统计课程总分，个人所有学过�
 
     @Autowired
     ChscoreMap chsMap;
+
+    @Autowired
+    ExamServ exServ;
 /*
 courseinfo 中点击加入课程  video learn
  */
@@ -85,8 +87,44 @@ courseinfo 中点击加入课程  video learn
             //跳转至学习进度页面   原先入口页面在登录状态下更改按钮
         session.setAttribute("myTask", taskno);  //设置任务 以后操作根据任务来
         session.setAttribute("mySno",sno);
+
+        String cid = tkMap.findTaskByTno(taskno).getCourse().getCid();
+        session.setAttribute("myCid",cid);
+        System.out.println("myTask mySno myCid"+" "+taskno+" "+sno+" "+cid);
         return "progress";
     }
+
+    @GetMapping("/myProgress")
+    @ResponseBody
+    public List<Map<String,Object>> myProgress(@RequestParam("cid") String cid,@RequestParam("sno") String sno,
+                           HttpSession session){
+        System.out.println("progress "+cid+" "+sno);
+        int sub=exServ.ChaptersDiffSubjects(cid,sno);
+        int chv=exServ.queryIncompleteVideos(cid,sno);
+        List<Chapter> chlist = chMap.findChapterByCID(cid);
+        System.out.println(chlist);
+        List<Map<String,Object>> res = new ArrayList<>();
+        for(Chapter ch:chlist){
+            Map<String,Object> map = new HashMap<>();
+            map.put("chid",ch.getChid());
+            map.put("chname",ch.getChname());
+            if(ch.getExstate()==1) {  //考试的章节
+                if (sub == 0 && chv == 0) {  //可以开放考试
+                    map.put("state","exam");
+                } else {   //考试章节还不能考试
+                    map.put("state","prepare");
+                }
+            }
+            else{  //非考试章节
+                map.put("state","normal");
+            }
+            res.add(map);
+        }
+        System.out.println("chp "+res);
+        return res;
+    }
+
+
 
     /*
     chapters中看完视频之后

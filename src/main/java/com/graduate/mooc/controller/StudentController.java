@@ -1,9 +1,6 @@
 package com.graduate.mooc.controller;
 
-import com.graduate.mooc.domain.Chapter;
-import com.graduate.mooc.domain.Learn;
-import com.graduate.mooc.domain.Match;
-import com.graduate.mooc.domain.Video;
+import com.graduate.mooc.domain.*;
 import com.graduate.mooc.mapper.*;
 //import com.sun.org.apache.xpath.internal.operations.String;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.sql.Time;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -24,7 +20,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/student")
-public class StudentController {
+public class StudentController {   //要统计课程总分，个人所有学过的课程总分放在个人信息或者首页中
     @Autowired
     LearnMap lMap;
 
@@ -51,6 +47,9 @@ public class StudentController {
 
     @Autowired
     SubjectMap subMap;
+
+    @Autowired
+    ChscoreMap chsMap;
 /*
 courseinfo 中点击加入课程
  */
@@ -196,6 +195,13 @@ courseinfo 中点击加入课程
             }
         }
         System.out.println("score "+chsc);
+
+        Chscore chs = new Chscore();  //录入个人章节成绩
+        chs.setChid(mych);
+        chs.setSno(mysno);
+        chs.setScore(chsc);
+        chsMap.insertChscore(chs);
+
         return "success";
     }
 

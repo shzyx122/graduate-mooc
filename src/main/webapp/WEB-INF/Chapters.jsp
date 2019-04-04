@@ -103,6 +103,7 @@
             $("video").bind('ended', function () { //播放完成意味着任务点完成  并且video表观看次数+1
                 //$.post("/student/learned?myCh="+chapter);
                 var total=$("#duration").text();
+                //加在中途退出之后
                 var curSec = timeToMills(this.currentTime);
                 var durSec = timeToMills(this.duration);
                 console.log(total);
@@ -116,7 +117,7 @@
                     dataType:"json",//必须
 
                 });
-                //还要统计一下时长  并且浏览器关闭和页面退出也要触发
+                //浏览器关闭和页面退出也要触发
                 //alert(this.currentTime);  //视频当前时长
             });
 

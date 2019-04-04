@@ -39,9 +39,9 @@
         VALUES (
             #{chid},
             #{chname, jdbcType=VARCHAR},
-            #{course.cid, jdbcType=VARCHAR},
+            #{cid, jdbcType=VARCHAR},
             #{exstate,jdbcType=INTEGER},
-            #{video, jdbcType=VARCHAR}
+            #{video, jdbcType=VARCHAR},
             #{click}
         )
     </insert>
@@ -51,8 +51,8 @@
     </delete>
 
     <update id="update" >
-        update chapter set chapter.chname=#{chname},chapter.video=#{video},chapter.exstate=#{exstate}
-        where chapter.chid=#{chid}
+        update chapter set chapter.chname=#{param2},chapter.video=#{param3},chapter.exstate=#{param4}
+        where chapter.chid=#{param1}
     </update>
 
     <update id="upEntity">

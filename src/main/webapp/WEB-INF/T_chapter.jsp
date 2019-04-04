@@ -535,22 +535,25 @@
                 {
                     targets: [0,2],
                     createdCell:function(cell, cellData, rowData, rowIndex, colIndex){
-
+//td节点，单元格里的数据，正行的数据对象，单元格的行索引，单元格的列索引。
                         $(cell).click(function(){
                             console.info(rowData);//显示数据
                             $(this).html('<input type="text" size="16"/>');
                             var aInput = $(this).find(":input");
                             aInput.focus().val(cellData);
+                            console.log("text "+cellData)
                         });
 
                         $(cell).on("blur",":input",function(){
                             var text = $(this).val(); //控件中的过程数据
                             $(cell).html(text);  //文本中的数据
                             table.cell( cell ).data(text);//将输入数据赋值到文本中
+                            cellData=text;   //结点中的数据
+                            console.log(table.cell( cell ).data())
                             $.post('<%=basePath%>upch',{  //json这里具体的值加引号会导致数据长度过长错误
                                 'id':rowData.chid,'name':rowData.chname,
                                 'vid':rowData.video,'ex':rowData.exstate });
-                            table.ajax.reload(null, false);
+                            //table.ajax.reload(null, false);
                         });
 
                         $(cell).on("blur",":input",function(e){  //取消事件冒泡
@@ -577,11 +580,15 @@
 
                         $(cell).on("blur",":input",function(){
                             var text = $(this).val();
+                            var htm = $("select option[value="+text+"]").text();  //文本不变不是cell.html的问题
                             //alert(text);
                             $(cell).html(text);
                            //alert(table.cell( cell ).data());
                             table.cell( cell ).data(text);
                             //alert(table.cell( cell ).data());
+                            cellData=htm;
+                            console.log("text "+text+" table "+table.cell( cell ).data()+"cell"+cellData)
+                            //文本内容没变，只是值改变，所以还是要刷新下
                             $.post('<%=basePath%>upch',{
                                 'id':rowData.chid,'name':rowData.chname,
                                 'vid':rowData.video,'ex':rowData.exstate });

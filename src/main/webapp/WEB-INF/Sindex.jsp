@@ -411,7 +411,7 @@
                 var id=data[i].cid;
                 var name=data[i].cname;
                 var path=data[i].picPath;
-                var bgDiv;
+                var bgDiv;  //div标签，最终放入content
                 var endDiv;
 
                 content+="<li class=\"grid\">\n" +
@@ -425,16 +425,18 @@
                     "</li>";
                 //一行放5个，因此开头结尾以及遍历结束的时候添加div标签
                 if(i%5==0) {
+                    alert(i+" 长度 换行");
                     bgDiv = "<div class=\"row\">";
                     bgDiv+=content;
                     content=bgDiv;
                 }
                 if(i%5==4||i==data.length){
-                    alert(i+" 长度 是否换行 "+(i==data.length));
+
                     endDiv="</div>";
                     content+=endDiv;
                 }
             }
+
             content+="</ul>";
             //全部完成后放入容器
             $('.container-fluid').append(content);

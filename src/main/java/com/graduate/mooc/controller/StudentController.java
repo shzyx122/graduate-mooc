@@ -240,6 +240,19 @@ courseinfo 中点击加入课程  video learn
         chs.setSno(mysno);
         chs.setScore(chsc);
         chsMap.insertChscore(chs);
+        //如果是考试章节，就可以计算总分了
+        Chapter ch = chMap.findChapterByID(mych);
+        if(ch.getExstate()==1) {
+            Learn l = new Learn();
+            l.setStu(stuMap.findStudentByID(mysno));
+            System.out.println(mysno+" "+stuMap.findStudentByID(mysno));
+            l.setTask(tkMap.findTaskByTno(task));
+            l.setGrade(exServ.totalScore(task,mysno));
+            l.setLno(lMap.findLearnByInfo(mysno,task).getLno());
+            System.out.println("完成总分计算 "+l);
+            lMap.Update(l);
+
+        }
 
         return "success";
     }

@@ -64,6 +64,21 @@
     </delete>
 
     <update id="Update" parameterType="com.graduate.mooc.domain.Learn">
-        update user set user.name=#{name},user.password=#{password},user.number=#{number} where user.id=#{id}
+        update learn
+        <set>
+            <if test="grade!=0">
+              grade=#{grade},
+            </if>
+        </set>
+        where 1=1
+        <if test="lno!=null and lno!=''">
+            and lno=#{lno}
+        </if>
+        <if test="stu.sno!=null and stu.sno!=''">
+            and sno=#{stu.sno}
+        </if>
+        <if test="task.taskno!=null and task.taskno!=''">
+            and taskno=#{task.taskno}
+        </if>
     </update>
 </mapper>

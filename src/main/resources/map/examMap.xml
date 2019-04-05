@@ -19,5 +19,25 @@
         select count(1) from chapter where chid in (select chid from chapter where cid in(
             select cid from task where cid=#{param1}) and exstate=0)
     </select>
+    
+    
+    
+    <select id="countChapters" resultType="Integer">
+        select count(1) from chapter where  cid in(select cid from task
+        where taskno=#{param1}) and exstate=0
+    </select>
+
+    <select id="scoresForChapters" resultType="Integer">
+        select sum(score) from chscore where chid in(select chid from chapter
+        where  cid in(select cid from task where taskno=#{param1}) and exstate=0
+               and sno = #{param2})
+    </select>
+
+    <select id="scoreForExam" resultType="Integer">
+        select score from chscore where chid in(select chid from chapter
+        where cid in(select cid from task where taskno=#{param1}) and exstate=1
+              and sno = #{param2})
+    </select>
+    
 
 </mapper>

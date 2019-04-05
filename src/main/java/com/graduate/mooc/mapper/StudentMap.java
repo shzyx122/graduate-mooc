@@ -12,7 +12,7 @@ import java.util.List;
 public interface StudentMap {
     Student findStudentByName(String name);
 
-    List<Student> findStudentByID(String id);
+    Student findStudentByID(String id);
 
     public List<Student> ListStudent();
 

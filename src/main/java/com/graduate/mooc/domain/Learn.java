@@ -2,7 +2,7 @@ package com.graduate.mooc.domain;
 
 public class Learn {
     private String lno;
-    private int grade;
+    private double grade;
     private Task task;
     private Student stu;
 
@@ -51,11 +51,11 @@ public class Learn {
         this.taskno = taskno;
     }*/
 
-    public int getGrade() {
+    public double getGrade() {
         return grade;
     }
 
-    public void setGrade(int grade) {
+    public void setGrade(double grade) {
         this.grade = grade;
     }
 }

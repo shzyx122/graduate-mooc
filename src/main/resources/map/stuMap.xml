@@ -16,6 +16,10 @@
         SELECT * FROM stu where name=#{name}
     </select>
 
+    <select id="findStudentByID" resultMap="result">
+        SELECT * FROM stu where sno=#{param1}
+    </select>
+
     <insert id="insertStudent" parameterType="com.graduate.mooc.domain.Student"
             useGeneratedKeys="true">
         <selectKey keyProperty="sno" resultType="String" order="BEFORE">

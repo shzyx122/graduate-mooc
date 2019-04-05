@@ -26,4 +26,15 @@ public class ExamServ {
     }
 
 
+    public double totalScore(String taskno,String sno){
+        int chNums=eMap.countChapters(taskno);
+        int examScore=eMap.scoreForExam(taskno,sno);
+        int chScores = eMap.scoresForChapters(taskno,sno);
+        double score=examScore/chNums*0.4+chScores*0.6;
+        System.out.println("总分 "+score);
+        return score;
+    }
+
+
+
 }

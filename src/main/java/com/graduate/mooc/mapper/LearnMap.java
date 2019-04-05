@@ -20,5 +20,5 @@ public interface LearnMap {
 
     public int delete(int id);
 
-    public int Update(Learn ln);
+    public void Update(Learn ln);
 }

@@ -185,9 +185,12 @@ progress点击章节链接过来的  insert learn match
 
     @GetMapping("/getSub")
     @ResponseBody
-    public List<Match> getSub(@RequestParam("myCh")String mych,@RequestParam("mySno")String mysno){
-        System.out.println(mych+" , sno "+mysno);
-        List<Match> mlist = matMap.getSubject(mych,mysno);
+    public List<Match> getSub(@RequestParam("myCh")String mych,@RequestParam("mySno")String mysno,HttpSession session){
+
+        String taskno = (String)session.getAttribute("myTask");
+        System.out.println(mych+" , sno "+mysno+" task "+taskno);
+        List<Match> mlist = matMap.getSubject(mych,mysno,taskno);
+        System.out.println("长度 "+mlist.size());
         System.out.println(mlist);
         return mlist;
     }

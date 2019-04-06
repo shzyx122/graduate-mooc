@@ -206,11 +206,13 @@ courseinfo 中点击加入课程  video learn
         List<String> mno = (List<String>) hand.get("mno");
         System.out.println(chlist);
         System.out.println(task);
+        System.out.println();
+        System.out.println("hadnin mno front "+mno);
 
         for(int i=0;i<mno.size();i++){
             Match mat = matMap.findMatchByID(mno.get(i));
             System.out.println("origin "+mat);
-            mat.setChoice(chlist.get(i)==null?"none":chlist.get(i));
+            mat.setChoice(chlist.get(i)==null?"none":chlist.get(i));  //不知道为什么做过了的题还会遍历一下第一道的origin，答案是选好了的
             mat.setSubject(subMap.findSubjectByID(sublist.get(i)));
             mat.setState(chlist.get(i)==null||!mat.getSubject().getAnswer().equals(chlist.get(i))?0:1);
             matMap.Update(mat);
@@ -224,7 +226,7 @@ courseinfo 中点击加入课程  video learn
         /*int score = (Integer)hand.get("score");
         System.out.println(score);*/
         //章节分数表  存放某人 某章节 章节比例 章节成绩   这样之后统计总分方便些
-        List<Match> mlist = matMap.getSubject(mych,mysno);
+        List<Match> mlist = matMap.getSubject(mych,mysno,task);
         System.out.println(mlist.get(0));
         int chsc=0;
         for(int i = 0;i<mlist.size();i++){

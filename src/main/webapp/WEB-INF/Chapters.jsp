@@ -35,11 +35,9 @@
 
             </div>
 
-            <span id="pro"></span>
-            <div class="progress progress-striped active" style="width:100%">
-	        <span id="hyTime" class="progress-bar progress-bar-success"  role="progressbar"  aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"      >
-	        </span>
-            </div> <span id="hy" ></span>
+
+            <div class="progress progress-striped active" style="width:100%"></div>
+
             <div class="right ui-widget-content" id="selector" style="right: 0px;">
                 <div class="switchbtn" style="background-position: 0px -45px;"></div><!--右侧目录隐藏-->
                 <div class="showcontent">
@@ -94,7 +92,10 @@
             $(".left").append('<p>播放量: <span id="play"> '+data.play+' </span> </p>')
             $(".left").append('<p>我的浏览总时长: <span id="view">' +data.time+ '</span> </p>')
             $(".left").append('<p>我的完成次数: <span id="view">' +data.learned+ '</span> </p>')
-
+            $(".left").append('<span id="pro"></span></br>');
+            $(".left").append('<span id="hyTime" class="progress-bar progress-bar-success" ' +
+                ' role="progressbar"  aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" </span>');
+            $(".left").append('<span id="hy" ></span>');
             $("video").bind('play', function () { //一旦播放就统计播放量？点击量
                 $.post("/course/play?myCh="+chapter);//chapter表+1，用户播放时间开始累计
                 //alert(this.duration);  //视频总长
@@ -275,6 +276,7 @@
             async: true,
             success: function (data) {
                 for (var i = 0; i < data.length; i++) {   //修改考试分支
+                    if(data[i].exstate!=1)
                     $("#content1").append("<h4 class='clearfix'><span class='icon'>"+(i+1)+
                         "<a href='/course/study/"+data[i].chid+"'>" + data[i].chname +
                         "</a>\n <span class='chapterNumber'></span></h4>");

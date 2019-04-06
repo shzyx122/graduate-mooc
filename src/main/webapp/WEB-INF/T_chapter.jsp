@@ -69,8 +69,8 @@
                     processData: false,
                     success: function (data) {  //每次成功success都会多调用一次，其实是ajax多调用了一次
                         console.log("ready fresh")
-                        //window.location.reload();
-                        $('#dataTables-example').DataTable().ajax.reload(null,false);
+                        window.location.reload();
+                        //$('#dataTables-example').DataTable().ajax.reload(null,false);
                         console.log("fresh over")
                     },
                     error: function (data) {
@@ -508,10 +508,13 @@
                     "targets": 4,   //对于第5列，每一行都换成链接
                     // 可以判断每行的video设置不一样的连接
                     "render" : function(data, type, row, meta) {
-                        data='<a href="<%=basePath%>delch?ch='+row.chid+'" >删除</a></br>';
-                        if(row.video!=='')
-                            data+='视频已被上传</br><a href="#" onclick="uploadVideo(\''+row.chid+'\')">重传视频</a></br>'; //改成重传和查看  重传可能需要删除原先目录的文件
-                        else data+='<a href="#" onclick="uploadVideo(\''+row.chid+'\')">上传视频</a></br>';
+                        data = '<a href="<%=basePath%>delch?ch=' + row.chid + '" >删除</a></br>';
+                        if (row.exstate != 1) {  //非考试章节
+
+                            if (row.video !== '')
+                                data += '视频已被上传</br><a href="#" onclick="uploadVideo(\'' + row.chid + '\')">重传视频</a></br>'; //改成重传和查看  重传可能需要删除原先目录的文件
+                            else data += '<a href="#" onclick="uploadVideo(\'' + row.chid + '\')">上传视频</a></br>';
+                        }
                         data+='<a href="<%=basePath%>subject/'+row.chid+'" >查看题库</a></br>'
                         return data;
                     }
@@ -595,7 +598,7 @@
                             $.post('<%=basePath%>upch',{
                                 'id':rowData.chid,'name':rowData.chname,
                                 'vid':rowData.video,'ex':rowData.exstate });
-                            table.ajax.reload(null, false);
+                            window.location.reload();//table.ajax.reload(null, false);
                         });
 
                         $(cell).on("click",":input",function(e){

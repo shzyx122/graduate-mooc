@@ -4,6 +4,7 @@ import com.graduate.mooc.domain.*;
 import com.graduate.mooc.mapper.*;
 //import com.sun.org.apache.xpath.internal.operations.String;
 import com.graduate.mooc.service.ExamServ;
+import com.graduate.mooc.service.InfoServ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -52,6 +53,10 @@ public class StudentController {   //要统计课程总分，个人所有学过�
 
     @Autowired
     ExamServ exServ;
+
+    @Autowired
+    InfoServ inServ;
+
 /*
 courseinfo 中点击加入课程  video learn
  */
@@ -265,6 +270,22 @@ courseinfo 中点击加入课程  video learn
         System.out.println(scTable);
         System.out.println(scTable.get("chapter")+" "+scTable.get("student")+" "+scTable.get("score"));
         return "score received";
+    }
+
+    @GetMapping("/stuInfo")
+    public String stuInfo(){
+        return "stuInfo";
+    }
+
+    @GetMapping("/info")
+    @ResponseBody
+    public List<Map<String,Object>> info(HttpSession session){
+        String stu=(String)session.getAttribute("suser");
+        String sno=stuMap.findStudentByName(stu).getSno();
+        System.out.println("info sno "+sno);
+        List<Map<String,Object>> map = new ArrayList<>();
+        map=inServ.myCourses(sno);
+        return map;
     }
 
 }

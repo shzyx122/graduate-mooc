@@ -1,0 +1,12 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD com.example.Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.graduate.mooc.mapper.InfoMap">
+
+<select id="myCourses" resultType="hashmap">
+    select l.lno,l.sno,t.taskno,l.grade,t.begin,t.end,c.cid,c.cname,c.pic_path
+    from learn l ,task t,course c where l.taskno=t.taskno and t.cid=c.cid and l.sno=#{param1}
+</select>
+    
+</mapper>

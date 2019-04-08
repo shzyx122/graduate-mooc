@@ -14,4 +14,6 @@ import java.util.Map;
 public interface InfoMap {
 
     List<Map<String,Object>> myCourses(String sno);
+
+    Map<String,Object> myChState(String chid,String sno);//应该也是要taskno
 }

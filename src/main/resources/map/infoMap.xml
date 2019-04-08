@@ -8,5 +8,11 @@
     select l.lno,l.sno,t.taskno,l.grade,t.begin,t.end,c.cid,c.cname,c.pic_path
     from learn l ,task t,course c where l.taskno=t.taskno and t.cid=c.cid and l.sno=#{param1}
 </select>
+
+<select id="myChState" resultType="hashmap">
+    select c.sno,c.chid,v.sno,v.chid,ch.chid,c.score,v.play,ch.chname,ch.exstate
+    from chscore c,video v,chapter ch where c.chid=v.chid and v.chid=ch.chid and c.sno=v.sno
+    and c.chid=#{param1} and c.sno=#{param2}
+</select>
     
 </mapper>

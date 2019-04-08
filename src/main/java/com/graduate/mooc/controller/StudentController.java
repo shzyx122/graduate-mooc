@@ -99,6 +99,8 @@ courseinfo 中点击加入课程  video learn
         return "progress";
     }
 
+
+
     @GetMapping("/myProgress")
     @ResponseBody
     public List<Map<String,Object>> myProgress(@RequestParam("cid") String cid,@RequestParam("sno") String sno,
@@ -111,7 +113,7 @@ courseinfo 中点击加入课程  video learn
         List<Map<String,Object>> res = new ArrayList<>();
         for(Chapter ch:chlist){
             Map<String,Object> map = new HashMap<>();
-            map.put("chid",ch.getChid());
+            map.put("chid",ch.getChid());     //这里有chid  加上sno作为条件，将score和play塞入结果  score!=null并play!=0
             map.put("chname",ch.getChname());
             if(ch.getExstate()==1) {  //考试的章节
                 if (sub == 0 && chv == 0) {  //可以开放考试
@@ -123,6 +125,11 @@ courseinfo 中点击加入课程  video learn
             else{  //非考试章节
                 map.put("state","normal");
             }
+            Map<String,Object> mych = inServ.myChState(ch.getChid(),sno);  //用来判断章节是否已经完成
+            map.put("play",mych.get("play"));
+            map.put("score",mych.get("score"));
+            System.out.println("mych "+mych);
+            System.out.println("map "+map);
             res.add(map);
         }
         System.out.println("chp "+res);

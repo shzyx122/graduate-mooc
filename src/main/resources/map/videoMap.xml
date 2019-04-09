@@ -47,6 +47,9 @@
             <if test=" time!=null">
                 time,
             </if>
+            <if test=" taskno!=null and taskno!=''">
+                taskno,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test=" vno!=null and   vno!= ''">
@@ -64,6 +67,9 @@
             </if>
             <if test=" time!=null">
                 #{time},
+            </if>
+            <if test=" taskno!=null and taskno!=''">
+                #{taskno},
             </if>
         </trim>
     </insert>
@@ -85,7 +91,9 @@
             <if test=" time!=null">
                 time=#{time},
             </if>
-
+            <if test=" taskno!=null and taskno!=''">
+                taskno=#{taskno},
+            </if>
         </set>
         where vno=#{vno}
     </update>

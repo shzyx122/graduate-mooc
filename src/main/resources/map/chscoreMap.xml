@@ -24,7 +24,8 @@
         #{csno},
         #{sno},
         #{chid},
-        #{score}
+        #{score},
+        #{taskno}
         )
     </insert>
     

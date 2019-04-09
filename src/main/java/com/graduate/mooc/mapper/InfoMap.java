@@ -13,7 +13,9 @@ import java.util.Map;
 @Mapper
 public interface InfoMap {
 
+    //所有报名的task
     List<Map<String,Object>> myCourses(String sno);
 
-    Map<String,Object> myChState(String chid,String sno);//应该也是要taskno
+    //进度里面看章节是否已经完成
+    Map<String,Object> myChState(String taskno,String chid,String sno);//应该也是要taskno
 }

@@ -10,15 +10,15 @@ import org.springframework.stereotype.Component;
 @Mapper
 public interface ExamMap {
     //某门课没看完的视频总数
-    Integer queryIncompleteVideos(String cid,String sno);
+    Integer queryIncompleteVideos(String taskno,String sno);
 
     //某人某课完成习题的章节数量
-    Integer queryCompletedSubjects(String cid,String sno);
+    Integer queryCompletedSubjects(String taskno,String sno);
 
     //某课章节数量
-    Integer queryCountChapters(String cid);
+    Integer queryCountChapters(String taskno);
 
-
+//-------------------这两个一样的
     //一门课程安排对应的章节数
     Integer countChapters(String taskno);
 

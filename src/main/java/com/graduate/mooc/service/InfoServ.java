@@ -22,8 +22,8 @@ public class InfoServ {
         return map;
     }
 
-    public  Map<String,Object> myChState(String chid,String sno){
-        Map<String,Object> map = inMap.myChState(chid,sno);
+    public  Map<String,Object> myChState(String taskno,String chid,String sno){
+        Map<String,Object> map = inMap.myChState(taskno,chid,sno);
         System.out.println(map);
         return map;
     }

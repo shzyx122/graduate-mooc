@@ -10,9 +10,9 @@
 </select>
 
 <select id="myChState" resultType="hashmap">
-    select c.sno,c.chid,v.sno,v.chid,ch.chid,c.score,v.play,ch.chname,ch.exstate
+    select c.sno,c.chid,c.taskno,c.score,v.play,ch.chname,ch.exstate
     from chscore c,video v,chapter ch where c.chid=v.chid and v.chid=ch.chid and c.sno=v.sno
-    and c.chid=#{param1} and c.sno=#{param2}
+    and c.taskno=#{param1} and c.chid=#{param2} and c.sno=#{param3}
 </select>
     
 </mapper>

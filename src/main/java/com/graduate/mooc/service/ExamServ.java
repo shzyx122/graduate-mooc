@@ -12,16 +12,16 @@ public class ExamServ {
     @Autowired
     ExamMap eMap;
 
-    public int queryIncompleteVideos(String cid,String sno){
-        int count=eMap.queryIncompleteVideos(cid,sno);
-        System.out.println(cid+" 课程中学生："+sno+"没完成的视频数 "+count);
+    public int queryIncompleteVideos(String taskno,String sno){
+        int count=eMap.queryIncompleteVideos(taskno,sno);
+        System.out.println(taskno+" 课程中学生："+sno+"没完成的视频数 "+count);
         return count;
     }
 
-    public int ChaptersDiffSubjects(String cid,String sno){
-        int sub=eMap.queryCompletedSubjects(cid,sno);
-        int ch=eMap.queryCountChapters(cid);
-        System.out.println(cid+" 课程中学生："+sno+"完成习题的章节数 "+sub+" 章节总数 "+ch);
+    public int ChaptersDiffSubjects(String taskno,String sno){
+        int sub=eMap.queryCompletedSubjects(taskno,sno);
+        int ch=eMap.queryCountChapters(taskno);
+        System.out.println(taskno+" 课程中学生："+sno+"完成习题的章节数 "+sub+" 章节总数 "+ch);
         return ch-sub;
     }
 
@@ -30,8 +30,8 @@ public class ExamServ {
         int chNums=eMap.countChapters(taskno);
         int examScore=eMap.scoreForExam(taskno,sno);
         int chScores = eMap.scoresForChapters(taskno,sno);
-        double score=examScore/chNums*0.4+chScores*0.6;
-        System.out.println("总分 "+score);
+        double score=(chScores/chNums)*0.6+examScore*0.4;
+        System.out.println("总分 "+score+" num "+chNums+" exsc "+examScore+" chsc "+chScores);
         return score;
     }
 

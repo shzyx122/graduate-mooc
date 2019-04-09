@@ -92,7 +92,7 @@ progress点击章节链接过来的  insert learn match
         System.out.println(mlist);
         if(mlist.size()==0) {
             List<Subject> subList = subMap.findSubjectByChid(chid);
-            if(subList.size()!=0) {
+            if(subList.size()!=0) {  //章节有题库则  随机匹配题目给学生
                 System.out.println("章节所有题目： " + subList);
                 System.out.println("一共： " + subList.size());
                 Set<Integer> set = new HashSet<Integer>();
@@ -147,6 +147,9 @@ progress点击章节链接过来的  insert learn match
         String sno = (String)session.getAttribute("mySno");
         System.out.println("sno "+sno);
 
+        String taskno=(String)session.getAttribute("myTask");
+        System.out.println("getvideo taskno "+taskno );
+
         System.out.println("video ch "+myCh);
         Chapter ch = chMap.findChapterByID(myCh);
         System.out.println(ch);
@@ -157,12 +160,13 @@ progress点击章节链接过来的  insert learn match
         Map<String,Object> map = new HashMap<>();
         map.put("video",vPath);
         map.put("play",play);
-
+//应该加个状态，考试章节就不加video 了
 
         Video v = new Video();
         System.out.println(myCh+" "+sno);
         v.setChid(myCh);
         v.setSno(sno);
+        v.setTaskno(taskno);
         Video vc=vMap.ListVideo(v).get(0);
         map.put("learned",vc.getPlay());
         map.put("time",vc.getTime());

@@ -8,6 +8,15 @@ public class Chscore {
     private String sno;
     private String chid;
     private int score;
+    private String taskno;
+
+    public String getTaskno() {
+        return taskno;
+    }
+
+    public void setTaskno(String taskno) {
+        this.taskno = taskno;
+    }
 
     public String getCsno() {
         return csno;

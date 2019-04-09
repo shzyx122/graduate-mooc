@@ -65,7 +65,9 @@ courseinfo 中点击加入课程  video learn
                          HttpSession session){
         System.out.println("attend " +stu+" learn "+taskno);
         String sno=stuMap.findStudentByName(stu).getSno();
-        Learn learn = lMap.findLearnByInfo(sno,taskno);
+        session.setAttribute("myTask", taskno);  //设置任务 以后操作根据任务来
+        session.setAttribute("mySno",sno);
+        Learn learn = lMap.findLearnByInfo(sno,taskno); //设置learn，如果原先没有则添加，否则不触发
         System.out.println("learned "+learn);
         if(learn==null) {
             Learn l = new Learn();
@@ -73,7 +75,7 @@ courseinfo 中点击加入课程  video learn
             l.setStu(stMap.findStudentByName(stu));
             l.setTask(tkMap.findTaskByTno(taskno));
 
-            //video表所有章节关联
+            //video表所有章节关联  初始化视频观看
 
             List<Chapter> chs = chMap.findChapterByCID((String)session.getAttribute("cRoot"));
             for(Chapter ch:chs){  //创建video表
@@ -83,6 +85,7 @@ courseinfo 中点击加入课程  video learn
                 //v.setState(0);
                 v.setChid(ch.getChid());
                 //System.out.println(v);
+                v.setTaskno(taskno);
                 vMap.addVideo(v);
                 System.out.println("video insert "+v);
             }
@@ -90,8 +93,7 @@ courseinfo 中点击加入课程  video learn
         }
         System.out.println("learn succeeded  " + session.getAttribute("cRoot"));
             //跳转至学习进度页面   原先入口页面在登录状态下更改按钮
-        session.setAttribute("myTask", taskno);  //设置任务 以后操作根据任务来
-        session.setAttribute("mySno",sno);
+
 
         String cid = tkMap.findTaskByTno(taskno).getCourse().getCid();
         session.setAttribute("myCid",cid);
@@ -105,9 +107,10 @@ courseinfo 中点击加入课程  video learn
     @ResponseBody
     public List<Map<String,Object>> myProgress(@RequestParam("cid") String cid,@RequestParam("sno") String sno,
                            HttpSession session){
-        System.out.println("progress "+cid+" "+sno);
-        int sub=exServ.ChaptersDiffSubjects(cid,sno);
-        int chv=exServ.queryIncompleteVideos(cid,sno);
+        String taskno=(String)session.getAttribute("myTask");
+        System.out.println("progress task "+taskno+" "+cid+" "+sno);
+        int sub=exServ.ChaptersDiffSubjects(taskno,sno);  //该名学生当前课程安排中剩余未完成章节习题数
+        int chv=exServ.queryIncompleteVideos(taskno,sno);  //没看的视频数
         List<Chapter> chlist = chMap.findChapterByCID(cid);
         System.out.println(chlist);
         List<Map<String,Object>> res = new ArrayList<>();
@@ -125,11 +128,13 @@ courseinfo 中点击加入课程  video learn
             else{  //非考试章节
                 map.put("state","normal");
             }
-            Map<String,Object> mych = inServ.myChState(ch.getChid(),sno);  //用来判断章节是否已经完成
-            map.put("play",mych.get("play"));
-            map.put("score",mych.get("score"));
-            System.out.println("mych "+mych);
-            System.out.println("map "+map);
+            Map<String,Object> mych = inServ.myChState(taskno,ch.getChid(),sno);  //用来判断章节是否已经完成
+            if(mych!=null) {
+                map.put("play", mych.get("play"));
+                map.put("score", mych.get("score"));
+                System.out.println("mych " + mych);
+                System.out.println("map " + map);
+            }
             res.add(map);
         }
         System.out.println("chp "+res);
@@ -146,6 +151,9 @@ courseinfo 中点击加入课程  video learn
     public String learned(@RequestParam("myCh")String chid,HttpSession session,@RequestBody Map<String,String> learn){
         String sno = (String)session.getAttribute("suser");
         String stu=stuMap.findStudentByName(sno).getSno();
+
+        String taskno=(String)session.getAttribute("myTask");
+        System.out.println("learned taskno "+taskno );
 
         System.out.println("learn "+learn);
         SimpleDateFormat formatter=new SimpleDateFormat("HH:mm:ss:SSS");
@@ -174,6 +182,7 @@ courseinfo 中点击加入课程  video learn
         System.out.println(chid+" "+stu);
         v.setChid(chid);
         v.setSno(stu);
+        v.setTaskno(taskno);
         Video vc=vMap.ListVideo(v).get(0);
         System.out.println("vc "+vc);
         if(vc.getTime()==null||vc.getTime().equals(""))
@@ -221,10 +230,12 @@ courseinfo 中点击加入课程  video learn
         System.out.println();
         System.out.println("hadnin mno front "+mno);
 
+        //修改mat表，录入选择结果
         for(int i=0;i<mno.size();i++){
             Match mat = matMap.findMatchByID(mno.get(i));
             System.out.println("origin "+mat);
-            mat.setChoice(chlist.get(i)==null?"none":chlist.get(i));  //不知道为什么做过了的题还会遍历一下第一道的origin，答案是选好了的
+            mat.setChoice(chlist.get(i)==null?"none":chlist.get(i));
+            //做过了的题还会遍历一下第一道的origin，答案是选好了的  问题在于查询的时候没按照taskno找，所以找到的是所有的题目而不是匹配到的题目
             mat.setSubject(subMap.findSubjectByID(sublist.get(i)));
             mat.setState(chlist.get(i)==null||!mat.getSubject().getAnswer().equals(chlist.get(i))?0:1);
             matMap.Update(mat);
@@ -253,6 +264,7 @@ courseinfo 中点击加入课程  video learn
         chs.setChid(mych);
         chs.setSno(mysno);
         chs.setScore(chsc);
+        chs.setTaskno(task);
         chsMap.insertChscore(chs);
         //如果是考试章节，就可以计算总分了
         Chapter ch = chMap.findChapterByID(mych);

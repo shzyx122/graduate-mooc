@@ -220,6 +220,7 @@
                     }
                 }
                 $("form").append("</br>得分："+score);
+                score=0; //否则切换过来又要累加了
                 if(data[0].state==-1) {
                     $("form").append('</br><input type="button" onclick="typeSub(\''+chapter+'\')" value=提交 class="btn btn-default"></input>');
                 }
@@ -270,7 +271,32 @@
         var mysno = '<%=request.getSession().getAttribute("mySno")%>';
         getVideo(chapter);
 
-        $.ajax({  //获取一门课的章节      这是右侧导航栏
+        var sno = '<%=request.getSession().getAttribute("mySno")%>';
+        var cid = '<%=request.getSession().getAttribute("myCid")%>';
+        $.ajax({
+            url: '/student/myProgress?cid='+cid+"&sno="+sno,  //有了config里面的配置之后就可以通过ip地址加端口的方式以绝对路径访问
+            type: 'get',
+            async: false,
+            success: function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    var content="";
+                    if(data[i].state=="exam"){ //要么特殊化，要么和normal合并
+                        content="考试:<a href='/course/study/"+data[i].chid+"'>" + data[i].chname + "</a>\n";
+                    }else if(data[i].state=="prepare"){
+                        content="<p>考试："+data[i].chname+"</p>";
+                    }
+                    else if(data[i].state=="normal"){
+                        content="<a href='/course/study/"+data[i].chid+"'>" + data[i].chname + "</a>";
+                        if(data[i].score!=null&&data[i].play!=null)
+                            if(data[i].play!=0)
+                                content+="已完成</br>"
+                    }
+                    $("#content1").append("<h3 class='clearfix'><span class='icon'>"+(i+1)+content+
+                        "</span><span class='chapterNumber'></span></h3>");
+                }
+            }
+        });
+        /*$.ajax({  //获取一门课的章节      这是右侧导航栏
             url: '/qchapter',
             type: 'get',
             async: true,
@@ -283,7 +309,7 @@
 
                 }
             }
-        });
+        });*/
         var $firLi=$("ul li").eq(0);
         var $secLi=$("ul li").eq(1);
 

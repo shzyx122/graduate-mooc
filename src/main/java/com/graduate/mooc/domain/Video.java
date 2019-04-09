@@ -9,10 +9,17 @@ public class Video {  //好像是个多对多
     private String vno;
     private String chid;
     private String sno;
-
     private int    play;
     private Time   time;
+    private String taskno;
 
+    public String getTaskno() {
+        return taskno;
+    }
+
+    public void setTaskno(String taskno) {
+        this.taskno = taskno;
+    }
     public String getVno() {
         return vno;
     }

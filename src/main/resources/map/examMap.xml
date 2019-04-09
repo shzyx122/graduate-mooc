@@ -6,18 +6,18 @@
 
     <select id="queryIncompleteVideos" resultType="Integer">
         select count(1) from video where chid in (select chid from chapter where cid in(select cid from task
-          where cid=#{param1} and exstate=0) and sno = #{param2} ) and play=0
+          where taskno=#{param1}) and exstate=0) and sno = #{param2} and play=0
     </select>
 
     <select id="queryCompletedSubjects" resultType="Integer">
         select count(1) from chscore where chid in (select chid from chapter where cid in(
-            select cid from task where cid=#{param1})
+            select cid from task where taskno=#{param1})
             and exstate=0) and sno=#{param2}
     </select>
 
     <select id="queryCountChapters" resultType="Integer">
-        select count(1) from chapter where chid in (select chid from chapter where cid in(
-            select cid from task where cid=#{param1}) and exstate=0)
+        select count(1) from chapter where cid in(
+            select cid from task where taskno=#{param1}) and exstate=0
     </select>
     
     
@@ -29,14 +29,14 @@
 
     <select id="scoresForChapters" resultType="Integer">
         select sum(score) from chscore where chid in(select chid from chapter
-        where  cid in(select cid from task where taskno=#{param1}) and exstate=0
-               and sno = #{param2})
+        where  cid in(select cid from task where taskno=#{param1}) and exstate=0)
+               and sno = #{param2}
     </select>
 
     <select id="scoreForExam" resultType="Integer">
         select score from chscore where chid in(select chid from chapter
-        where cid in(select cid from task where taskno=#{param1}) and exstate=1
-              and sno = #{param2})
+        where cid in(select cid from task where taskno=#{param1}) and exstate=1)
+              and sno = #{param2}
     </select>
     
 

@@ -348,8 +348,9 @@
                     }
                     else if(data[i].state=="normal"){
                         content="<a href='/course/study/"+data[i].chid+"'>" + data[i].chname + "</a>";
-                        if(data[i].score!=null&&data[i].play!=0)
-                            content+="已完成</br>"
+                        if(data[i].score!=null&&data[i].play!=null)
+                            if(data[i].play!=0)
+                                content+="已完成</br>"
                     }
                     $(".leveltwo").append("<h3 class='clearfix'><span class='icon'>"+(i+1)+content+
                         "</span><span class='chapterNumber'></span></h3>");

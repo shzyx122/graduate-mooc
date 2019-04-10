@@ -37,8 +37,17 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/1.10.15/css/jquery.dataTables.css">
+
+    <!-- jQuery -->
+    <script type="text/javascript" charset="utf8" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+
+    <!-- DataTables -->
+    <script type="text/javascript" charset="utf8" src="http://cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
     <style type="text/css">
-        .grid{ float:left; margin-left:20px; list-style-type:none;}
+        .grid{ float:left; margin-left:20px; margin-top:20px; list-style-type:none;}
+        .center{text-align:center;margin:auto;}
     </style>
 </head>
 <body>
@@ -383,22 +392,17 @@
         </div>
     </div>
 </div>
-<!-- jQuery -->
-<script src="<%=basePath%>static/vendor/jquery/jquery.min.js"></script>
-
 <!-- Bootstrap Core JavaScript -->
 <script src="<%=basePath%>static/vendor/bootstrap/js/bootstrap.min.js"></script>
 
 <!-- Metis Menu Plugin JavaScript -->
 <script src="<%=basePath%>static/vendor/metisMenu/metisMenu.min.js"></script>
 
-<!-- Morris Charts JavaScript -->
-<script src="<%=basePath%>static/vendor/raphael/raphael.min.js"></script>
-<script src="<%=basePath%>static/vendor/morrisjs/morris.min.js"></script>
-<script src="<%=basePath%>static/data/morris-data.js"></script>
-
 <!-- Custom Theme JavaScript -->
 <script src="<%=basePath%>static/dist/js/sb-admin-2.js"></script>
+
+<!-- DataTables -->
+<script type="text/javascript" charset="utf8" src="http://cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
 
 
 <script type="text/javascript">
@@ -417,11 +421,12 @@
                 content+="<li class=\"grid\">\n" +
                     "<div>\n"+
                     "<a href='/course/front?cour="+id+"'>\n" +
-                    "   <img src='<%=basePath%>static/imgs/"+path+"'>\n" +
+                    "   <img width='130' height='130' src='<%=basePath%>static/imgs/"+path+"'>\n" +
                     "</a>\n" +
                     "</div>\n"+
-                    "<div>\n"+
-                        "<a href='/course/front?cour='\'+id+\'' title='"+name+"'>"+name+"</a>" +
+                    "<div class='center'>\n"+
+                        "<a href='/course/front?cour="+id+"'  title='"+name+"'>"+name+"</a>" +
+                    "</div>\n"+
                     "</li>";
                 //一行放5个，因此开头结尾以及遍历结束的时候添加div标签
                 if(i%5==0) {

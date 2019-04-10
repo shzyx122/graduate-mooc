@@ -285,10 +285,10 @@
                         <a href="/"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> 信息管理<span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> 课程信息<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="/Cou">课程管理</a>
+                                <a href="/student/stuInfo">我的课程</a>
                             </li>
                             <li>
                                 <a href="morris.html">Morris.js Charts</a>

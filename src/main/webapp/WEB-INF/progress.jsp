@@ -40,7 +40,49 @@
 
     <!-- DataTables -->
     <script type="text/javascript" charset="utf8" src="http://cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
+    <style type="text/css">
+        .leveltwo h3 .icon {
+            display: inline-block;
+            height: 25px;
+            line-height: 25px;
+            font-size: 14px;
+            color: #999;
+            width: 82px;
+            text-align: right;
+        }
+        .timeline em {
+            width: 17px;
+            height: 17px;
+            line-height: 17px;
+            text-align: center;
+            color: #fff;
+            display: inline-block;
+            background: url(/static/imgs/bg.png) -18px 0px;
+            float: right;
+            margin: 4px 5px 0px;
+            font-style: normal;
+            font-size: 12px;
+            font-weight: normal;
+        }
+        .timeline em.openlock {
+            background-position: -36px 0px;
+        }
+        .timeline em.orange {
+            background-position: -48px -160px;
+        }
+        .leveltwo h3 .articlename {
+            margin-left: 5px;
+            font-size: 12px;
+        }
 
+        .charter b {
+            background: rgba(0, 0, 0, 0) url(/static/imgs/bg.png) repeat scroll -44px -63px;
+            display: inline-block;
+            height: 17px;
+            margin: 0 3px -3px;
+            width: 17px;
+        }
+    </style>
 </head>
 <body>
 <div id="wrapper">
@@ -270,7 +312,9 @@
         <div class="container-fluid courseIntroBox">
 
             <div class="continue-study" style="border-bottom:0px;border-radius: 5px 5px 0 0;">
-                <span class="charter" style="font-size:16px;color:#333"><b></b>待完成任务点</span>
+                <span class="charter" style="font-size:16px;color:#333"><b></b>
+                    待完成任务点
+                </span>
                 <div class="content1 roundcorner">
                     <div class="wwc" style="padding-bottom:0px;"></div>
                     <!--<div class="titlename"><span>统计</span><span>开发</span><div class="clear"></div></div>-->
@@ -287,10 +331,7 @@
                             </h2>
                             <!-- 第二级开始  -->
                             <div class="leveltwo">
-                                <h3 class="clearfix">
 
-                                    </span>
-                                </h3>
                             </div>
                         </div>
                     </div>
@@ -340,20 +381,22 @@
             async: false,
             success: function (data) {
                 for (var i = 0; i < data.length; i++) {
-                    var content="";
+                    var content="<span class='icon'>";
                     if(data[i].state=="exam"){ //要么特殊化，要么和normal合并
-                        content="考试:<a href='/course/study/"+data[i].chid+"'>" + data[i].chname + "</a>\n";
+                        content="<span class='articlename'>开放考试:<a href='/course/study/"+data[i].chid+"'>" + data[i].chname + "</a></span>\n";
                     }else if(data[i].state=="prepare"){
-                        content="<p>考试："+data[i].chname+"</p>";
+                        content="<span class='articlename'><p>未开放考试："+data[i].chname+"</p></span>";
                     }
                     else if(data[i].state=="normal"){
-                        content="<a href='/course/study/"+data[i].chid+"'>" + data[i].chname + "</a>";
                         if(data[i].score!=null&&data[i].play!=null)
                             if(data[i].play!=0)
-                                content+="已完成</br>"
+                                content+="<span class='chapterNumber'>"+(i+1)+"</span><em class='openlock'></em></span>"
+                        else  content+="<span class='chapterNumber'>"+(i+1)+"</span><em class='orange'></em></span>"      //这层if是完成与否的图标
+                        content+="<span class='articlename'><a href='/course/study/"+data[i].chid+"'>" + data[i].chname + "</a></span>\n";
+
                     }
-                    $(".leveltwo").append("<h3 class='clearfix'><span class='icon'>"+(i+1)+content+
-                        "</span><span class='chapterNumber'></span></h3>");
+                    $(".leveltwo").append("<h3 class='clearfix'>"+
+                        ""+content+"</span></h3>");
                 }
             }
         });

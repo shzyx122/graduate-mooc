@@ -522,9 +522,12 @@
                 {
                     "targets": 1,
                     "render" : function(data, type, row, meta) {
-                        if(data===1)
-                            return "考试";
-                        return "非考试"
+                        if(data!=='') {
+                            if (data === 1)    //直接 if else 则有可能 空的时候也显式else里面的东西
+                                return "考试";
+                            else if (data === 0) return "非考试";
+                        }
+                        return '';
 
                     }
                 },
@@ -551,14 +554,24 @@
                         });
 
                         $(cell).on("blur",":input",function(){
-                            var text = $(this).val(); //控件中的过程数据
-                            $(cell).html(text);  //文本中的数据
+                            var text = $(this).val(); //控件中的过程数据（编辑内容，最后想要显式的样子）
+                            console.log("before")
+                            //console.info(cell)
+                           /* console.log(cellData)
+                            console.log(text)
+                            console.log(table.cell( cell ).data())*/
+                            //$(cell).html(text);  //文本中的数据
                             table.cell( cell ).data(text);//将输入数据赋值到文本中
-                            cellData=text;   //结点中的数据
-                            console.log(table.cell( cell ).data())
+                            cellData=text;   //结点中的数据  不加的话再次文本框不会改变，改变的只有页面显示
+
                             $.post('<%=basePath%>upch',{  //json这里具体的值加引号会导致数据长度过长错误
                                 'id':rowData.chid,'name':rowData.chname,
                                 'vid':rowData.video,'ex':rowData.exstate });
+                            console.log("after")
+                            //console.info(cell)
+                            /*console.log(cellData)
+                            console.log(text)
+                            console.log(table.cell( cell ).data())*/
                             //table.ajax.reload(null, false);
                         });
 
@@ -576,8 +589,8 @@
                             console.info(cellData);//显示数据
                             console.info(cell);//单元格节点
                             $(this).html('<select name="state">' +
-                                '<option value="1">考试</option>' +
                                 '<option value="0">非考试</option>' +
+                                '<option value="1">考试</option>' +
                                 '</select>');
                             var sel = $(this).find("select");
                             sel.focus().val(cellData);
@@ -585,20 +598,32 @@
                         });
 
                         $(cell).on("blur",":input",function(){
+                            //console.log("test")
+                            //console.info(cell)
+                            //console.info(cellData)
                             var text = $(this).val();
+                            //console.log("text "+text)
                             var htm = $("select option[value="+text+"]").text();  //文本不变不是cell.html的问题
-                            //alert(text);
-                            $(cell).html(text);
-                           //alert(table.cell( cell ).data());
+                            //console.log("htm "+htm)
+                            //console.log("before")
+                            //console.info(cell)
+                            //console.log("celldata "+cellData)
+                            //console.log("table "+table.cell( cell ).data())
+                            //$(cell).html(htm);
                             table.cell( cell ).data(text);
-                            //alert(table.cell( cell ).data());
                             cellData=htm;
-                            console.log("text "+text+" table "+table.cell( cell ).data()+"cell"+cellData)
+                            //console.log("after")
+                            //console.info(cell)
+                            //console.log("celldata "+cellData)
+                            //console.log("table "+table.cell( cell ).data())
+                            //console.log("text "+text+" table "+table.cell( cell ).data()+"cell"+cellData)
                             //文本内容没变，只是值改变，所以还是要刷新下
                             $.post('<%=basePath%>upch',{
                                 'id':rowData.chid,'name':rowData.chname,
                                 'vid':rowData.video,'ex':rowData.exstate });
-                            window.location.reload();//table.ajax.reload(null, false);
+
+                            table.ajax.reload(null, false);
+                           // window.location.reload();
                         });
 
                         $(cell).on("click",":input",function(e){

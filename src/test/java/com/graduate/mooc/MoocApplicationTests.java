@@ -22,8 +22,8 @@ public class MoocApplicationTests {
     @Test
     public void exam() {
 
-        System.out.println(exs.queryIncompleteVideos("f55875daa72e1037b0b07e977ba3bfd4","e261837d0425ead527010e28e2514ae1"));
-        System.out.println(exs.ChaptersDiffSubjects("f55875daa72e1037b0b07e977ba3bfd4","e261837d0425ead527010e28e2514ae1"));
+        System.out.println(exs.queryIncompleteVideos("1b9ecb26a7ca1037b0b07e977ba3bfd4","e261837d0425ead527010e28e2514ae1"));
+        System.out.println(exs.ChaptersDiffSubjects("1b9ecb26a7ca1037b0b07e977ba3bfd4","e261837d0425ead527010e28e2514ae1"));
 
         System.out.println(exs.totalScore("1b9ecb26a7ca1037b0b07e977ba3bfd4","e261837d0425ead527010e28e2514ae1"));
     }

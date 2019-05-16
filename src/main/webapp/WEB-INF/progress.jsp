@@ -325,9 +325,9 @@
                         <!-- 第一级开始  -->
                         <div class="units">
                             <h2><span class="numbers"><b>1</b></span>
-                                <a href="javascript:void(0)" title="绪论" style="cursor:default">
+                                <!--<a href="javascript:void(0)" title="绪论" style="cursor:default">
                                     绪论
-                                </a>
+                                </a>-->
                             </h2>
                             <!-- 第二级开始  -->
                             <div class="leveltwo">
@@ -381,17 +381,19 @@
             async: false,
             success: function (data) {
                 for (var i = 0; i < data.length; i++) {
-                    var content="<span class='icon'>";
+                    var content="";
                     if(data[i].state=="exam"){ //要么特殊化，要么和normal合并
                         content="<span class='articlename'>开放考试:<a href='/course/study/"+data[i].chid+"'>" + data[i].chname + "</a></span>\n";
                     }else if(data[i].state=="prepare"){
                         content="<span class='articlename'><p>未开放考试："+data[i].chname+"</p></span>";
                     }
                     else if(data[i].state=="normal"){
-                        if(data[i].score!=null&&data[i].play!=null)
-                            if(data[i].play!=0)
-                                content+="<span class='chapterNumber'>"+(i+1)+"</span><em class='openlock'></em></span>"
-                        else  content+="<span class='chapterNumber'>"+(i+1)+"</span><em class='orange'></em></span>"      //这层if是完成与否的图标
+                        //if(data[i].play!=null)//if(data[i].score!=null&&data[i].play!=null)
+                        //加入score初始值的判断
+                            if(data[i].play!=0&&data[i].play!=null)
+                                content+="<span class='icon'><span class='chapterNumber'>"+(i+1)+"</span><em class='openlock'></em></span>"
+                            else if(data[i].play==null||data[i].play==0)
+                                content+="<span class='icon'><span class='chapterNumber'>"+(i+1)+"</span><em class='orange'></em></span>"      //这层if是完成与否的图标
                         content+="<span class='articlename'><a href='/course/study/"+data[i].chid+"'>" + data[i].chname + "</a></span>\n";
 
                     }

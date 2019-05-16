@@ -440,7 +440,7 @@
                         $("form").append("<li><label><input  type='radio' name=choice" + i + " value=B>B. " + data[i].subject.bitem + "</label></li>");
                         $("form").append("<li><label><input type='radio' name=choice" + i + " value=C>C. " + data[i].subject.citem + "</label></li>");
                         $("form").append("<li><label><input type='radio' name=choice" + i + " value=D>D. " + data[i].subject.ditem + "</label></li>");
-                        $("form").append("</ul>");
+                        $("form").append("</ul></br>");
                     }else{
                         var ch;
                         score+=data[i].percent*data[i].state;

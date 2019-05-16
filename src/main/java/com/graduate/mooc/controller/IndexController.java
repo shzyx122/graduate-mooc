@@ -71,9 +71,10 @@ public class IndexController {
     }
 
     @RequestMapping(value="/logout",method = RequestMethod.GET)  //登出
-    public String logout(){
+    public String logout(HttpSession session){
  //根据用户类型取消会话属性，跳转到对应首页。
-        return "index";
+        session.invalidate();//clear
+        return "login";
     }
 
     @Autowired

@@ -37,6 +37,48 @@
         .xyTabs li a{display:block}
         .xyTabs li.cur{color:#38bb37;font-weight:bold;background:#f6f6f6;border-top:solid 4px #38bb37;}
         .xyTabs li.cur a{color:#38bb37;}
+
+        .leveltwo h3 .icon {
+            display: inline-block;
+            height: 25px;
+            line-height: 25px;
+            font-size: 14px;
+            color: #999;
+            width: 82px;
+            text-align: right;
+        }
+        em {
+            width: 17px;
+            height: 17px;
+            line-height: 17px;
+            text-align: center;
+            color: #fff;
+            display: inline-block;
+            background: url(/static/imgs/bg.png) -18px 0px;
+            float: right;
+            margin: 4px 5px 0px;
+            font-style: normal;
+            font-size: 12px;
+            font-weight: normal;
+        }
+        em.openlock {
+            background-position: -36px 0px;
+        }
+        em.orange {
+            background-position: -48px -160px;
+        }
+        .leveltwo h3 .articlename {
+            margin-left: 5px;
+            font-size: 12px;
+        }
+
+        .charter b {
+            background: rgba(0, 0, 0, 0) url(/static/imgs/bg.png) repeat scroll -44px -63px;
+            display: inline-block;
+            height: 17px;
+            margin: 0 3px -3px;
+            width: 17px;
+        }
     </style>
 </head>
 <body>
@@ -527,10 +569,13 @@
                         content="<a href='/course/study/"+data[i].chid+"'>" + data[i].chname + "</a>";
                         if(data[i].score!=null&&data[i].play!=null)
                             if(data[i].play!=0)
-                                content+="已完成</br>"
+                                content="<em class='openlock'></em><span class='articlename'>"+
+                                    content+"<h5>习题已完成</h5></span></br>"
                     }
-                    $("#content1").append("<h3 class='clearfix'><span class='icon'>"+(i+1)+content+
-                        "</span><span class='chapterNumber'></span></h3>");
+                    $("#content1").append("<h3 class='clearfix'><span class='icon'><span class='chapterNumber'>"+
+                        (i+1)+"</span></span>"+
+                        content+
+                        "</h3>");
                 }
             }
         });

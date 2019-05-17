@@ -14,7 +14,20 @@
         </if>
 
     </select>
-    
+
+    <select id="quertChsByDetails">
+        select * from chscore where 1=1
+        <if test="sno!=null and sno!=''">
+            and sno=#{param3}
+        </if>
+        <if test="chid!=null and chid!=''">
+            and chid=#{param2}
+        </if>
+        <if test="taskno!=null and taskno!=''">
+            and taskno=#{param1}
+        </if>
+    </select>
+
     <insert id="insertChscore" parameterType="com.graduate.mooc.domain.Chscore">
         <selectKey keyProperty="csno" resultType="String" order="BEFORE">
             select replace(UUID(),"-","")

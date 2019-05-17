@@ -381,6 +381,7 @@
             async: false,
             success: function (data) {
                 for (var i = 0; i < data.length; i++) {
+                    console.log(data[i])
                     var content="";
                     if(data[i].state=="exam"){ //要么特殊化，要么和normal合并
                         content="<span class='articlename'>开放考试:<a href='/course/study/"+data[i].chid+"'>" + data[i].chname + "</a></span>\n";
@@ -390,9 +391,9 @@
                     else if(data[i].state=="normal"){
                         //if(data[i].play!=null)//if(data[i].score!=null&&data[i].play!=null)
                         //加入score初始值的判断
-                            if(data[i].play!=0&&data[i].play!=null)
+                            if(data[i].play!=0&&data[i].play!=null&&data[i].score!=-1)
                                 content+="<span class='icon'><span class='chapterNumber'>"+(i+1)+"</span><em class='openlock'></em></span>"
-                            else if(data[i].play==null||data[i].play==0)
+                            else if(data[i].play==null||data[i].play==0||data[i].score!=-1)
                                 content+="<span class='icon'><span class='chapterNumber'>"+(i+1)+"</span><em class='orange'></em></span>"      //这层if是完成与否的图标
                         content+="<span class='articlename'><a href='/course/study/"+data[i].chid+"'>" + data[i].chname + "</a></span>\n";
 

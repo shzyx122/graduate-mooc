@@ -16,4 +16,6 @@ public interface ChscoreMap {
     List<Chscore> listChscore(Chscore ch);
 
     void insertChscore(Chscore ch);
+
+    Chscore quertChsByDetails(String taskno,String chid,String sno);
 }

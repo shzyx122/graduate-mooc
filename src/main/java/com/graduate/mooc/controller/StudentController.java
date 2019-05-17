@@ -86,10 +86,22 @@ courseinfo 中点击加入课程  video learn
                 v.setChid(ch.getChid());
                 //System.out.println(v);
                 v.setTaskno(taskno);
+                //设置时间初始化
+                v.setTime(new Time(StringToDate("0:0:0:0","HH:mm:ss:SSS").getTime()));
                 vMap.addVideo(v);
                 System.out.println("video insert "+v);
+
+                Chscore chscore = new Chscore();  //录入个人章节成绩
+                chscore.setChid(ch.getChid());
+                chscore.setSno(sno);
+                chscore.setScore(-1);
+                chscore.setTaskno(taskno);
+                chsMap.insertChscore(chscore);
+                System.out.println("chscore insert "+chscore);
             }
             lMap.insertLearn(l);
+
+
         }
         System.out.println("learn succeeded  " + session.getAttribute("cRoot"));
             //跳转至学习进度页面   原先入口页面在登录状态下更改按钮
@@ -156,11 +168,17 @@ courseinfo 中点击加入课程  video learn
         System.out.println("learned taskno "+taskno );
 
         System.out.println("learn "+learn);
-        SimpleDateFormat formatter=new SimpleDateFormat("HH:mm:ss:SSS");
-        long total=Long.parseLong(learn.get("total"));  //前端现在传入毫秒
+        String tt =learn.get("total");   //用字符串截取，保留小数点前的位数
+        if(tt.contains("."))
+            tt=tt.substring(0, tt.indexOf("."));
+        long total=Long.parseLong(tt);  //前端现在传入毫秒
         //total=total.replace(".", ":");
-        System.out.println(total);
+        //String tt = learn.get("total");
+        //System.out.println(tt);
+        //Date total=StringToDate(tt,"HH:mm:ss:SSS");
+        System.out.println("total "+total);
 
+        SimpleDateFormat formatter=new SimpleDateFormat("HH:mm:ss:SSS");
         Date date=null;
         date=StringToDate("0:0:8:125","HH:mm:ss:SSS"); //把String 转换成date
 
@@ -169,7 +187,7 @@ courseinfo 中点击加入课程  video learn
         System.out.println(formatter.format(time));  //time转成了string
         //Timestamp
         System.out.println("开始");
-        System.out.println(formatter.format(new Date(time.getTime()+total))); //日期时间加法应该这样
+        System.out.println(formatter.format(new Date(time.getTime()+total))); //long total 日期时间加法应该这样
         try {
             System.out.println(new Time(StringToDate("0:0:0:0","HH:mm:ss:SSS").getTime()));
         }catch (Exception e){
@@ -183,7 +201,7 @@ courseinfo 中点击加入课程  video learn
         v.setChid(chid);
         v.setSno(stu);
         v.setTaskno(taskno);
-        Video vc=vMap.ListVideo(v).get(0);
+        Video vc=vMap.ListVideo(v).get(0); //由于在上方初始化了time，所以可能会出错
         System.out.println("vc "+vc);
         if(vc.getTime()==null||vc.getTime().equals(""))
            vc.setTime(new Time(StringToDate("0:0:0:0","HH:mm:ss:SSS").getTime()));  //初始化全0
@@ -191,7 +209,7 @@ courseinfo 中点击加入课程  video learn
         Time vctime = vc.getTime();
 
         Date d =StringToDate(formatter.format(vctime.getTime()),"HH:mm:ss:SSS");
-        Time uptime=new Time(d.getTime()+total);
+        Time uptime=new Time(d.getTime()+total);//原先是long total
 
         System.out.println(uptime);
         System.out.println("uptime "+formatter.format(uptime));
@@ -259,13 +277,16 @@ courseinfo 中点击加入课程  video learn
             }
         }
         System.out.println("score "+chsc);
-
-        Chscore chs = new Chscore();  //录入个人章节成绩
+//更改score
+        Chscore chs = chsMap.quertChsByDetails(task,mych,mysno);
+        chs.setScore(chsc);
+        System.out.println("/student/handin chs "+chs);
+        /*Chscore chs = new Chscore();  //录入个人章节成绩
         chs.setChid(mych);
         chs.setSno(mysno);
         chs.setScore(chsc);
         chs.setTaskno(task);
-        chsMap.insertChscore(chs);
+        chsMap.insertChscore(chs);*/
         //如果是考试章节，就可以计算总分了
         Chapter ch = chMap.findChapterByID(mych);
         if(ch.getExstate()==1) {

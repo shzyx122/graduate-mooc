@@ -55,7 +55,7 @@
             color: #fff;
             display: inline-block;
             background: url(/static/imgs/bg.png) -18px 0px;
-            float: right;
+            float: left;
             margin: 4px 5px 0px;
             font-style: normal;
             font-size: 12px;
@@ -566,11 +566,21 @@
                         content="<p>考试："+data[i].chname+"</p>";
                     }
                     else if(data[i].state=="normal"){
+                        console.log("score "+data[i].score)
+                        console.log(typeof(data[i].score)=="undefined")
                         content="<a href='/course/study/"+data[i].chid+"'>" + data[i].chname + "</a>";
-                        if(data[i].score!=null&&data[i].play!=null)
-                            if(data[i].play!=0)
-                                content="<em class='openlock'></em><span class='articlename'>"+
-                                    content+"<h5>习题已完成</h5></span></br>"
+                        if(data[i].score!=null&&data[i].play!=null) {
+                            if (data[i].score != -1)//data[i].play!=0
+                                content = "<em class='openlock'></em><span class='articlename'>" +
+                                    content + "<h5>习题已完成</h5></span></br>"
+                        }
+                        else if(typeof data[i].score =="undefined"||data[i].score==null||data[i].score==-1) {
+                            console.log("orange")
+                                content = "<em class='orange'></em><span class='articlename'>" +
+                                    content + "<h5>此章节有习题</h5></span></br>"
+                            }
+
+//typeof data[i].score =="undefined" 判断未定义  可以有括号
                     }
                     $("#content1").append("<h3 class='clearfix'><span class='icon'><span class='chapterNumber'>"+
                         (i+1)+"</span></span>"+

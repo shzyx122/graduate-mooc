@@ -41,11 +41,11 @@
     <!-- DataTables -->
     <script type="text/javascript" charset="utf8" src="http://cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
     <style type="text/css">
-        .leveltwo h3 .icon {
+        .leveltwo h4 .icon {
             display: inline-block;
-            height: 25px;
+            height: 30px;
             line-height: 25px;
-            font-size: 14px;
+            font-size: 20px;
             color: #999;
             width: 82px;
             text-align: right;
@@ -70,9 +70,9 @@
         .timeline em.orange {
             background-position: -48px -160px;
         }
-        .leveltwo h3 .articlename {
+        .leveltwo h4 .articlename {
             margin-left: 5px;
-            font-size: 12px;
+            font-size: 20px;
         }
 
         .charter b {
@@ -324,10 +324,10 @@
                     <div class="timeline">
                         <!-- 第一级开始  -->
                         <div class="units">
-                            <h2><span class="numbers"><b>1</b></span>
-                                <!--<a href="javascript:void(0)" title="绪论" style="cursor:default">
-                                    绪论
-                                </a>-->
+                            <!-- <h2><span class="numbers"><b>1</b></span>-->
+                                 <!--<a href="javascript:void(0)" title="绪论" style="cursor:default">
+                                     绪论
+                                 </a>-->
                             </h2>
                             <!-- 第二级开始  -->
                             <div class="leveltwo">
@@ -398,8 +398,8 @@
                         content+="<span class='articlename'><a href='/course/study/"+data[i].chid+"'>" + data[i].chname + "</a></span>\n";
 
                     }
-                    $(".leveltwo").append("<h3 class='clearfix'>"+
-                        ""+content+"</span></h3>");
+                    $(".leveltwo").append("<h4 class='clearfix'>"+
+                        ""+content+"</span></h4>");
                 }
             }
         });

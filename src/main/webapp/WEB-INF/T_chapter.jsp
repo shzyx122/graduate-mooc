@@ -572,7 +572,7 @@
                             /*console.log(cellData)
                             console.log(text)
                             console.log(table.cell( cell ).data())*/
-                            //table.ajax.reload(null, false);
+                            table.ajax.reload(null, false);
                         });
 
                         $(cell).on("blur",":input",function(e){  //取消事件冒泡
@@ -598,25 +598,10 @@
                         });
 
                         $(cell).on("blur",":input",function(){
-                            //console.log("test")
-                            //console.info(cell)
-                            //console.info(cellData)
                             var text = $(this).val();
-                            //console.log("text "+text)
                             var htm = $("select option[value="+text+"]").text();  //文本不变不是cell.html的问题
-                            //console.log("htm "+htm)
-                            //console.log("before")
-                            //console.info(cell)
-                            //console.log("celldata "+cellData)
-                            //console.log("table "+table.cell( cell ).data())
-                            //$(cell).html(htm);
                             table.cell( cell ).data(text);
                             cellData=htm;
-                            //console.log("after")
-                            //console.info(cell)
-                            //console.log("celldata "+cellData)
-                            //console.log("table "+table.cell( cell ).data())
-                            //console.log("text "+text+" table "+table.cell( cell ).data()+"cell"+cellData)
                             //文本内容没变，只是值改变，所以还是要刷新下
                             $.post('<%=basePath%>upch',{
                                 'id':rowData.chid,'name':rowData.chname,

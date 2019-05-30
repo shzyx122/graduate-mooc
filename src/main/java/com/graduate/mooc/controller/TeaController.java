@@ -282,7 +282,7 @@ String path="imgs"; //static/imgs/
         return "redirect:/subject/"+chid;
     }
 
-    @RequestMapping(value = "/upsub",method = RequestMethod.POST)  //编辑更新章节
+    @RequestMapping(value = "/upsub",method = RequestMethod.POST)  //编辑更新题目
     public void upsub(@RequestParam("id")String id,@RequestParam("name")String name,
                        @RequestParam("vid")String vid,@RequestParam("ex")int ex,
                        HttpServletResponse response) throws IOException {

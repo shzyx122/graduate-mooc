@@ -419,14 +419,14 @@
                     </div>
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Basic Form Elements
+                            通过excel文件上传或提交表单信息
                         </div>
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-6">
                                     <form role="form" action="<%=basePath%>insertCou" method="post" enctype="multipart/form-data">
                                         <div class="form-group">
-                                            <label>File input</label>
+                                            <label>上传课程excel文件</label>
                                             <input type="file" name="coufile">
                                         </div>
                                         <button type="submit" class="btn btn-default">提交</button>
@@ -466,7 +466,7 @@
                 <!-- /.col-lg-12 -->
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        DataTables Advanced Tables
+                        我所开设的课程
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">

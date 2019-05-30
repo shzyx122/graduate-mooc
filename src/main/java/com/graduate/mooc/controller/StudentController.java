@@ -102,6 +102,11 @@ courseinfo 中点击加入课程  video learn
             lMap.insertLearn(l);
 
 
+            //新任务消息
+            Task  newTask = tkMap.findTaskByTno(taskno);
+            Course newCourse = cMap.findCourseByID(newTask.getCourse().getCid());
+            session.setAttribute("newTask",newCourse.getCname());
+
         }
         System.out.println("learn succeeded  " + session.getAttribute("cRoot"));
             //跳转至学习进度页面   原先入口页面在登录状态下更改按钮
@@ -110,6 +115,9 @@ courseinfo 中点击加入课程  video learn
         String cid = tkMap.findTaskByTno(taskno).getCourse().getCid();
         session.setAttribute("myCid",cid);
         System.out.println("myTask mySno myCid"+" "+taskno+" "+sno+" "+cid);
+
+
+
         return "progress";
     }
 

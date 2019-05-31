@@ -106,6 +106,7 @@ courseinfo 中点击加入课程  video learn
             Task  newTask = tkMap.findTaskByTno(taskno);
             Course newCourse = cMap.findCourseByID(newTask.getCourse().getCid());
             session.setAttribute("newTask",newCourse.getCname());
+            System.out.println("new task "+session.getAttribute("newTask"));
 
         }
         System.out.println("learn succeeded  " + session.getAttribute("cRoot"));

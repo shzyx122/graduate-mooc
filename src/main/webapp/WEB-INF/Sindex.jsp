@@ -453,7 +453,7 @@
         var task = '<%=request.getSession().getAttribute("newTask")%>';
         console.log("task",task,typeof task);
         var content=""
-        if(task=="null")  //不知道为什么要判断成字符串才行
+        if(task=="null")  //不知道为什么要判断成字符串才行   似乎如果session里面还没有该属性就获取的话会是"null"
             content='暂无新任务'
         if(task!=="null") {
             console.log("task不为空",task);

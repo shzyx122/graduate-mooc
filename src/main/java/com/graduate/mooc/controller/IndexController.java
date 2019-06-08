@@ -47,7 +47,7 @@ public class IndexController {
                     System.out.println("登录成功");
                     session.setAttribute("auser", username);
                     System.out.println("会话属性 auser:" + username);
-                    return "index";
+                    return "admin/index";
                 }
 
             if ("teacher".equals(usertype))
@@ -55,7 +55,7 @@ public class IndexController {
                     System.out.println("登录成功");
                     session.setAttribute("tuser", username);
                     System.out.println("会话属性 tuser:" + username);
-                    return "Tindex";
+                    return "teacher/Tindex";
                 }
 
 

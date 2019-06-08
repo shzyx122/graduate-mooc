@@ -31,7 +31,7 @@ public class AdminController {
         public String tea(ModelMap model){
         List<Teacher> tlist=team.ListTeacher();
         model.addAttribute("tlist",tlist);
-        return "addTea";
+        return "admin/addTea";
     }
     @RequestMapping(value="/insertTea",method = RequestMethod.POST)
     public String addTea(Teacher t){
@@ -48,7 +48,7 @@ public class AdminController {
      */
     @RequestMapping(value="/task",method = RequestMethod.GET)
     public String task(ModelMap model){
-        return "A_task";
+        return "admin/A_task";
     }
 
     @Autowired
@@ -89,7 +89,7 @@ public class AdminController {
         session.setAttribute("cform",c);
         Teacher t = team.findTeacherByID(c.getTid());
         session.setAttribute("tname",t.getTname());
-        return "form_A_task";
+        return "admin/form_A_task";
     }
 
 

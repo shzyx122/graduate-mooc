@@ -44,7 +44,7 @@ public class TeaController {
         String user=(String)session.getAttribute("tuser");
         List<Course> clist=cs.findCourseByTid(user);
         model.addAttribute("clist",clist);
-        return "T_course";
+        return "teacher/T_course";
     }
 
     @RequestMapping(value="/addCou",method = RequestMethod.POST)
@@ -121,7 +121,7 @@ public class TeaController {
     @RequestMapping(value="/chapter/{cid}",method = RequestMethod.GET)
     public String chapter(@PathVariable String cid,ModelMap model,HttpSession session){
         session.setAttribute("cRoot",cid);  //记录从哪门课程点进来的
-        return "T_chapter";
+        return "teacher/T_chapter";
     }
 
     @RequestMapping(value="/qchapter",method = RequestMethod.GET)  //ajax query list
@@ -225,7 +225,7 @@ String path="imgs"; //static/imgs/
     public String subject(@PathVariable("chsub")String chid, HttpSession session){
         session.setAttribute("sub_ch",chid);
         System.out.println(session.getAttribute("sub_ch"));
-        return "T_subject";
+        return "teacher/T_subject";
     }
 
     @GetMapping("qsubjects")

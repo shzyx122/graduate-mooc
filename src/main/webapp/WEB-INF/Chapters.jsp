@@ -26,7 +26,7 @@
     <script type="text/javascript" charset="utf8" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 
     <style type="text/css">
-        .right{position:fixed;right:0px;top:0px;width:303px;border-left:7px solid #504f55;}
+        .right{position:absolute;right:0px;top:0px;width:303px;border-left:7px solid #504f55;}
         ul,ol,dl{list-style:none;}
         li{ float:left; margin-left:20px; list-style-type:none;}
         a{color:#202020;text-decoration:none;}
@@ -348,7 +348,7 @@
                     //$("form").append("<input type=hidden name=chid value="+chapter+">");
                     $("form").append("<input type=hidden name=subno" + i + " value=" + data[i].subject.subno + "></br>");
                     $("form").append("<div>" + (i+1) + "、 " + data[i].subject.question + "</div>");
-                    if(data[i].state==-1) {
+                    if(data[i].state==-1) {  //还没答题
                         $("form").append("<ul><li><label><input type='radio' name=choice" + i + " value=A>A. " + data[i].subject.aitem + "</label></li>");
                         $("form").append("<li><label><input  type='radio' name=choice" + i + " value=B>B. " + data[i].subject.bitem + "</label></li>");
                         $("form").append("<li><label><input type='radio' name=choice" + i + " value=C>C. " + data[i].subject.citem + "</label></li>");

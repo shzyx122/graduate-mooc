@@ -237,6 +237,7 @@
                                         <input type="hidden" name="state" value="0">
                                         <td><input type="text" value="${c.cname}" name="cname" size="12"></td>
                                         <td><input type="text" value="${c.during}" name="during" size="12"></td>
+                                        <td><input type="text" readonly value="${c.picPath}" name="during" size="12">${c.picPath}</td>
                                         <td><button type="submit" class="btn btn-default">确认</button></td>
                                     </c:if>
                                 </tr>

@@ -65,7 +65,7 @@ public class IndexController {
                     session.setAttribute("suser", username);
                     System.out.println("会话属性 suser:" + username);
                     session.setAttribute("newTask","暂无新任务");  //新任务会话属性初始化
-                    return "Sindex";
+                    return "student/Sindex";
                 }
 
         }

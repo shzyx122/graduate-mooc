@@ -15,7 +15,7 @@
 
     </select>
 
-    <select id="quertChsByDetails">
+    <select id="quertChsByDetails" resultType="com.graduate.mooc.domain.Chscore">
         select * from chscore where 1=1
         <if test="sno!=null and sno!=''">
             and sno=#{param3}
@@ -41,5 +41,15 @@
         #{taskno}
         )
     </insert>
+
+    <update id="updateChscore" parameterType="com.graduate.mooc.domain.Chscore">
+        update chscore
+        <set>
+            <if test="score!=null and score!=0">
+                score=#{score}
+            </if>
+        </set>
+        where csno=#{csno}
+    </update>
     
 </mapper>

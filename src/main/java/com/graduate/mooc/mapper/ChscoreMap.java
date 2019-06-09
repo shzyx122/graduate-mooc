@@ -2,6 +2,7 @@ package com.graduate.mooc.mapper;
 
 import com.graduate.mooc.domain.Chscore;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -17,5 +18,7 @@ public interface ChscoreMap {
 
     void insertChscore(Chscore ch);
 
-    Chscore quertChsByDetails(String taskno,String chid,String sno);
+    void updateChscore(Chscore ch);
+
+    Chscore quertChsByDetails(@Param("taskno") String taskno, @Param("chid")String chid, @Param("sno")String sno);
 }

@@ -288,8 +288,10 @@ courseinfo 中点击加入课程  video learn
         System.out.println("score "+chsc);
 //更改score
         Chscore chs = chsMap.quertChsByDetails(task,mych,mysno);
+        System.out.println("chs "+chs);
         chs.setScore(chsc);
-        System.out.println("/student/handin chs "+chs);
+        chsMap.updateChscore(chs);
+        System.out.println("/student/handin upchs "+chs);
         /*Chscore chs = new Chscore();  //录入个人章节成绩
         chs.setChid(mych);
         chs.setSno(mysno);
@@ -323,7 +325,7 @@ courseinfo 中点击加入课程  video learn
 
     @GetMapping("/stuInfo")
     public String stuInfo(){
-        return "stuInfo";
+        return "student/stuInfo";
     }
 
     @GetMapping("/info")

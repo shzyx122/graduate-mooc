@@ -235,9 +235,12 @@
                     tno=data[i].taskno; //获取taskno用来设置learn
                     $('.xyCourseIntro').append("<p>开课时间:" + data[i].begin + "</p>\n");
                     if (i == (data.length-1)) {
+                        var disp=data[i].course.discrip==null?'暂时无课程描述':data[i].course.discrip
+
+                        console.log(data[i].course.discrip,data[i].course.discrip==null,disp)
                         $('.xyCourseIntro').append(
                             "<p>课时：" + data[i].course.during + "</p>\n" +
-                            "<p>" + data[i].course.discrip + "</p>");
+                            "<p>" + disp + "</p>");//==null?'暂时无课程描述':data[i].course.discrip
                     }
                 }
                 else $('.xyCourseIntro').append("<p>课程已结束</p>");

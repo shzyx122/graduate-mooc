@@ -59,7 +59,7 @@
                 request.open("POST",url );
                 request.send(myform);*/
                 console.log("formdata used")
-                $.ajax({
+                $.ajax({   //可能是ajax提交formdata导致的
                     url:"<%=basePath%>upvideo/" + chid ,
                     type: "POST",
                     //async: false,
@@ -69,9 +69,9 @@
                     processData: false,
                     success: function (data) {  //每次成功success都会多调用一次，其实是ajax多调用了一次
                         console.log("ready fresh")
-                        window.location.reload();
+                        window.location.reload();  //确实刷新后不会迭代上传，但是后端也刷新了，数据源会开个新的
                         //$('#dataTables-example').DataTable().ajax.reload(null,false);
-                        console.log("fresh over")
+                        console.log("fresh over",$('#vfile')[0].files)
                     },
                     error: function (data) {
                     }

@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: shzyx122
-  Date: 2019/2/5
-  Time: 9:07
+  Date: 2019/2/8
+  Time: 9:20
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -21,7 +21,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>欢迎进入慕课平台</title>
+    <title>我的课程安排</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="<%=basePath%>static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -32,9 +32,6 @@
     <!-- Custom CSS -->
     <link href="<%=basePath%>static/dist/css/sb-admin-2.css" rel="stylesheet">
 
-    <!-- Morris Charts CSS -->
-    <link href="<%=basePath%>static/vendor/morrisjs/morris.css" rel="stylesheet">
-
     <!-- Custom Fonts -->
     <link href="<%=basePath%>static/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
@@ -44,10 +41,12 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
+    <style type="text/css">
+    .grid{ float:left; margin-left:20px; list-style-type:none;text-align: center}
+    </style>
 </head>
-
 <body>
+
 
 <div id="wrapper">
     <!--顶部导航栏-->
@@ -121,8 +120,30 @@
         <!-- /.navbar-static-side -->
     </nav>
     <!--主要内容-->
+    <!-- Page Content -->
     <div id="page-wrapper">
-        欢迎教师${tuser}
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">课程安排</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+                <div class="panel panel-default">
+
+                    <div class="panel-body">
+                        <div class="row">
+                            <ul id="courses">
+
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
     </div>
     <!-- /#page-wrapper -->
 
@@ -138,13 +159,29 @@
 <!-- Metis Menu Plugin JavaScript -->
 <script src="<%=basePath%>static/vendor/metisMenu/metisMenu.min.js"></script>
 
-<!-- Morris Charts JavaScript -->
-<script src="<%=basePath%>static/vendor/raphael/raphael.min.js"></script>
-<script src="<%=basePath%>static/vendor/morrisjs/morris.min.js"></script>
-<script src="<%=basePath%>static/data/morris-data.js"></script>
-
 <!-- Custom Theme JavaScript -->
 <script src="<%=basePath%>static/dist/js/sb-admin-2.js"></script>
+
+<script type="text/javascript">
+    $(document).ready( function () {
+        console.log("enter");
+        $.get("/myTasks",function(data){
+            for(var i=0;i<data.length;i++){
+                console.log(data[i]);
+                $("#courses").append("<li class='grid'>" +
+                    "<div>\n"+
+                    "<a href='/myRank?rank_task="+data[i].taskno+"'>\n" +
+                    "   <img src='<%=basePath%>static/imgs/"+data[i].pic_path+"'>\n" +
+                    "</a>\n" +
+                    "</div>" +
+                    "<div>\n"+
+                    "<a href='#' title='"+name+"'>"+data[i].cname+"</a></div>" +
+
+                    "</li>");
+            }
+        });
+    });
+</script>
 
 </body>
 </html>

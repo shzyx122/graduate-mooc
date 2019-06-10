@@ -1,28 +1,18 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: shzyx122
-  Date: 2019/2/5
-  Time: 9:07
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@page isELIgnored="false" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%
     String path = request.getContextPath();
-    String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+    String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
 %>
 <html>
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>欢迎进入慕课平台</title>
-
+    <title>班级情况</title>
     <!-- Bootstrap Core CSS -->
     <link href="<%=basePath%>static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
@@ -32,23 +22,15 @@
     <!-- Custom CSS -->
     <link href="<%=basePath%>static/dist/css/sb-admin-2.css" rel="stylesheet">
 
-    <!-- Morris Charts CSS -->
-    <link href="<%=basePath%>static/vendor/morrisjs/morris.css" rel="stylesheet">
-
     <!-- Custom Fonts -->
     <link href="<%=basePath%>static/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
+    <style type="text/css">
+        .grid{ float:left; margin-left:20px; list-style-type:none;text-align: center}
+    </style>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
 </head>
-
 <body>
-
 <div id="wrapper">
     <!--顶部导航栏-->
     <!-- Navigation -->
@@ -121,13 +103,34 @@
         <!-- /.navbar-static-side -->
     </nav>
     <!--主要内容-->
+    <!-- Page Content -->
     <div id="page-wrapper">
-        欢迎教师${tuser}
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">班级情况</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+                <div class="panel panel-default">
+
+                    <div class="panel-body">
+                        <div class="row">
+                            <ul id="courses">
+
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
     </div>
     <!-- /#page-wrapper -->
 
 </div>
-<!-- /#wrapper -->
 
 <!-- jQuery -->
 <script src="<%=basePath%>static/vendor/jquery/jquery.min.js"></script>
@@ -138,13 +141,40 @@
 <!-- Metis Menu Plugin JavaScript -->
 <script src="<%=basePath%>static/vendor/metisMenu/metisMenu.min.js"></script>
 
-<!-- Morris Charts JavaScript -->
-<script src="<%=basePath%>static/vendor/raphael/raphael.min.js"></script>
-<script src="<%=basePath%>static/vendor/morrisjs/morris.min.js"></script>
-<script src="<%=basePath%>static/data/morris-data.js"></script>
-
 <!-- Custom Theme JavaScript -->
 <script src="<%=basePath%>static/dist/js/sb-admin-2.js"></script>
 
+<script type="text/javascript">
+    $(document).ready( function () {
+        var task = '<%=request.getSession().getAttribute("rankTask")%>';
+        $.get("/ranks?rankTask="+task,function(data){
+            var gradeInfo=''
+            var rankInfo=''
+            for(var i=0;i<data.length;i++){
+                gradeInfo=data[i].grade
+                rankInfo=data[i].rank
+                if(data[i].grade==-1&&data[i].rank==0){
+                    gradeInfo='该学生未完成考试'
+                    rankInfo='暂无排名'
+                }
+
+                $("#courses").append("<li class='grid'>" +
+                    "<div>\n"+
+                    "学生昵称："+data[i].name+"\n"+
+                    "</div>" +
+                    "<div>\n"+
+                    "分数:"+gradeInfo+"\n"+
+                    "</div>" +
+                    "<div>\n"+
+                    "排名:"+rankInfo+"\n"+
+                    "</div>" +
+                    "<div>\n"+
+                    "课程名:"+data[i].cname+"</a></div>" +
+
+                    "</li>");
+            }
+        });
+    });
+</script>
 </body>
 </html>

@@ -5,10 +5,7 @@ import com.graduate.mooc.domain.Chapter;
 import com.graduate.mooc.domain.Course;
 import com.graduate.mooc.domain.Subject;
 import com.graduate.mooc.domain.Teacher;
-import com.graduate.mooc.mapper.ChapterMap;
-import com.graduate.mooc.mapper.CourseMap;
-import com.graduate.mooc.mapper.SubjectMap;
-import com.graduate.mooc.mapper.TeacherMap;
+import com.graduate.mooc.mapper.*;
 import com.graduate.mooc.service.CouServ;
 import com.graduate.mooc.service.TeaServ;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 @Controller
@@ -34,6 +32,8 @@ public class TeaController {
     TeaServ ts;
     @Autowired
     LoadTool lt;
+    @Autowired
+    StatisticsMap sMap;
     /*
     课程相关
      */
@@ -294,4 +294,35 @@ String path="imgs"; //static/imgs/
     }
 
 
+    @GetMapping("/myTask")
+    public String myTask(){
+        return "teacher/T_task";
+    }
+
+    @GetMapping("/myTasks")
+    @ResponseBody
+    public List<LinkedHashMap<String,Object>> myTasks(HttpSession session){
+        String tname=(String)session.getAttribute("tuser");
+        String tid=ts.findIDByName(tname);
+        System.out.println("tea/myTasks/tid "+tid);
+        System.out.println("tea/myTasks/tasks "+sMap.tasks(tid));
+        return sMap.tasks(tid);
+    }
+
+    @GetMapping("/myRank")
+    public String myRank(@RequestParam("rank_task")String taskno,HttpSession session){
+        session.setAttribute("rankTask",taskno);
+        System.out.println("tea/ranks/task "+taskno);
+        return "teacher/T_statistics";
+    }
+
+    @GetMapping("/ranks")
+    @ResponseBody
+    public List<LinkedHashMap<String,Object>> ranks(@RequestParam("rankTask")String taskno,
+                                                    HttpSession session){
+        String task=(String)session.getAttribute("rankTask");
+        System.out.println("tea/ranks/task "+taskno+" "+task);
+        System.out.println("tea/ranks/rank "+sMap.rank(taskno));
+        return sMap.rank(taskno);
+    }
 }

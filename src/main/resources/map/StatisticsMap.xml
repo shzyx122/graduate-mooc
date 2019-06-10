@@ -1,0 +1,36 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD com.example.Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.graduate.mooc.mapper.StatisticsMap">
+    
+    <select id="tasks" resultType="java.util.LinkedHashMap">
+        select t.taskno,t.cid,c.cname,c.pic_path,te.tid,te.tname from task t
+            left join course c on t.cid=c.cid
+            left join tea te on te.tid=c.tid
+        where te.tid=#{param1}
+    </select>
+    
+    <select id="rank" resultType="java.util.LinkedHashMap">
+        SELECT pic.*, s.name, c.cname
+        FROM (
+                 SELECT *
+                     , (
+                           SELECT CASE
+                                  WHEN b.grade = -1 THEN 0
+                                  ELSE COUNT(DISTINCT b.grade)
+                                  END
+                           FROM learn b
+                           WHERE b.grade >= a.grade
+                       ) AS rank
+                 FROM learn a
+                 WHERE a.taskno = '27a28be9dc0410378c9eeae1a8a74c87'
+                 GROUP BY a.lno
+                 ORDER BY a.grade DESC
+             ) pic
+            LEFT JOIN stu s ON s.sno = pic.sno
+            LEFT JOIN task t ON t.taskno = pic.taskno
+            LEFT JOIN course c ON c.cid = t.cid
+    </select>
+    
+</mapper>

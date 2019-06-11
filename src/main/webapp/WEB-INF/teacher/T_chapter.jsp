@@ -76,7 +76,7 @@
                     error: function (data) {
                     }
                 });
-
+//每次上传完成一个之后服务器会启动热部署。。所以要等待几秒才能再次上传。。
             });
 
         }
@@ -133,7 +133,7 @@
                         <!-- /input-group -->
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-dashboard fa-fw"></i> 课程成绩</a>
+                        <a href="/myTask"><i class="fa fa-dashboard fa-fw"></i> 课程成绩</a>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> 信息管理<span class="fa arrow"></span></a>
@@ -141,9 +141,7 @@
                             <li>
                                 <a href="/Cou">课程管理</a>
                             </li>
-                            <li>
-                                <a href="morris.html">Morris.js Charts</a>
-                            </li>
+
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>

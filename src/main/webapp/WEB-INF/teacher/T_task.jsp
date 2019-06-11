@@ -106,9 +106,7 @@
                             <li>
                                 <a href="/Cou">课程管理</a>
                             </li>
-                            <li>
-                                <a href="morris.html">Morris.js Charts</a>
-                            </li>
+
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>

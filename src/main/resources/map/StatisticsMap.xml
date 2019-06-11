@@ -22,9 +22,12 @@
                                   END
                            FROM learn b
                            WHERE b.grade >= a.grade
+                                 AND b.grade != -1
+                                 AND a.grade != -1
+                                 and b.taskno=#{param1}
                        ) AS rank
                  FROM learn a
-                 WHERE a.taskno = '27a28be9dc0410378c9eeae1a8a74c87'
+                 WHERE a.taskno=#{param1}
                  GROUP BY a.lno
                  ORDER BY a.grade DESC
              ) pic

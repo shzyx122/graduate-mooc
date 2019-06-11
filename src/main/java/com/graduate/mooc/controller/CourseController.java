@@ -160,6 +160,7 @@ progress点击章节链接过来的  insert learn match
         Map<String,Object> map = new HashMap<>();
         map.put("video",vPath);
         map.put("play",play);
+        map.put("state",ch.getExstate());
 //应该加个状态，考试章节就不加video 了
 
         Video v = new Video();
@@ -190,12 +191,13 @@ progress点击章节链接过来的  insert learn match
     @GetMapping("/getSub")
     @ResponseBody
     public List<Match> getSub(@RequestParam("myCh")String mych,@RequestParam("mySno")String mysno,HttpSession session){
-
+        System.out.println("course getsub");
         String taskno = (String)session.getAttribute("myTask");
         System.out.println(mych+" , sno "+mysno+" task "+taskno);
-        List<Match> mlist = matMap.getSubject(mych,mysno,taskno);
+        List<Match> mlist = matMap.getSubject(mych,mysno,taskno);//经常按长度不对导致student handin下标越界
         System.out.println("长度 "+mlist.size());
         System.out.println(mlist);
+        System.out.println();
         return mlist;
     }
 

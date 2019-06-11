@@ -252,21 +252,20 @@ courseinfo 中点击加入课程  video learn
 
         String task = (String)hand.get("taskno");
         List<String> mno = (List<String>) hand.get("mno");
-        System.out.println(chlist);
-        System.out.println(task);
+        System.out.println("chlist "+" "+chlist.size()+" "+chlist);
+        System.out.println("task "+task);
+        System.out.println("hadnin mno front "+mno.size()+" "+mno);
         System.out.println();
-        System.out.println("hadnin mno front "+mno);
-
         //修改mat表，录入选择结果
         for(int i=0;i<mno.size();i++){
             Match mat = matMap.findMatchByID(mno.get(i));
-            System.out.println("origin "+mat);
+            System.out.println("origin "+i+" "+mat);
             mat.setChoice(chlist.get(i)==null?"none":chlist.get(i));
             //做过了的题还会遍历一下第一道的origin，答案是选好了的  问题在于查询的时候没按照taskno找，所以找到的是所有的题目而不是匹配到的题目
             mat.setSubject(subMap.findSubjectByID(sublist.get(i)));
             mat.setState(chlist.get(i)==null||!mat.getSubject().getAnswer().equals(chlist.get(i))?0:1);
             matMap.Update(mat);
-            System.out.println("now"+mat);
+            System.out.println("now "+i+" "+mat);
 
         }
 
@@ -288,7 +287,7 @@ courseinfo 中点击加入课程  video learn
         System.out.println("score "+chsc);
 //更改score
         Chscore chs = chsMap.quertChsByDetails(task,mych,mysno);
-        System.out.println("chs "+chs);
+        System.out.println("chs "+chs.getTaskno()+" "+chs);
         chs.setScore(chsc);
         chsMap.updateChscore(chs);
         System.out.println("/student/handin upchs "+chs);

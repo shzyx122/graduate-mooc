@@ -231,9 +231,14 @@
         $.get("/course/getVideo?myCh=" + chapter, function (data) {
             //alert(data);
             //if(data!=''&&!data) {
+            if(data.state==1){
+                $(".left").html("");
+                $(".left").append('考试章节无视频，请直接答题');
+            }else{
+
             $(".left").html("");
-            $(".left").append('<div id="current">当前时长：0:00</div>');
-            $(".left").append('<div id="duration">总时长：0:00</div>');
+            $(".left").append('<div>当前时长：<p id="current">0:00</p></div>');
+            $(".left").append('<div>总时长：<p id="duration">0:00</p></div>');
             $(".left").append('<video src="<%=basePath%>static/videos/'+ data.video+'" width="320" height="240" controls="controls">\n' +
                     '                Your browser does not support the video tag.\n' +
                     '            </video>');
@@ -286,7 +291,7 @@
 //后端用时分秒记录吧
             });
 
-           // }
+            }
         });
     }
 
@@ -330,11 +335,15 @@
     var stu;  //学号
     function getSub(chapter,mysno){
         $.get('/course/getSub?myCh=' + chapter+'&mySno='+mysno, function (data) {
-
+            subno=[];
+            mno=[];
+            sizes=0;
+            score=0;
                 /*alert(data[0].subject.subno);
                 alert(data[0].sno);
                 alert(data[0].task.taskno);*/
                 //alert(chapter)
+            console.log("need the data for mno size "+data.length);
                 sizes = data.length;
                 stu=data[0].sno;
                 $(".left").html("");
@@ -344,7 +353,7 @@
                 $("form").append("<input type=hidden name=taskno value=" + data[0].task.taskno + ">");
                 for (var i = 0; i < data.length; i++) {
                     subno.push(data[i].subject.subno);
-                    mno.push(data[i].mno);
+                    mno.push(data[i].mno);  //导致切换tab再进来会累加
                     //$("form").append("<input type=hidden name=chid value="+chapter+">");
                     $("form").append("<input type=hidden name=subno" + i + " value=" + data[i].subject.subno + "></br>");
                     $("form").append("<div>" + (i+1) + "、 " + data[i].subject.question + "</div>");
@@ -370,6 +379,7 @@
 
                     }
                 }
+                console.log("getthe data for mno "+mno.length,mno)
                 $("form").append("</br>得分："+score);
                 score=0; //否则切换过来又要累加了
                 if(data[0].state==-1) {

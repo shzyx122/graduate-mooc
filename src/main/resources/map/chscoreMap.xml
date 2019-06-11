@@ -18,13 +18,13 @@
     <select id="quertChsByDetails" resultType="com.graduate.mooc.domain.Chscore">
         select * from chscore where 1=1
         <if test="sno!=null and sno!=''">
-            and sno=#{param3}
+            and sno=#{sno}
         </if>
         <if test="chid!=null and chid!=''">
-            and chid=#{param2}
+            and chid=#{chid}
         </if>
         <if test="taskno!=null and taskno!=''">
-            and taskno=#{param1}
+            and taskno=#{taskno}
         </if>
     </select>
 
@@ -45,7 +45,7 @@
     <update id="updateChscore" parameterType="com.graduate.mooc.domain.Chscore">
         update chscore
         <set>
-            <if test="score!=null and score!=0">
+            <if test="score!=null">
                 score=#{score}
             </if>
         </set>
